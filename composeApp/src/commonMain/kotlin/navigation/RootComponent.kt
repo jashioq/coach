@@ -8,10 +8,10 @@ import com.arkivanov.decompose.router.stack.pop
 import com.arkivanov.decompose.router.stack.pushNew
 import com.arkivanov.decompose.router.stack.replaceAll
 import kotlinx.serialization.Serializable
-import navigation.rootStack.screenA.ScreenAComponent
-import navigation.rootStack.screenB.ScreenBComponent
 import navigation.onboardingStack.firstSetupScreen.FirstSetupScreenComponent
 import navigation.onboardingStack.onboardingScreen.OnboardingScreenComponent
+import navigation.rootStack.screenA.ScreenAComponent
+import navigation.rootStack.screenB.ScreenBComponent
 
 class RootComponent(
     componentContext: ComponentContext,
@@ -46,15 +46,15 @@ class RootComponent(
                     componentContext = context,
                     onNavigateForward = {
                         navigation.replaceAll(Configuration.FirstSetupScreen)
-                    }
-                )
+                    },
+                ),
             )
 
             Configuration.FirstSetupScreen -> Child.FirstSetupScreen(
                 FirstSetupScreenComponent(
                     componentContext = context,
                     onComplete = {},
-                )
+                ),
             )
 
             Configuration.ScreenA -> Child.ScreenA(
