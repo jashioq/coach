@@ -16,5 +16,6 @@ jobs:
         run: |
           ./gradlew ktlintCheck
       - name: Display output values
+        if: failure()
         run: |
           printf "${{ join(steps.ktlint.outputs.*, '\n') }}"
