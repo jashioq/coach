@@ -15,3 +15,6 @@ jobs:
       - name: ktlint
         run: |
           ./gradlew ktlintCheck
+      - name: Display output values
+        run: |
+          printf "${{ join(steps.ktlint.outputs.*, '\n') }}"
