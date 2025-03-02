@@ -1,4 +1,4 @@
-package screens.onboarding
+package presentation.onboardingScreen
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -8,24 +8,22 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import navigation.onboardingStack.firstSetupScreen.FirstSetupScreenComponent
-import navigation.onboardingStack.firstSetupScreen.FirstSetupScreenEvent
 
 @Composable
-fun FirstSetupScreen(component: FirstSetupScreenComponent) {
+fun OnboardingScreen(component: OnboardingScreenComponent) {
     Column(
         modifier = Modifier
             .fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center,
     ) {
-        Text("FirstSetupScreen")
+        Text("OnboardingScreen")
         Button(
             onClick = {
-                component.onEvent(FirstSetupScreenEvent.ClickButton)
+                component.onEvent(OnboardingScreenEvent.ClickButton)
             },
         ) {
-            Text("Go to RootStack")
+            Text("Go to FirstSetupScreen")
         }
     }
 }

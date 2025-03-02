@@ -1,4 +1,4 @@
-package navigation.onboardingStack.onboardingScreen
+package presentation.onboardingScreen
 
 import com.arkivanov.decompose.ComponentContext
 

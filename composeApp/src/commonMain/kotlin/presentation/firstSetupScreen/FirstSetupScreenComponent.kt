@@ -1,4 +1,4 @@
-package navigation.onboardingStack.firstSetupScreen
+package presentation.firstSetupScreen
 
 import com.arkivanov.decompose.ComponentContext
 

@@ -1,4 +1,4 @@
-package screens
+package presentation.screenA
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -14,8 +14,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.arkivanov.decompose.extensions.compose.jetbrains.subscribeAsState
-import navigation.rootStack.screenA.ScreenAComponent
-import navigation.rootStack.screenA.ScreenAEvent
 
 @Composable
 fun ScreenA(component: ScreenAComponent) {

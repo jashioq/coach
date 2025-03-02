@@ -1,4 +1,4 @@
-package navigation.rootStack.screenA
+package presentation.screenA
 
 import com.arkivanov.decompose.ComponentContext
 import com.arkivanov.decompose.value.MutableValue
