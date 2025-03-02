@@ -19,4 +19,4 @@ jobs:
         if: failure()
         with:
           name: ktlint report
-          path: file:///home/runner/work/coach/coach/build/reports/problems/problems-report.html
+          path: /home/runner/work/coach/coach/build/reports/problems/problems-report.html
