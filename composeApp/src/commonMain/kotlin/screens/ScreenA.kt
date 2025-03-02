@@ -14,8 +14,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.arkivanov.decompose.extensions.compose.jetbrains.subscribeAsState
-import navigation.screenA.ScreenAComponent
-import navigation.screenA.ScreenAEvent
+import navigation.rootStack.screenA.ScreenAComponent
+import navigation.rootStack.screenA.ScreenAEvent
 
 @Composable
 fun ScreenA(component: ScreenAComponent) {
