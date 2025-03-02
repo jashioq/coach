@@ -21,7 +21,7 @@ import navigation.screenA.ScreenAEvent
 fun ScreenA(component: ScreenAComponent) {
     val text by component.text.subscribeAsState()
 
-     Column(
+    Column(
         modifier = Modifier
             .fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -35,7 +35,7 @@ fun ScreenA(component: ScreenAComponent) {
                     ScreenAEvent.UpdateText(it),
                 )
             },
-            modifier =Modifier
+            modifier = Modifier
                 .fillMaxWidth()
                 .padding(16.dp),
         )
