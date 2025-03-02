@@ -11,17 +11,25 @@ import navigation.RootComponent
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import screens.ScreenA
 import screens.ScreenB
+import screens.onboarding.FirstSetupScreen
+import screens.onboarding.OnboardingScreen
 
 @Composable
 @Preview
 fun App(root: RootComponent) {
     MaterialTheme {
-        val childStack by root.childStack.subscribeAsState()
+        val rootChildStack by root.childStack.subscribeAsState()
+        val onboardingChildStack by root.onboardingChildStack.subscribeAsState()
+
+        val stack = if (false) rootChildStack else onboardingChildStack
+
         Children(
-            stack = childStack,
+            stack = stack,
             animation = stackAnimation(slide()),
         ) { child ->
             when (val instance = child.instance) {
+                is RootComponent.Child.OnboardingScreen -> OnboardingScreen(component = instance.component)
+                is RootComponent.Child.FirstSetupScreen -> FirstSetupScreen(component = instance.component)
                 is RootComponent.Child.ScreenA -> ScreenA(component = instance.component)
                 is RootComponent.Child.ScreenB -> ScreenB(
                     component = instance.component,

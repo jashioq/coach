@@ -1,4 +1,4 @@
-package screens
+package screens.onboarding
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -8,24 +8,24 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import navigation.rootStack.screenB.ScreenBComponent
-import navigation.rootStack.screenB.ScreenBEvent
+import navigation.onboardingStack.onboardingScreen.OnboardingScreenComponent
+import navigation.onboardingStack.onboardingScreen.OnboardingScreenEvent
 
 @Composable
-fun ScreenB(text: String, component: ScreenBComponent) {
+fun OnboardingScreen(component: OnboardingScreenComponent) {
     Column(
         modifier = Modifier
             .fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center,
     ) {
-        Text("ScreenB, text is $text")
+        Text("OnboardingScreen")
         Button(
             onClick = {
-                component.onEvent(ScreenBEvent.ClickBack)
+                component.onEvent(OnboardingScreenEvent.ClickButton)
             },
         ) {
-            Text("Go back")
+            Text("Go to FirstSetupScreen")
         }
     }
 }

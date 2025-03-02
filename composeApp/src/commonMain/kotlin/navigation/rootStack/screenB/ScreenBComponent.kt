@@ -1,4 +1,4 @@
-package navigation.screenB
+package navigation.rootStack.screenB
 
 import com.arkivanov.decompose.ComponentContext
 
