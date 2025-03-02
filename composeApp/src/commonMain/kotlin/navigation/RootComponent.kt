@@ -2,10 +2,7 @@ package navigation
 
 import com.arkivanov.decompose.ComponentContext
 import com.arkivanov.decompose.ExperimentalDecomposeApi
-import com.arkivanov.decompose.router.stack.StackNavigation
-import com.arkivanov.decompose.router.stack.childStack
-import com.arkivanov.decompose.router.stack.pop
-import com.arkivanov.decompose.router.stack.pushNew
+import com.arkivanov.decompose.router.stack.*
 import kotlinx.serialization.Serializable
 import navigation.screenA.ScreenAComponent
 import navigation.screenB.ScreenBComponent
@@ -16,15 +13,15 @@ class RootComponent(
     private val navigation = StackNavigation<Configuration>()
 
     val childStack = childStack(
-        source = navigation,
+         source = navigation,
         serializer = Configuration.serializer(),
         initialConfiguration = Configuration.ScreenA,
         handleBackButton = true,
-        childFactory = ::CreateChild
+        childFactory = ::createChild
     )
 
     @OptIn(ExperimentalDecomposeApi::class)
-    private fun CreateChild(
+     private fun createChild(
         config: Configuration,
         context: ComponentContext,
     ): Child {
@@ -39,7 +36,7 @@ class RootComponent(
             )
 
             is Configuration.ScreenB -> Child.ScreenB(
-                ScreenBComponent(
+                 ScreenBComponent(
                     componentContext = context,
                     text = config.text,
                     onBack = {
