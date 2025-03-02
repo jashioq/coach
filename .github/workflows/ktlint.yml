@@ -15,7 +15,7 @@ jobs:
       - name: ktlint
         run: |
           ./gradlew ktlintCheck
-      - name: Display output values
+      - name: Display env values
         if: failure()
         run: |
-          printf "${{ join(steps.ktlint.outputs.*, '\n') }}"
+          run: echo "$GITHUB_CONTEXT"
