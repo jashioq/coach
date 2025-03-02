@@ -12,10 +12,11 @@ jobs:
           fetch-depth: 1
       - name: Change wrapper permissions
         run: chmod +x ./gradlew
-      - name: ktlint
+      - name: Run ktlint
         run: |
           ./gradlew ktlintCheck
-      - name: Display env values
+      - uses: actions/upload-artifact@v4
         if: failure()
-        run: |
-          run: echo "$GITHUB_CONTEXT"
+        with:
+          name: ktlint report
+          path: file:///home/runner/work/coach/coach/build/reports/problems/problems-report.html
