@@ -13,7 +13,6 @@ import navigation.rootStack.screenB.ScreenBEvent
 
 @Composable
 fun ScreenB(text: String, component: ScreenBComponent) {
-
     Column(
         modifier = Modifier
             .fillMaxSize(),
@@ -24,7 +23,7 @@ fun ScreenB(text: String, component: ScreenBComponent) {
         Button(
             onClick = {
                 component.onEvent(ScreenBEvent.ClickBack)
-            }
+            },
         ) {
             Text("Go back")
         }

@@ -5,7 +5,6 @@ import com.arkivanov.decompose.ExperimentalDecomposeApi
 import com.arkivanov.decompose.router.stack.StackNavigation
 import com.arkivanov.decompose.router.stack.childStack
 import com.arkivanov.decompose.router.stack.pop
-import com.arkivanov.decompose.router.stack.push
 import com.arkivanov.decompose.router.stack.pushNew
 import com.arkivanov.decompose.router.stack.replaceAll
 import kotlinx.serialization.Serializable
@@ -15,7 +14,7 @@ import navigation.onboardingStack.firstSetupScreen.FirstSetupScreenComponent
 import navigation.onboardingStack.onboardingScreen.OnboardingScreenComponent
 
 class RootComponent(
-    componentContext: ComponentContext
+    componentContext: ComponentContext,
 ) : ComponentContext by componentContext {
     private val navigation = StackNavigation<Configuration>()
 
@@ -24,7 +23,7 @@ class RootComponent(
         serializer = Configuration.serializer(),
         initialConfiguration = Configuration.ScreenA,
         handleBackButton = true,
-        childFactory = ::createChild
+        childFactory = ::createChild,
     )
 
     val onboardingChildStack = childStack(
@@ -63,8 +62,8 @@ class RootComponent(
                     componentContext = context,
                     onNavigateToScreenB = { text ->
                         navigation.pushNew(Configuration.ScreenB(text))
-                    }
-                )
+                    },
+                ),
             )
 
             is Configuration.ScreenB -> Child.ScreenB(
@@ -73,8 +72,8 @@ class RootComponent(
                     text = config.text,
                     onBack = {
                         navigation.pop()
-                    }
-                )
+                    },
+                ),
             )
         }
     }
