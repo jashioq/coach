@@ -1,4 +1,4 @@
-package navigation
+package presentation
 
 import com.arkivanov.decompose.ComponentContext
 import com.arkivanov.decompose.ExperimentalDecomposeApi
@@ -8,10 +8,10 @@ import com.arkivanov.decompose.router.stack.pop
 import com.arkivanov.decompose.router.stack.pushNew
 import com.arkivanov.decompose.router.stack.replaceAll
 import kotlinx.serialization.Serializable
-import navigation.onboardingStack.firstSetupScreen.FirstSetupScreenComponent
-import navigation.onboardingStack.onboardingScreen.OnboardingScreenComponent
-import navigation.rootStack.screenA.ScreenAComponent
-import navigation.rootStack.screenB.ScreenBComponent
+import presentation.firstSetupScreen.FirstSetupScreenComponent
+import presentation.onboardingScreen.OnboardingScreenComponent
+import presentation.screenA.ScreenAComponent
+import presentation.screenB.ScreenBComponent
 
 class RootComponent(
     componentContext: ComponentContext,

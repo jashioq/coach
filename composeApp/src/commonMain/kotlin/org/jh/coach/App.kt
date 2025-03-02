@@ -1,4 +1,4 @@
-package org.jh.project
+package org.jh.coach
 
 import androidx.compose.material.MaterialTheme
 import androidx.compose.runtime.Composable
@@ -7,12 +7,12 @@ import com.arkivanov.decompose.extensions.compose.jetbrains.stack.Children
 import com.arkivanov.decompose.extensions.compose.jetbrains.stack.animation.slide
 import com.arkivanov.decompose.extensions.compose.jetbrains.stack.animation.stackAnimation
 import com.arkivanov.decompose.extensions.compose.jetbrains.subscribeAsState
-import navigation.RootComponent
 import org.jetbrains.compose.ui.tooling.preview.Preview
-import screens.ScreenA
-import screens.ScreenB
-import screens.onboarding.FirstSetupScreen
-import screens.onboarding.OnboardingScreen
+import presentation.RootComponent
+import presentation.firstSetupScreen.FirstSetupScreen
+import presentation.onboardingScreen.OnboardingScreen
+import presentation.screenA.ScreenA
+import presentation.screenB.ScreenB
 
 @Composable
 @Preview

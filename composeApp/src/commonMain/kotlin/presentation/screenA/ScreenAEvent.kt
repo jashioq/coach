@@ -1,4 +1,4 @@
-package navigation.rootStack.screenA
+package presentation.screenA
 
 sealed interface ScreenAEvent {
     data object ClickButtonA : ScreenAEvent

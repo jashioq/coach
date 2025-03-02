@@ -1,4 +1,4 @@
-package navigation.onboardingStack.onboardingScreen
+package presentation.onboardingScreen
 
 sealed interface OnboardingScreenEvent {
     data object ClickButton : OnboardingScreenEvent

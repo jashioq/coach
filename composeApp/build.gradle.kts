@@ -53,11 +53,11 @@ kotlin {
 }
 
 android {
-    namespace = "org.jh.project"
+    namespace = "org.jh.coach"
     compileSdk = libs.versions.android.compileSdk.get().toInt()
 
     defaultConfig {
-        applicationId = "org.jh.project"
+        applicationId = "org.jh.coach"
         minSdk = libs.versions.android.minSdk.get().toInt()
         targetSdk = libs.versions.android.targetSdk.get().toInt()
         versionCode = 1
