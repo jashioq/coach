@@ -32,17 +32,17 @@ fun ScreenA(component: ScreenAComponent) {
             value = text,
             onValueChange = {
                 component.onEvent(
-                    ScreenAEvent.UpdateText(it)
+                    ScreenAEvent.UpdateText(it),
                 )
             },
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(16.dp)
+                .padding(16.dp),
         )
         Button(
             onClick = {
                 component.onEvent(ScreenAEvent.ClickButtonA)
-            }
+            },
         ) {
             Text("Go to screen B")
         }
