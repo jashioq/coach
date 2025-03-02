@@ -5,7 +5,6 @@ import com.arkivanov.decompose.ExperimentalDecomposeApi
 import com.arkivanov.decompose.router.stack.StackNavigation
 import com.arkivanov.decompose.router.stack.childStack
 import com.arkivanov.decompose.router.stack.pop
-import com.arkivanov.decompose.router.stack.push
 import com.arkivanov.decompose.router.stack.pushNew
 import kotlinx.serialization.Serializable
 import navigation.screenA.ScreenAComponent
@@ -21,11 +20,11 @@ class RootComponent(
         serializer = Configuration.serializer(),
         initialConfiguration = Configuration.ScreenA,
         handleBackButton = true,
-        childFactory = ::createChild
+        childFactory = ::CreateChild
     )
 
     @OptIn(ExperimentalDecomposeApi::class)
-    private fun createChild(
+    private fun CreateChild(
         config: Configuration,
         context: ComponentContext,
     ): Child {
