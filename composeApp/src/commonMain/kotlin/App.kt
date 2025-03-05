@@ -6,7 +6,6 @@ import androidx.compose.material.Button
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -20,6 +19,8 @@ import kotlinx.serialization.Serializable
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.koin.compose.KoinContext
 import org.koin.compose.currentKoinScope
+import presentation.screenA.ScreenA
+import presentation.screenA.ScreenADestination
 
 @Composable
 @Preview
@@ -29,31 +30,19 @@ fun App() {
             val navController = rememberNavController()
             NavHost(
                 navController = navController,
-                startDestination = ScreenA,
+                startDestination = ScreenADestination,
             ) {
-                composable<ScreenA> {
-                    val viewModel = koinViewModel<MainViewModel>()
-                    val timer by viewModel.timer.collectAsState()
-                    Column(
-                        modifier = Modifier
-                            .fillMaxSize(),
-                        verticalArrangement = Arrangement.Center,
-                        horizontalAlignment = Alignment.CenterHorizontally,
-                    ) {
-                        Text(
-                            text = timer.toString(),
-                        )
-                        Button(onClick = {
+                composable<ScreenADestination> {
+                    ScreenA(
+                        onNavigateToScreenB = { name, age ->
                             navController.navigate(
                                 ScreenB(
-                                    name = "Jan",
-                                    age = 22,
+                                    name = name,
+                                    age = age,
                                 ),
                             )
-                        }) {
-                            Text("Go to screen B")
-                        }
-                    }
+                        },
+                    )
                 }
                 composable<ScreenB> {
                     val args = it.toRoute<ScreenB>()
@@ -75,9 +64,6 @@ fun App() {
         }
     }
 }
-
-@Serializable
-object ScreenA
 
 @Serializable
 data class ScreenB(
