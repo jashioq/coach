@@ -7,7 +7,7 @@ import kotlinx.coroutines.flow.Flow
 class EmitCounterPreferenceUseCase(
     private val dataStoreRepository: DataStoreRepository,
 ) {
-    suspend fun call(): Flow<Int> =
+    suspend fun call(): Result<Flow<Int>> =
         dataStoreRepository.emitIntPreference(
             key = COUNTER_KEY,
             default = 0,

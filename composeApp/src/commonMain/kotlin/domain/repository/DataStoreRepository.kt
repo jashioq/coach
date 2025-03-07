@@ -6,10 +6,10 @@ interface DataStoreRepository {
     suspend fun putIntPreference(
         key: String,
         value: Int,
-    ): Unit
+    ): Result<Unit>
 
     suspend fun emitIntPreference(
         key: String,
         default: Int,
-    ): Flow<Int>
+    ): Result<Flow<Int>>
 }

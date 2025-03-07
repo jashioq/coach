@@ -17,7 +17,7 @@ class ScreenAViewModel(
 
     init {
         viewModelScope.launch {
-            emitCounterPreferenceUseCase.call().collect { value ->
+            emitCounterPreferenceUseCase.call().getOrNull()?.collect { value ->
                 _counter.value = value
             }
         }
@@ -30,12 +30,15 @@ class ScreenAViewModel(
                     setCounterPreferenceUseCase.call(counter.value + 1)
                 }
             }
+
             is ScreenAAction.SetCounter -> {
                 viewModelScope.launch {
                     setCounterPreferenceUseCase.call(0)
                 }
             }
-            else -> { /*Do nothing*/ }
+
+            else -> { /*Do nothing*/
+            }
         }
     }
 }

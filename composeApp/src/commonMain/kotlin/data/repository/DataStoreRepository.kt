@@ -12,18 +12,21 @@ import kotlinx.coroutines.flow.map
 class DataStoreRepository(
     private val dataStore: DataStore<Preferences>,
 ) : DataStoreRepository {
-    override suspend fun putIntPreference(key: String, value: Int) {
+    override suspend fun putIntPreference(key: String, value: Int): Result<Unit> {
         val dataStoreKey = intPreferencesKey(key)
-        dataStore.edit { preferences ->
-            preferences[dataStoreKey] = value
+        return runCatching {
+            dataStore.edit { preferences ->
+                preferences[dataStoreKey] = value
+            }
         }
-        return Unit
     }
 
-    override suspend fun emitIntPreference(key: String, default: Int): Flow<Int> {
+    override suspend fun emitIntPreference(key: String, default: Int): Result<Flow<Int>> {
         val dataStoreKey = intPreferencesKey(key)
-        return dataStore.data
-            .map { preferences -> preferences[dataStoreKey] ?: default }
-            .distinctUntilChanged()
+        return runCatching {
+            dataStore.data
+                .map { preferences -> preferences[dataStoreKey] ?: default }
+                .distinctUntilChanged()
+        }
     }
 }
