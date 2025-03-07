@@ -43,13 +43,13 @@ kotlin {
             implementation(compose.ui)
             implementation(compose.components.resources)
             implementation(compose.components.uiToolingPreview)
-
-            api(libs.koin.core)
             implementation(libs.koin.compose)
             implementation(libs.lifecycle.viewmodel)
             implementation(libs.navigation.compose)
-
             implementation((libs.kotlinx.serialization.json))
+            api(libs.koin.core)
+            api(libs.datastore.preferences)
+            api(libs.datastore)
         }
     }
 }
