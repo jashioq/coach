@@ -1,4 +1,4 @@
-package presentation.firstSetupScreen
+package presentation.screenB
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -10,20 +10,20 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 
 @Composable
-fun FirstSetupScreen(component: FirstSetupScreenComponent) {
+fun ScreenBView(
+    modifier: Modifier = Modifier,
+    onBackButtonClick: () -> Unit,
+    count: Int,
+) {
     Column(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxSize(),
-        horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally,
     ) {
-        Text("FirstSetupScreen")
-        Button(
-            onClick = {
-                component.onEvent(FirstSetupScreenEvent.ClickButton)
-            },
-        ) {
-            Text("Go to RootStack")
+        Text("Current count is $count")
+        Button(onClick = onBackButtonClick) {
+            Text("Go back")
         }
     }
 }
