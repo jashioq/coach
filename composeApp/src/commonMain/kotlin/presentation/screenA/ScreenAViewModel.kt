@@ -37,8 +37,7 @@ class ScreenAViewModel(
                 }
             }
 
-            else -> { /*Do nothing*/
-            }
+            else -> { /*Do nothing*/ }
         }
     }
 }
