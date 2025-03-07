@@ -12,7 +12,7 @@ actual class KoinInitializer(
         startKoin {
             androidContext(context)
             androidLogger()
-            modules(appModule, viewModelModule)
+            modules(presentationModule, domainModule, dataModule, dataSourceModule)
         }
     }
 }
