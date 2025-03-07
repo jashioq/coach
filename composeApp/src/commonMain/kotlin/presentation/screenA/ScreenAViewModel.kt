@@ -6,7 +6,6 @@ import domain.useCase.EmitCounterPreferenceUseCase
 import domain.useCase.SetCounterPreferenceUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.last
 import kotlinx.coroutines.launch
 
 class ScreenAViewModel(
@@ -18,7 +17,7 @@ class ScreenAViewModel(
 
     init {
         viewModelScope.launch {
-            emitCounterPreferenceUseCase.call().collect{ value ->
+            emitCounterPreferenceUseCase.call().collect { value ->
                 _counter.value = value
             }
         }

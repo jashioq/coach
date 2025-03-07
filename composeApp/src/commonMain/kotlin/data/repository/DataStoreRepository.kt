@@ -10,8 +10,8 @@ import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.map
 
 class DataStoreRepository(
-    private val dataStore: DataStore<Preferences>
-): DataStoreRepository {
+    private val dataStore: DataStore<Preferences>,
+) : DataStoreRepository {
     override suspend fun putIntPreference(key: String, value: Int) {
         val dataStoreKey = intPreferencesKey(key)
         dataStore.edit { preferences ->

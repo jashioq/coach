@@ -7,7 +7,7 @@ import org.koin.dsl.module
 actual val dataSourceModule = module {
     single {
         createAndroidDataStore(
-            context = androidContext()
+            context = androidContext(),
         )
     }
 }
