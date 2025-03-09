@@ -1,0 +1,6 @@
+-- Prepopulate
+INSERT INTO PostDto (name, title, body) VALUES ("Jan", "Test title 1", "Test body 1");
+INSERT INTO PostDto (name, title, body) VALUES ("Tomasz", "Test title 2", "Test body 2");
+INSERT INTO PostDto (name, title, body) VALUES ("Paweł", "Test title 3", "Test body 3");
+INSERT INTO PostDto (name, title, body) VALUES ("Hubert", "Test title 4", "Test body 4");
+INSERT INTO PostDto (name, title, body) VALUES ("Alex", "Test title 5", "Test body 5");

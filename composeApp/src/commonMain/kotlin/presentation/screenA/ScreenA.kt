@@ -7,8 +7,8 @@ import presentation.koinViewModel
 
 @Composable
 fun ScreenA(
-    onNavigateToScreenB: (Int) -> Unit,
     screenAViewModel: ScreenAViewModel = koinViewModel(),
+    onNavigateToScreenB: (Int) -> Unit,
 ) {
     val counter by screenAViewModel.counter.collectAsState()
 

@@ -1,7 +1,7 @@
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
-import data.dataSource.DATA_STORE_FILE_NAME
-import data.dataSource.createDataStore
+import data.dataSource.dataStore.DATA_STORE_FILE_NAME
+import data.dataSource.dataStore.createDataStore
 import kotlinx.cinterop.ExperimentalForeignApi
 import platform.Foundation.NSDocumentDirectory
 import platform.Foundation.NSFileManager
