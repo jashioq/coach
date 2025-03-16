@@ -20,7 +20,7 @@ class DataBaseRepository(
             .asFlow()
             .mapToList(Dispatchers.IO)
             .map { list ->
-                list.map{ goalDto ->
+                list.map { goalDto ->
                     goalDto.toGoal()
                 }
             }
@@ -36,7 +36,9 @@ class DataBaseRepository(
     }
 
     override suspend fun addGoal(
-        name: String, title: String?, reminders: List<String>?
+        name: String,
+        title: String?,
+        reminders: List<String>?,
     ): Result<Unit> = runCatching {
         database.databaseQueries.insertGoal(
             name = name,
@@ -46,7 +48,10 @@ class DataBaseRepository(
     }
 
     override suspend fun editGoal(
-        id: String, name: String, title: String?, reminders: List<String>?
+        id: String,
+        name: String,
+        title: String?,
+        reminders: List<String>?,
     ): Result<Unit> = runCatching {
         database.databaseQueries.updateGoal(
             id = id.toLong(),
