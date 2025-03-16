@@ -1,0 +1,31 @@
+-- Schema Definitions
+PRAGMA user_version = 1;
+
+-- Create Goal Table
+CREATE TABLE GoalDto (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    name TEXT NOT NULL,
+    title TEXT,
+    reminders TEXT,
+    creationDate TEXT DEFAULT (datetime('now')) NOT NULL,
+    modificationDate TEXT DEFAULT (datetime('now')) NOT NULL
+);
+
+-- Named Queries for Goal Table
+selectLastInsertedRowId:
+SELECT last_insert_rowid();
+
+selectAllGoals:
+SELECT * FROM GoalDto;
+
+selectGoalById:
+SELECT * FROM GoalDto WHERE id == :id;
+
+insertGoal:
+INSERT INTO GoalDto (name, title, reminders) VALUES (:name, :title, :reminders);
+
+updateGoal:
+UPDATE GoalDto SET name = :name, title = :title, reminders = :reminders, modificationDate = datetime('now') WHERE id = :id;
+
+deleteGoal:
+DELETE FROM GoalDto WHERE id = :id;

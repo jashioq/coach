@@ -1,4 +1,4 @@
-package data.dataSource
+package data.dataSource.dataStore
 
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.PreferenceDataStoreFactory
