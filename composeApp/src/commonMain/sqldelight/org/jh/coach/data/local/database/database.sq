@@ -1,34 +1,31 @@
 -- Schema Definitions
--- -------------------
-
 PRAGMA user_version = 1;
 
--- Create Post Table
-CREATE TABLE PostDto (
+-- Create Goal Table
+CREATE TABLE GoalDto (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     name TEXT NOT NULL,
-    title TEXT NOT NULL,
-    body TEXT NOT NULL,
+    title TEXT,
+    reminders TEXT,
     creationDate TEXT DEFAULT (datetime('now')) NOT NULL,
     modificationDate TEXT DEFAULT (datetime('now')) NOT NULL
 );
 
--- Named Queries for Post Table
-
+-- Named Queries for Goal Table
 selectLastInsertedRowId:
 SELECT last_insert_rowid();
 
-selectAllPosts:
-SELECT * FROM PostDto;
+selectAllGoals:
+SELECT * FROM GoalDto;
 
-selectPostById:
-SELECT * FROM PostDto WHERE id == :id;
+selectGoalById:
+SELECT * FROM GoalDto WHERE id == :id;
 
-insertPost:
-INSERT INTO PostDto (name, title, body) VALUES (:name, :title, :body);
+insertGoal:
+INSERT INTO GoalDto (name, title, reminders) VALUES (:name, :title, :reminders);
 
-updatePost:
-UPDATE PostDto SET name = :name, title = :title, body = :body, modificationDate = datetime('now') WHERE id = :id;
+updateGoal:
+UPDATE GoalDto SET name = :name, title = :title, reminders = :reminders, modificationDate = datetime('now') WHERE id = :id;
 
-deletePost:
-DELETE FROM PostDto WHERE id = :id;
+deleteGoal:
+DELETE FROM GoalDto WHERE id = :id;

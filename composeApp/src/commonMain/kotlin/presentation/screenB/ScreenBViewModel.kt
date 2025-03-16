@@ -2,22 +2,22 @@ package presentation.screenB
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import domain.useCase.EmitAllPostsUseCase
+import domain.model.Goal
+import domain.useCase.EmitAllGoalsUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
-import org.jh.coach.data.local.database.PostDto
 
 class ScreenBViewModel(
-    private val emitAllPostsUseCase: EmitAllPostsUseCase,
+    private val emitAllGoalsUseCase: EmitAllGoalsUseCase,
 ) : ViewModel() {
-    private val _posts = MutableStateFlow(listOf<PostDto>())
-    val posts = _posts.asStateFlow()
+    private val _goals = MutableStateFlow(listOf<Goal>())
+    val goals = _goals.asStateFlow()
 
     init {
         viewModelScope.launch {
-            emitAllPostsUseCase.call().getOrNull()?.collect { posts ->
-                _posts.value = posts
+            emitAllGoalsUseCase.call().getOrNull()?.collect { goals ->
+                _goals.value = goals
             }
         }
     }

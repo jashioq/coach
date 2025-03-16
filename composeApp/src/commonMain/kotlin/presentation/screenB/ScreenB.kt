@@ -11,10 +11,10 @@ fun ScreenB(
     onNavigateBack: () -> Unit,
     count: Int,
 ) {
-    val posts by screenBViewModel.posts.collectAsState()
+    val goals by screenBViewModel.goals.collectAsState()
     ScreenBView(
         onBackButtonClick = onNavigateBack,
         count = count,
-        posts = posts,
+        goals = goals,
     )
 }

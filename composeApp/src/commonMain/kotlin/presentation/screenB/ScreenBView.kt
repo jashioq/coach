@@ -8,14 +8,14 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import org.jh.coach.data.local.database.PostDto
+import domain.model.Goal
 
 @Composable
 fun ScreenBView(
     modifier: Modifier = Modifier,
     onBackButtonClick: () -> Unit,
     count: Int,
-    posts: List<PostDto>,
+    goals: List<Goal>,
 ) {
     Column(
         modifier = modifier
@@ -27,6 +27,6 @@ fun ScreenBView(
         Button(onClick = onBackButtonClick) {
             Text("Go back")
         }
-        Text("There are ${posts.size} posts")
+        Text("There are ${goals.size} goals")
     }
 }

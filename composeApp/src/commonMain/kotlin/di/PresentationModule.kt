@@ -13,7 +13,7 @@ val presentationModule = module {
     }
     single {
         ScreenBViewModel(
-            emitAllPostsUseCase = get(),
+            emitAllGoalsUseCase = get(),
         )
     }
 }
