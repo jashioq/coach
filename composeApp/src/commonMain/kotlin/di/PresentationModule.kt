@@ -1,19 +1,17 @@
 package di
 
 import org.koin.dsl.module
-import presentation.screenA.ScreenAViewModel
-import presentation.screenB.ScreenBViewModel
+import presentation.screen.onboarding.nameScreen.NameScreenViewModel
+import presentation.screen.onboarding.startScreen.StartScreenViewModel
 
 val presentationModule = module {
     single {
-        ScreenAViewModel(
-            setCounterPreferenceUseCase = get(),
-            emitCounterPreferenceUseCase = get(),
-        )
+        StartScreenViewModel()
     }
+
     single {
-        ScreenBViewModel(
-            emitAllGoalsUseCase = get(),
+        NameScreenViewModel(
+            setNamePreferenceUseCase = get(),
         )
     }
 }

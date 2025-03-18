@@ -6,7 +6,9 @@ import domain.useCase.EditGoalUseCase
 import domain.useCase.EmitAllGoalsUseCase
 import domain.useCase.EmitCounterPreferenceUseCase
 import domain.useCase.EmitGoalUseCase
+import domain.useCase.EmitNamePreferenceUseCase
 import domain.useCase.SetCounterPreferenceUseCase
+import domain.useCase.SetNamePreferenceUseCase
 import org.koin.dsl.module
 
 val domainModule = module {
@@ -49,6 +51,18 @@ val domainModule = module {
     single {
         DeleteGoalUseCase(
             dataBaseRepository = get(),
+        )
+    }
+
+    single {
+        SetNamePreferenceUseCase(
+            dataStoreRepository = get(),
+        )
+    }
+
+    single {
+        EmitNamePreferenceUseCase(
+            dataStoreRepository = get(),
         )
     }
 }

@@ -1,15 +1,16 @@
-import androidx.compose.material.MaterialTheme
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import androidx.navigation.toRoute
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.koin.compose.KoinContext
-import presentation.screenA.ScreenA
-import presentation.screenA.ScreenADestination
-import presentation.screenB.ScreenB
-import presentation.screenB.ScreenBDestination
+import presentation.screen.onboarding.goalSelectionScreen.GoalSelectionScreen
+import presentation.screen.onboarding.goalSelectionScreen.GoalSelectionScreenDestination
+import presentation.screen.onboarding.nameScreen.NameScreen
+import presentation.screen.onboarding.nameScreen.NameScreenDestination
+import presentation.screen.onboarding.startScreen.StartScreen
+import presentation.screen.onboarding.startScreen.StartScreenDestination
 
 @Composable
 @Preview
@@ -19,28 +20,30 @@ fun App() {
             val navController = rememberNavController()
             NavHost(
                 navController = navController,
-                startDestination = ScreenADestination,
+                startDestination = StartScreenDestination,
             ) {
-                composable<ScreenADestination> {
-                    ScreenA(
-                        onNavigateToScreenB = { counter ->
+                composable<StartScreenDestination> {
+                    StartScreen(
+                        onNavigateToNameScreen = {
                             navController.navigate(
-                                ScreenBDestination(
-                                    count = counter,
-                                ),
+                                NameScreenDestination,
                             )
                         },
                     )
                 }
 
-                composable<ScreenBDestination> {
-                    val args = it.toRoute<ScreenBDestination>()
-                    ScreenB(
-                        onNavigateBack = {
-                            navController.popBackStack()
+                composable<NameScreenDestination> {
+                    NameScreen(
+                        onNavigateToGoalSelectionScreen = {
+                            navController.navigate(
+                                GoalSelectionScreenDestination,
+                            )
                         },
-                        count = args.count,
                     )
+                }
+
+                composable<GoalSelectionScreenDestination> {
+                    GoalSelectionScreen()
                 }
             }
         }
