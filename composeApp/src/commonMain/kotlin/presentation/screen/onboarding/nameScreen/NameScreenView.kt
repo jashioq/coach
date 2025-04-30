@@ -56,7 +56,7 @@ fun NameScreenView(
     )
 
     LaunchedEffect(LocalLifecycleOwner.current) {
-        progress = 0.2f
+        progress = 0.25f
     }
 
     Column(
@@ -103,7 +103,7 @@ fun NameScreenView(
                 modifier = Modifier,
                 text = secondaryText,
                 fontSize = 24.sp,
-                lineHeight = 72.sp,
+                lineHeight = 36.sp,
             )
         }
 
@@ -117,6 +117,12 @@ fun NameScreenView(
             onDoneClick = {
                 if (textFieldValue.isNotEmpty()) onInputDone()
             },
+            placeholder = {
+                Text(
+                    text = "Aa",
+                    fontSize = 24.sp,
+                )
+            }
         )
     }
 }

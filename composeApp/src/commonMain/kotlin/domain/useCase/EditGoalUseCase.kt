@@ -10,7 +10,6 @@ class EditGoalUseCase(
         dataBaseRepository.editGoal(
             id = id,
             name = goal.name,
-            title = goal.title,
-            reminders = goal.reminders,
+            frequency = goal.frequency,
         )
 }

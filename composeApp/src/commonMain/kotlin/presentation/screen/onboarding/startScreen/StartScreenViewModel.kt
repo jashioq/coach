@@ -8,19 +8,27 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
 class StartScreenViewModel() : ViewModel() {
-    private val _text = MutableStateFlow("Progress!")
+    private val _text = MutableStateFlow("Success!")
     val text = _text.asStateFlow()
+
+    private var currentIndex = 0
+
+    private val textList = listOf("Progress!", "Achieving!", "Success!")
 
     init {
         viewModelScope.launch {
             while (true) {
-                delay(3000)
-                _text.value = "Success!"
-                delay(3000)
-                _text.value = "Achieving!"
-                delay(3000)
-                _text.value = "Progress!"
+                _text.value = textList[currentIndex]
+                currentIndex = currentIndex.incrementIndex()
+                delay(2000)
             }
         }
+    }
+
+    private fun Int.incrementIndex() : Int {
+        val maxIndex = textList.size - 1
+
+        return if (this >= maxIndex) 0
+        else this + 1
     }
 }

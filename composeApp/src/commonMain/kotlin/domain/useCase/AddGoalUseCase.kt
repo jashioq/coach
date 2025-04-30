@@ -9,7 +9,6 @@ class AddGoalUseCase(
     suspend fun call(goal: Goal): Result<Unit> =
         dataBaseRepository.addGoal(
             name = goal.name,
-            title = goal.title,
-            reminders = goal.reminders,
+            frequency  = goal.frequency
         )
 }

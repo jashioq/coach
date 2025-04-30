@@ -26,7 +26,7 @@ import org.jetbrains.compose.resources.painterResource
 @Composable
 fun PillTextField(
     modifier: Modifier = Modifier,
-    placeholder: String = "Aa",
+    placeholder: @Composable () -> Unit,
     isEnabled: Boolean = true,
     onValueChange: (String) -> Unit,
     value: String,
@@ -42,12 +42,7 @@ fun PillTextField(
         onValueChange = onValueChange,
         shape = RoundedCornerShape(50),
         enabled = isEnabled,
-        placeholder = {
-            Text(
-                text = placeholder,
-                fontSize = 24.sp,
-            )
-        },
+        placeholder = placeholder,
         textStyle = TextStyle.Default.copy(
             fontSize = 24.sp,
         ),

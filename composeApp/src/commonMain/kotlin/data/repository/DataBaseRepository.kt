@@ -37,27 +37,23 @@ class DataBaseRepository(
 
     override suspend fun addGoal(
         name: String,
-        title: String?,
-        reminders: List<String>?,
+        frequency: Int,
     ): Result<Unit> = runCatching {
         database.databaseQueries.insertGoal(
             name = name,
-            title = title,
-            reminders = reminders?.joinToString(","),
+            frequency = frequency.toLong(),
         )
     }
 
     override suspend fun editGoal(
         id: String,
         name: String,
-        title: String?,
-        reminders: List<String>?,
+        frequency: Int,
     ): Result<Unit> = runCatching {
         database.databaseQueries.updateGoal(
             id = id.toLong(),
             name = name,
-            title = title,
-            reminders = reminders?.joinToString(","),
+            frequency = frequency.toLong(),
         )
     }
 

@@ -8,6 +8,7 @@ import domain.useCase.EmitCounterPreferenceUseCase
 import domain.useCase.EmitGoalUseCase
 import domain.useCase.EmitNamePreferenceUseCase
 import domain.useCase.SetCounterPreferenceUseCase
+import domain.useCase.SetGoalNamePreferenceUseCase
 import domain.useCase.SetNamePreferenceUseCase
 import org.koin.dsl.module
 
@@ -56,6 +57,12 @@ val domainModule = module {
 
     single {
         SetNamePreferenceUseCase(
+            dataStoreRepository = get(),
+        )
+    }
+
+    single {
+        SetGoalNamePreferenceUseCase(
             dataStoreRepository = get(),
         )
     }

@@ -1,6 +1,0 @@
-package presentation.screen.onboarding.goalSelectionScreen
-
-import kotlinx.serialization.Serializable
-
-@Serializable
-object GoalSelectionScreenDestination

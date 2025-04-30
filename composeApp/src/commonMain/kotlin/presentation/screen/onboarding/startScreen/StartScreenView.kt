@@ -30,6 +30,7 @@ fun StartScreenView(
     text: String,
 ) {
     val primaryText = "Your Daily\nBoost for"
+    val buttonText = "START"
     val painter = painterResource(Res.drawable.placeholderImage)
 
     Column(
@@ -66,14 +67,14 @@ fun StartScreenView(
                 modifier = Modifier,
                 text = text,
                 fontSize = 64.sp,
-                lineHeight = 72.sp,
+                lineHeight = 36.sp,
                 fontWeight = FontWeight.Bold,
             )
         }
 
         PrimaryButton(
             modifier = Modifier.padding(32.dp),
-            text = "START",
+            text = buttonText,
             onClick = onPrimaryButtonClick,
         )
     }

@@ -8,7 +8,7 @@ import presentation.koinViewModel
 @Composable
 fun NameScreen(
     nameScreenViewModel: NameScreenViewModel = koinViewModel(),
-    onNavigateToGoalSelectionScreen: () -> Unit,
+    onNavigateToGoalNameScreen: (String) -> Unit,
 ) {
     val name by nameScreenViewModel.name.collectAsState()
 
@@ -18,7 +18,7 @@ fun NameScreen(
             nameScreenViewModel.action(
                 NameScreenAction.SaveName,
             )
-            onNavigateToGoalSelectionScreen()
+            onNavigateToGoalNameScreen(name)
         },
         onTextFieldValueChange = {
             nameScreenViewModel.action(

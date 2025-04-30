@@ -5,8 +5,7 @@ PRAGMA user_version = 1;
 CREATE TABLE GoalDto (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     name TEXT NOT NULL,
-    title TEXT,
-    reminders TEXT,
+    frequency INTEGER NOT NULL,
     creationDate TEXT DEFAULT (datetime('now')) NOT NULL,
     modificationDate TEXT DEFAULT (datetime('now')) NOT NULL
 );
@@ -22,10 +21,10 @@ selectGoalById:
 SELECT * FROM GoalDto WHERE id == :id;
 
 insertGoal:
-INSERT INTO GoalDto (name, title, reminders) VALUES (:name, :title, :reminders);
+INSERT INTO GoalDto (name, frequency) VALUES (:name, :frequency);
 
 updateGoal:
-UPDATE GoalDto SET name = :name, title = :title, reminders = :reminders, modificationDate = datetime('now') WHERE id = :id;
+UPDATE GoalDto SET name = :name, frequency = :frequency, modificationDate = datetime('now') WHERE id = :id;
 
 deleteGoal:
 DELETE FROM GoalDto WHERE id = :id;

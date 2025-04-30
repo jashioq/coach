@@ -1,4 +1,4 @@
-package presentation.screen.onboarding.goalSelectionScreen
+package presentation.screen.onboarding.goalNameScreen
 
 import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.animation.core.animateFloatAsState
@@ -6,11 +6,15 @@ import androidx.compose.animation.core.tween
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.displayCutoutPadding
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -19,15 +23,28 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import presentation.compose.component.progress.CircularProgressIndicator
+import presentation.compose.component.text.AnimatedChangeText
+import presentation.compose.component.textField.PillTextField
 
 @Composable
-fun GoalSelectionScreenView(
+fun GoalNameScreenView(
     modifier: Modifier = Modifier,
+    textFieldValue: String,
+    textFieldPlaceholder: String,
+    onTextFieldValueChange: (String) -> Unit,
+    onInputDone: () -> Unit,
+    userName: String,
 ) {
-    var progress by remember { mutableStateOf(0.2f) }
+    val primaryText = "What is your goal, $userName?"
+    val secondaryText = "Name your goal"
+
+    var progress by remember { mutableStateOf(0.25f) }
     val progressAnimDuration = 1_500
 
     val progressAnimation by animateFloatAsState(
@@ -36,7 +53,7 @@ fun GoalSelectionScreenView(
     )
 
     LaunchedEffect(LocalLifecycleOwner.current) {
-        progress = 0.4f
+        progress = 0.5f
     }
 
     Column(
@@ -63,6 +80,43 @@ fun GoalSelectionScreenView(
                     progress = progressAnimation,
                 )
             }
+
+            Spacer(modifier = Modifier.height(32.dp))
+
+            Text(
+                modifier = Modifier,
+                text = primaryText,
+                fontSize = 64.sp,
+                lineHeight = 72.sp,
+                fontWeight = FontWeight.Bold,
+            )
+            Text(
+                modifier = Modifier,
+                text = secondaryText,
+                fontSize = 24.sp,
+                lineHeight = 36.sp,
+            )
         }
+
+        PillTextField(
+            modifier = Modifier
+                .padding(32.dp)
+                .imePadding(),
+            value = textFieldValue,
+            onValueChange = onTextFieldValueChange,
+            displayDoneButton = textFieldValue.isNotEmpty(),
+            onDoneClick = {
+                if (textFieldValue.isNotEmpty()) onInputDone()
+            },
+            placeholder = {
+                AnimatedChangeText(
+                    modifier = Modifier,
+                    text = textFieldPlaceholder,
+                    fontSize = 24.sp,
+                    lineHeight = TextUnit.Unspecified,
+                    fontWeight = FontWeight.Normal,
+                )
+            }
+        )
     }
 }

@@ -3,10 +3,13 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.toRoute
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.koin.compose.KoinContext
-import presentation.screen.onboarding.goalSelectionScreen.GoalSelectionScreen
-import presentation.screen.onboarding.goalSelectionScreen.GoalSelectionScreenDestination
+import presentation.screen.onboarding.goalFrequencyScreen.GoalFrequencyScreen
+import presentation.screen.onboarding.goalFrequencyScreen.GoalFrequencyScreenDestination
+import presentation.screen.onboarding.goalNameScreen.GoalNameScreen
+import presentation.screen.onboarding.goalNameScreen.GoalNameScreenDestination
 import presentation.screen.onboarding.nameScreen.NameScreen
 import presentation.screen.onboarding.nameScreen.NameScreenDestination
 import presentation.screen.onboarding.startScreen.StartScreen
@@ -34,16 +37,35 @@ fun App() {
 
                 composable<NameScreenDestination> {
                     NameScreen(
-                        onNavigateToGoalSelectionScreen = {
+                        onNavigateToGoalNameScreen = { userName ->
                             navController.navigate(
-                                GoalSelectionScreenDestination,
+                                GoalNameScreenDestination(
+                                    userName = userName,
+                                ),
                             )
                         },
                     )
                 }
 
-                composable<GoalSelectionScreenDestination> {
-                    GoalSelectionScreen()
+                composable<GoalNameScreenDestination> {
+                    val args = it.toRoute<GoalNameScreenDestination>()
+                    GoalNameScreen(
+                        onNavigateToGoalFrequencyScreen = { goalName ->
+                            navController.navigate(
+                                GoalFrequencyScreenDestination(
+                                    goalName = goalName,
+                                ),
+                            )
+                        },
+                        userName = args.userName,
+                    )
+                }
+
+                composable<GoalFrequencyScreenDestination> {
+                    val args = it.toRoute<GoalFrequencyScreenDestination>()
+                    GoalFrequencyScreen(
+                        goalName = args.goalName,
+                    )
                 }
             }
         }
