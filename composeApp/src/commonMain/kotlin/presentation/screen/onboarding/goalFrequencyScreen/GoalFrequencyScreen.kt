@@ -19,6 +19,6 @@ fun GoalFrequencyScreen(
             goalFrequencyScreenViewModel.action(
                 GoalFrequencyScreenAction.UpdateFrequency(it),
             )
-        }
+        },
     )
 }

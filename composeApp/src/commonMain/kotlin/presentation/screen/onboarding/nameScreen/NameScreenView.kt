@@ -122,7 +122,7 @@ fun NameScreenView(
                     text = "Aa",
                     fontSize = 24.sp,
                 )
-            }
+            },
         )
     }
 }

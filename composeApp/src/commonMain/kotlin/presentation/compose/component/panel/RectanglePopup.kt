@@ -26,14 +26,14 @@ fun rememberPopupState() = rememberSaveable { mutableStateOf(false) }
 fun RectanglePopup(
     visibleState: MutableState<Boolean>,
     onDismissRequest: () -> Unit = { visibleState.value = false },
-    content: @Composable () -> Unit
+    content: @Composable () -> Unit,
 ) {
     if (visibleState.value) {
         Box(
             modifier = Modifier
                 .fillMaxSize()
                 .background(Color.Black.copy(alpha = 0.6f))
-                .clickable { onDismissRequest() }
+                .clickable { onDismissRequest() },
         ) {
             Popup(
                 alignment = Alignment.Center,
@@ -41,18 +41,18 @@ fun RectanglePopup(
                 properties = PopupProperties(
                     dismissOnBackPress = true,
                     dismissOnClickOutside = true,
-                    focusable = true
-                )
+                    focusable = true,
+                ),
             ) {
                 Surface(
                     shape = MaterialTheme.shapes.medium,
                     modifier = Modifier
-                        .wrapContentSize()
+                        .wrapContentSize(),
                 ) {
                     Box(
                         modifier = Modifier
                             .padding(16.dp),
-                        contentAlignment = Alignment.Center
+                        contentAlignment = Alignment.Center,
                     ) {
                         content()
                     }

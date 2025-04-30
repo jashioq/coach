@@ -25,10 +25,13 @@ class StartScreenViewModel() : ViewModel() {
         }
     }
 
-    private fun Int.incrementIndex() : Int {
+    private fun Int.incrementIndex(): Int {
         val maxIndex = textList.size - 1
 
-        return if (this >= maxIndex) 0
-        else this + 1
+        return if (this >= maxIndex) {
+            0
+        } else {
+            this + 1
+        }
     }
 }

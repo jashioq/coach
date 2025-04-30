@@ -10,7 +10,7 @@ fun GoalNameScreen(
     goalNameScreenViewModel: GoalNameScreenViewModel = koinViewModel(),
     onNavigateToGoalFrequencyScreen: (String) -> Unit,
     userName: String,
-    ) {
+) {
     val goalName by goalNameScreenViewModel.goalName.collectAsState()
     val goalNamePlaceholder by goalNameScreenViewModel.goalNamePlaceholder.collectAsState()
 

@@ -30,7 +30,7 @@ class GoalNameScreenViewModel(
             "Focus",
             "Paint",
             "Code",
-            "Run"
+            "Run",
         )
 
     init {
@@ -60,7 +60,10 @@ class GoalNameScreenViewModel(
     private fun Int.incrementIndex(): Int {
         val maxIndex = goalNamePlaceholderList.size - 1
 
-        return if (this >= maxIndex) 0
-        else this + 1
+        return if (this >= maxIndex) {
+            0
+        } else {
+            this + 1
+        }
     }
 }

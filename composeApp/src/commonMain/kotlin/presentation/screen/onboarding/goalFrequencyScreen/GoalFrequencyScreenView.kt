@@ -13,7 +13,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Slider
 import androidx.compose.material3.SliderDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -66,7 +65,7 @@ fun GoalFrequencyScreenView(
         onDismissRequest = { popupVisible = false },
         content = {
             Text("Your content here")
-        }
+        },
     )
 
     Column(
@@ -116,7 +115,7 @@ fun GoalFrequencyScreenView(
                 text = infoText,
                 fontSize = 36.sp,
                 lineHeight = 48.sp,
-                fontWeight = FontWeight.Bold
+                fontWeight = FontWeight.Bold,
             )
 
             Spacer(modifier = Modifier.height(32.dp))
@@ -124,7 +123,7 @@ fun GoalFrequencyScreenView(
             StepSlider(
                 position = sliderPosition,
                 onPositionChange = onPositionChange,
-                colors = sliderPosition.GetSliderColors()
+                colors = sliderPosition.GetSliderColors(),
             )
         }
         PrimaryButton(
@@ -153,10 +152,10 @@ private fun Float.GetSliderColors() =
             thumbColor = Color.Black,
             activeTrackColor = Color.LightGray,
             inactiveTickColor = Color.LightGray,
-            inactiveTrackColor = Color.LightGray.copy(alpha = 0.5f)
+            inactiveTrackColor = Color.LightGray.copy(alpha = 0.5f),
         )
 
-        in 0f ..3f -> SliderDefaults.colors(
+        in 0f..3f -> SliderDefaults.colors(
             thumbColor = Color.Black,
             activeTrackColor = Color.Black,
             inactiveTickColor = Color.Black,
@@ -164,7 +163,7 @@ private fun Float.GetSliderColors() =
             inactiveTrackColor = Color.Gray,
         )
 
-        in 3f .. 5f -> SliderDefaults.colors(
+        in 3f..5f -> SliderDefaults.colors(
             thumbColor = Color.Black,
             activeTrackColor = Color.Green,
             inactiveTickColor = Color.Green,

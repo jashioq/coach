@@ -116,7 +116,7 @@ fun GoalNameScreenView(
                     lineHeight = TextUnit.Unspecified,
                     fontWeight = FontWeight.Normal,
                 )
-            }
+            },
         )
     }
 }

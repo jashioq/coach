@@ -12,14 +12,14 @@ fun StepSlider(
     onPositionChange: (Float) -> Unit,
     steps: Int = 6,
     range: ClosedFloatingPointRange<Float> = 0f..7f,
-    colors: SliderColors = DefaultColors()
+    colors: SliderColors = DefaultColors(),
 ) {
     Slider(
         value = position,
         onValueChange = onPositionChange,
         colors = colors,
         steps = steps,
-        valueRange = range
+        valueRange = range,
     )
 }
 
