@@ -9,6 +9,7 @@ import presentation.koinViewModel
 fun GoalFrequencyScreen(
     goalFrequencyScreenViewModel: GoalFrequencyScreenViewModel = koinViewModel(),
     goalName: String,
+    onFinishOnboarding: () -> Unit,
 ) {
     val goalFrequency by goalFrequencyScreenViewModel.frequency.collectAsState()
 
@@ -19,6 +20,15 @@ fun GoalFrequencyScreen(
             goalFrequencyScreenViewModel.action(
                 GoalFrequencyScreenAction.UpdateFrequency(it),
             )
+        },
+        onGoalSave = {
+            goalFrequencyScreenViewModel.action(
+                GoalFrequencyScreenAction.SaveGoal(
+                    name = goalName,
+                    frequency = goalFrequency,
+                ),
+            )
+            onFinishOnboarding()
         },
     )
 }

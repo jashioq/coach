@@ -1,14 +1,14 @@
 package domain.useCase
 
-import domain.model.GOAL_NAME_KEY
+import domain.model.USER_NAME_KEY
 import domain.repository.DataStoreRepository
 
-class SetGoalNamePreferenceUseCase(
+class SetUserNamePreferenceUseCase(
     private val dataStoreRepository: DataStoreRepository,
 ) {
     suspend fun call(value: String): Result<Unit> =
         dataStoreRepository.putStringPreference(
-            key = GOAL_NAME_KEY,
+            key = USER_NAME_KEY,
             value = value,
         )
 }

@@ -2,35 +2,32 @@ package presentation.screen.onboarding.goalNameScreen
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import domain.useCase.SetGoalNamePreferenceUseCase
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
-class GoalNameScreenViewModel(
-    private val setGoalNamePreferenceUseCase: SetGoalNamePreferenceUseCase,
-) : ViewModel() {
+class GoalNameScreenViewModel : ViewModel() {
     private val _goalName = MutableStateFlow("")
     val goalName = _goalName.asStateFlow()
 
-    private val _goalNamePlaceholder = MutableStateFlow("Run")
+    private val _goalNamePlaceholder = MutableStateFlow("run")
     val goalNamePlaceholder = _goalNamePlaceholder.asStateFlow()
 
     private var currentIndex = 0
 
     private val goalNamePlaceholderList =
         listOf(
-            "Exercise",
-            "Write",
-            "Meditate",
-            "Practice",
-            "Learn",
-            "Create",
-            "Focus",
-            "Paint",
-            "Code",
-            "Run",
+            "exercise",
+            "write",
+            "meditate",
+            "practice",
+            "learn",
+            "create",
+            "focus",
+            "paint",
+            "code",
+            "run",
         )
 
     init {
@@ -47,12 +44,6 @@ class GoalNameScreenViewModel(
         when (action) {
             is GoalNameScreenAction.UpdateGoalName -> {
                 _goalName.value = action.newValue
-            }
-
-            GoalNameScreenAction.SaveGoalName -> {
-                viewModelScope.launch {
-                    setGoalNamePreferenceUseCase.call(goalName.value)
-                }
             }
         }
     }

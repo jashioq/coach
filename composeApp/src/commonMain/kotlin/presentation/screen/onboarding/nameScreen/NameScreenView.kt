@@ -112,6 +112,7 @@ fun NameScreenView(
                 .padding(32.dp)
                 .imePadding(),
             value = textFieldValue,
+            capitalizeKeyboard = true,
             onValueChange = onTextFieldValueChange,
             displayDoneButton = textFieldValue.isNotEmpty(),
             onDoneClick = {

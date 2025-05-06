@@ -4,7 +4,7 @@ import domain.model.USER_NAME_KEY
 import domain.repository.DataStoreRepository
 import kotlinx.coroutines.flow.Flow
 
-class EmitNamePreferenceUseCase(
+class EmitUserNamePreferenceUseCase(
     private val dataStoreRepository: DataStoreRepository,
 ) {
     suspend fun call(): Result<Flow<String>> =

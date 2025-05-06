@@ -18,7 +18,7 @@ fun NameScreen(
             nameScreenViewModel.action(
                 NameScreenAction.SaveName,
             )
-            onNavigateToGoalNameScreen(name)
+            onNavigateToGoalNameScreen(name.trim())
         },
         onTextFieldValueChange = {
             nameScreenViewModel.action(

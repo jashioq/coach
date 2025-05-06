@@ -2,13 +2,13 @@ package presentation.screen.onboarding.nameScreen
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import domain.useCase.SetNamePreferenceUseCase
+import domain.useCase.SetUserNamePreferenceUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
 class NameScreenViewModel(
-    private val setNamePreferenceUseCase: SetNamePreferenceUseCase,
+    private val setUserNamePreferenceUseCase: SetUserNamePreferenceUseCase,
 ) : ViewModel() {
     private val _name = MutableStateFlow("")
     val name = _name.asStateFlow()
@@ -21,7 +21,7 @@ class NameScreenViewModel(
 
             NameScreenAction.SaveName -> {
                 viewModelScope.launch {
-                    setNamePreferenceUseCase.call(name.value)
+                    setUserNamePreferenceUseCase.call(name.value.trim())
                 }
             }
         }

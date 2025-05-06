@@ -2,14 +2,15 @@ package presentation.screen.onboarding.goalFrequencyScreen
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import domain.model.Goal
 import domain.useCase.AddGoalUseCase
+import domain.useCase.SetOnboardingFinishedUseCase
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
 class GoalFrequencyScreenViewModel(
     private val addGoalUseCase: AddGoalUseCase,
+    private val setOnboardingFinishedUseCase: SetOnboardingFinishedUseCase,
 ) : ViewModel() {
     private val _frequency = MutableStateFlow(3f)
     val frequency = _frequency.asStateFlow()
@@ -18,9 +19,11 @@ class GoalFrequencyScreenViewModel(
         when (action) {
             is GoalFrequencyScreenAction.SaveGoal -> {
                 viewModelScope.launch {
-                    addGoalUseCase.call(Goal(action.name, action.frequency.toInt()))
+                    addGoalUseCase.call(action.name, action.frequency.toInt())
+                    setOnboardingFinishedUseCase.call(true)
                 }
             }
+
             is GoalFrequencyScreenAction.UpdateFrequency -> {
                 _frequency.value = action.newValue
             }

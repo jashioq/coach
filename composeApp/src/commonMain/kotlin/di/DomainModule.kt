@@ -4,27 +4,14 @@ import domain.useCase.AddGoalUseCase
 import domain.useCase.DeleteGoalUseCase
 import domain.useCase.EditGoalUseCase
 import domain.useCase.EmitAllGoalsUseCase
-import domain.useCase.EmitCounterPreferenceUseCase
 import domain.useCase.EmitGoalUseCase
-import domain.useCase.EmitNamePreferenceUseCase
-import domain.useCase.SetCounterPreferenceUseCase
-import domain.useCase.SetGoalNamePreferenceUseCase
-import domain.useCase.SetNamePreferenceUseCase
+import domain.useCase.EmitOnboardingFinishedUseCase
+import domain.useCase.EmitUserNamePreferenceUseCase
+import domain.useCase.SetOnboardingFinishedUseCase
+import domain.useCase.SetUserNamePreferenceUseCase
 import org.koin.dsl.module
 
 val domainModule = module {
-    single {
-        SetCounterPreferenceUseCase(
-            dataStoreRepository = get(),
-        )
-    }
-
-    single {
-        EmitCounterPreferenceUseCase(
-            dataStoreRepository = get(),
-        )
-    }
-
     single {
         EmitAllGoalsUseCase(
             dataBaseRepository = get(),
@@ -56,19 +43,25 @@ val domainModule = module {
     }
 
     single {
-        SetNamePreferenceUseCase(
+        SetUserNamePreferenceUseCase(
             dataStoreRepository = get(),
         )
     }
 
     single {
-        SetGoalNamePreferenceUseCase(
+        EmitUserNamePreferenceUseCase(
             dataStoreRepository = get(),
         )
     }
 
     single {
-        EmitNamePreferenceUseCase(
+        SetOnboardingFinishedUseCase(
+            dataStoreRepository = get(),
+        )
+    }
+
+    single {
+        EmitOnboardingFinishedUseCase(
             dataStoreRepository = get(),
         )
     }

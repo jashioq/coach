@@ -13,8 +13,11 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.SliderDefaults
 import androidx.compose.material3.Text
+import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -29,22 +32,27 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import presentation.compose.component.button.PrimaryButton
-import presentation.compose.component.panel.RectanglePopup
-import presentation.compose.component.panel.rememberPopupState
 import presentation.compose.component.progress.CircularProgressIndicator
 import presentation.compose.component.slider.StepSlider
 import kotlin.math.roundToInt
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun GoalFrequencyScreenView(
     modifier: Modifier = Modifier,
     goalName: String,
     sliderPosition: Float,
     onPositionChange: (Float) -> Unit,
+    onGoalSave: () -> Unit,
 ) {
     val primaryText = "How often do you want to $goalName?"
     val secondaryText = "You can change this later"
     val infoText = sliderPosition.getInfoText()
+    val primarySheetText = "Are you sure?"
+    val secondarySheetText =
+        "We recommend you work on your goal a maximum of 5 days per week. You need rest to " +
+            "avoid burnout!"
+    val sheetButtonText = "I'M SURE"
 
     var progress by remember { mutableStateOf(0.5f) }
     val progressAnimDuration = 1_500
@@ -54,19 +62,53 @@ fun GoalFrequencyScreenView(
         animationSpec = tween(durationMillis = progressAnimDuration, easing = FastOutSlowInEasing),
     )
 
-    var popupVisible by rememberPopupState()
+    val sheetState = rememberModalBottomSheetState()
+    var showBottomSheet by remember { mutableStateOf(false) }
 
     LaunchedEffect(LocalLifecycleOwner.current) {
         progress = 0.75f
     }
 
-    RectanglePopup(
-        visibleState = mutableStateOf(popupVisible),
-        onDismissRequest = { popupVisible = false },
-        content = {
-            Text("Your content here")
-        },
-    )
+    if (showBottomSheet) {
+        ModalBottomSheet(
+            containerColor = Color.White,
+            onDismissRequest = {
+                showBottomSheet = false
+            },
+            sheetState = sheetState,
+        ) {
+            Column(
+                modifier = Modifier
+                    .padding(horizontal = 32.dp),
+                horizontalAlignment = Alignment.Start,
+            ) {
+                Text(
+                    modifier = Modifier,
+                    text = primarySheetText,
+                    fontSize = 36.sp,
+                    lineHeight = 36.sp,
+                    fontWeight = FontWeight.Bold,
+                )
+
+                Spacer(modifier = Modifier.height(16.dp))
+
+                Text(
+                    modifier = Modifier,
+                    text = secondarySheetText,
+                    fontSize = 24.sp,
+                    lineHeight = 24.sp,
+                )
+
+                Spacer(modifier = Modifier.height(32.dp))
+
+                PrimaryButton(
+                    text = sheetButtonText,
+                    isEnabled = sliderPosition != 0f,
+                    onClick = onGoalSave,
+                )
+            }
+        }
+    }
 
     Column(
         modifier = modifier
@@ -127,8 +169,13 @@ fun GoalFrequencyScreenView(
             )
         }
         PrimaryButton(
+            modifier = Modifier
+                .padding(bottom = 32.dp),
             text = "SAVE",
             isEnabled = sliderPosition != 0f,
+            onClick = {
+                if (sliderPosition.roundToInt() >= 6) showBottomSheet = true else onGoalSave()
+            },
         )
     }
 }
@@ -165,24 +212,24 @@ private fun Float.GetSliderColors() =
 
         in 3f..5f -> SliderDefaults.colors(
             thumbColor = Color.Black,
-            activeTrackColor = Color.Green,
-            inactiveTickColor = Color.Green,
+            activeTrackColor = Color(0, 110, 37),
+            inactiveTickColor = Color(0, 110, 37),
             activeTickColor = Color.White,
             inactiveTrackColor = Color.Gray,
         )
 
         6f -> SliderDefaults.colors(
             thumbColor = Color.Black,
-            activeTrackColor = Color.Yellow,
-            inactiveTickColor = Color.Yellow,
+            activeTrackColor = Color(143, 100, 0),
+            inactiveTickColor = Color(143, 100, 0),
             activeTickColor = Color.White,
             inactiveTrackColor = Color.Gray,
         )
 
         else -> SliderDefaults.colors(
             thumbColor = Color.Black,
-            activeTrackColor = Color.Red,
-            inactiveTickColor = Color.Red,
+            activeTrackColor = Color(166, 50, 50),
+            inactiveTickColor = Color(166, 50, 50),
             activeTickColor = Color.White,
             inactiveTrackColor = Color.Gray,
         )

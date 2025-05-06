@@ -4,6 +4,4 @@ open class GoalNameScreenAction {
     data class UpdateGoalName(
         val newValue: String,
     ) : GoalNameScreenAction()
-
-    data object SaveGoalName : GoalNameScreenAction()
 }

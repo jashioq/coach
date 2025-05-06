@@ -6,6 +6,8 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.koin.compose.KoinContext
+import presentation.screen.home.HomeScreen
+import presentation.screen.home.HomeScreenDestination
 import presentation.screen.onboarding.goalFrequencyScreen.GoalFrequencyScreen
 import presentation.screen.onboarding.goalFrequencyScreen.GoalFrequencyScreenDestination
 import presentation.screen.onboarding.goalNameScreen.GoalNameScreen
@@ -30,6 +32,12 @@ fun App() {
                         onNavigateToNameScreen = {
                             navController.navigate(
                                 NameScreenDestination,
+                            )
+                        },
+                        onOnboardingFinished = {
+                            navController.popBackStack()
+                            navController.navigate(
+                                HomeScreenDestination,
                             )
                         },
                     )
@@ -65,7 +73,17 @@ fun App() {
                     val args = it.toRoute<GoalFrequencyScreenDestination>()
                     GoalFrequencyScreen(
                         goalName = args.goalName,
+                        onFinishOnboarding = {
+                            navController.popBackStack(StartScreenDestination, true)
+                            navController.navigate(
+                                HomeScreenDestination,
+                            )
+                        },
                     )
+                }
+
+                composable<HomeScreenDestination> {
+                    HomeScreen()
                 }
             }
         }

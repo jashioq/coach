@@ -18,12 +18,7 @@ fun GoalNameScreen(
         textFieldValue = goalName,
         textFieldPlaceholder = goalNamePlaceholder,
         userName = userName,
-        onInputDone = {
-            goalNameScreenViewModel.action(
-                GoalNameScreenAction.SaveGoalName,
-            )
-            onNavigateToGoalFrequencyScreen(goalName)
-        },
+        onInputDone = { onNavigateToGoalFrequencyScreen(goalName.trim()) },
         onTextFieldValueChange = {
             goalNameScreenViewModel.action(
                 GoalNameScreenAction.UpdateGoalName(it),
