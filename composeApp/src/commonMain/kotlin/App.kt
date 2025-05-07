@@ -1,4 +1,3 @@
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -20,7 +19,7 @@ import presentation.screen.onboarding.startScreen.StartScreenDestination
 @Composable
 @Preview
 fun App() {
-    MaterialTheme {
+    Theme {
         KoinContext {
             val navController = rememberNavController()
             NavHost(

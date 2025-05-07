@@ -10,7 +10,9 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.TextField
+import androidx.compose.material3.TextFieldColors
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
@@ -27,6 +29,7 @@ import org.jetbrains.compose.resources.painterResource
 @Composable
 fun PillTextField(
     modifier: Modifier = Modifier,
+    colors: TextFieldColors = defaultTextFieldColors(),
     placeholder: @Composable () -> Unit,
     isEnabled: Boolean = true,
     onValueChange: (String) -> Unit,
@@ -39,7 +42,7 @@ fun PillTextField(
         modifier = modifier
             .height(64.dp)
             .fillMaxWidth()
-            .border(2.dp, Color.Black, RoundedCornerShape(50)),
+            .border(2.dp, MaterialTheme.colorScheme.primary, RoundedCornerShape(50)),
         value = value,
         onValueChange = onValueChange,
         shape = RoundedCornerShape(50),
@@ -57,23 +60,13 @@ fun PillTextField(
         } else {
             KeyboardOptions()
         },
-        colors = TextFieldDefaults.colors(
-            focusedTextColor = Color.Black,
-            unfocusedTextColor = Color.Black,
-            focusedContainerColor = Color.Transparent,
-            unfocusedContainerColor = Color.Transparent,
-            focusedIndicatorColor = Color.Transparent,
-            unfocusedIndicatorColor = Color.Transparent,
-            focusedPlaceholderColor = Color.Gray,
-            unfocusedPlaceholderColor = Color.Gray,
-            cursorColor = Color.Black,
-        ),
+        colors = colors,
         trailingIcon = {
             if (displayDoneButton) {
                 Icon(
                     painter = painterResource(resource = Res.drawable.circle_arrow),
                     contentDescription = "Done",
-                    tint = Color.Black,
+                    tint = MaterialTheme.colorScheme.primary,
                     modifier = Modifier
                         .padding(16.dp)
                         .clickable(
@@ -87,3 +80,16 @@ fun PillTextField(
         },
     )
 }
+
+@Composable
+fun defaultTextFieldColors() = TextFieldDefaults.colors().copy(
+    focusedTextColor = MaterialTheme.colorScheme.primary,
+    unfocusedTextColor = MaterialTheme.colorScheme.primary,
+    focusedContainerColor = Color.Transparent,
+    unfocusedContainerColor = Color.Transparent,
+    focusedIndicatorColor = Color.Transparent,
+    unfocusedIndicatorColor = Color.Transparent,
+    focusedPlaceholderColor = MaterialTheme.colorScheme.primary.copy(alpha = 0.5f),
+    unfocusedPlaceholderColor = MaterialTheme.colorScheme.primary.copy(alpha = 0.5f),
+    cursorColor = MaterialTheme.colorScheme.primary,
+)

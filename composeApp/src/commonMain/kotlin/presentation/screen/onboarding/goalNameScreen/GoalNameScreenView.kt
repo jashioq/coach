@@ -14,7 +14,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -44,6 +43,7 @@ import coach.composeapp.generated.resources.goal_name_screen_title
 import org.jetbrains.compose.resources.stringResource
 import presentation.compose.component.progress.CircularProgressIndicator
 import presentation.compose.component.text.AnimatedChangeText
+import presentation.compose.component.text.Text
 import presentation.compose.component.textField.PillTextField
 
 @Composable
@@ -108,17 +108,13 @@ fun GoalNameScreenView(
             Spacer(modifier = Modifier.height(32.dp))
 
             Text(
-                modifier = Modifier,
                 text = stringResource(Res.string.goal_name_screen_title, userName),
                 fontSize = 64.sp,
                 lineHeight = 72.sp,
                 fontWeight = FontWeight.Bold,
             )
             Text(
-                modifier = Modifier,
                 text = stringResource(Res.string.goal_name_screen_description),
-                fontSize = 24.sp,
-                lineHeight = 36.sp,
             )
         }
 
