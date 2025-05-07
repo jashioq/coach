@@ -11,30 +11,16 @@ class GoalNameScreenViewModel : ViewModel() {
     private val _goalName = MutableStateFlow("")
     val goalName = _goalName.asStateFlow()
 
-    private val _goalNamePlaceholder = MutableStateFlow("run")
-    val goalNamePlaceholder = _goalNamePlaceholder.asStateFlow()
+    private val _goalNamePlaceholderIndex = MutableStateFlow(9)
+    val goalNamePlaceholderIndex = _goalNamePlaceholderIndex.asStateFlow()
 
     private var currentIndex = 0
-
-    private val goalNamePlaceholderList =
-        listOf(
-            "exercise",
-            "write",
-            "meditate",
-            "practice",
-            "learn",
-            "create",
-            "focus",
-            "paint",
-            "code",
-            "run",
-        )
 
     init {
         viewModelScope.launch {
             while (true) {
-                _goalNamePlaceholder.value = goalNamePlaceholderList[currentIndex]
-                currentIndex = currentIndex.incrementIndex()
+                _goalNamePlaceholderIndex.value = currentIndex
+                currentIndex = currentIndex.incrementIndex(9)
                 delay(2000)
             }
         }
@@ -48,13 +34,10 @@ class GoalNameScreenViewModel : ViewModel() {
         }
     }
 
-    private fun Int.incrementIndex(): Int {
-        val maxIndex = goalNamePlaceholderList.size - 1
-
-        return if (this >= maxIndex) {
+    private fun Int.incrementIndex(maxIndex: Int): Int =
+        if (this >= maxIndex) {
             0
         } else {
             this + 1
         }
-    }
 }

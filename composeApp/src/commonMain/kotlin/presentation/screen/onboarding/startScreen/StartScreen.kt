@@ -12,7 +12,7 @@ fun StartScreen(
     onNavigateToNameScreen: () -> Unit,
     onOnboardingFinished: () -> Unit,
 ) {
-    val text by startScreenViewModel.text.collectAsState()
+    val textIndex by startScreenViewModel.textIndex.collectAsState()
     val onboardingState by startScreenViewModel.onboardingState.collectAsState()
 
     when (onboardingState) {
@@ -22,7 +22,7 @@ fun StartScreen(
         OnboardingState.FINISHED -> onOnboardingFinished()
         OnboardingState.NOT_FINISHED -> {
             StartScreenView(
-                text = text,
+                textIndex = textIndex,
                 onPrimaryButtonClick = {
                     onNavigateToNameScreen()
                 },

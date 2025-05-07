@@ -12,11 +12,11 @@ fun GoalNameScreen(
     userName: String,
 ) {
     val goalName by goalNameScreenViewModel.goalName.collectAsState()
-    val goalNamePlaceholder by goalNameScreenViewModel.goalNamePlaceholder.collectAsState()
+    val goalNamePlaceholderIndex by goalNameScreenViewModel.goalNamePlaceholderIndex.collectAsState()
 
     GoalNameScreenView(
         textFieldValue = goalName,
-        textFieldPlaceholder = goalNamePlaceholder,
+        textFieldPlaceholderIndex = goalNamePlaceholderIndex,
         userName = userName,
         onInputDone = { onNavigateToGoalFrequencyScreen(goalName.trim()) },
         onTextFieldValueChange = {

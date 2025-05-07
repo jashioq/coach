@@ -31,6 +31,11 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.LocalLifecycleOwner
+import coach.composeapp.generated.resources.Res
+import coach.composeapp.generated.resources.enter_name
+import coach.composeapp.generated.resources.text_field_placeholder
+import coach.composeapp.generated.resources.who_are_you_title
+import org.jetbrains.compose.resources.stringResource
 import presentation.compose.component.progress.CircularProgressIndicator
 import presentation.compose.component.textField.PillTextField
 
@@ -41,9 +46,6 @@ fun NameScreenView(
     onTextFieldValueChange: (String) -> Unit,
     onInputDone: () -> Unit,
 ) {
-    val primaryText = "Name"
-    val secondaryText = "Enter your name"
-
     val keyboardController = LocalSoftwareKeyboardController.current
     val focusManager = LocalFocusManager.current
 
@@ -94,14 +96,14 @@ fun NameScreenView(
 
             Text(
                 modifier = Modifier,
-                text = primaryText,
+                text = stringResource(Res.string.who_are_you_title),
                 fontSize = 64.sp,
                 lineHeight = 72.sp,
                 fontWeight = FontWeight.Bold,
             )
             Text(
                 modifier = Modifier,
-                text = secondaryText,
+                text = stringResource(Res.string.enter_name),
                 fontSize = 24.sp,
                 lineHeight = 36.sp,
             )
@@ -120,7 +122,7 @@ fun NameScreenView(
             },
             placeholder = {
                 Text(
-                    text = "Aa",
+                    text = stringResource(Res.string.text_field_placeholder),
                     fontSize = 24.sp,
                 )
             },

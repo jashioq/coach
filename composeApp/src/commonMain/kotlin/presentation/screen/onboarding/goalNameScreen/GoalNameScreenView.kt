@@ -28,6 +28,20 @@ import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.LocalLifecycleOwner
+import coach.composeapp.generated.resources.Res
+import coach.composeapp.generated.resources.goal_name_placeholder_1
+import coach.composeapp.generated.resources.goal_name_placeholder_10
+import coach.composeapp.generated.resources.goal_name_placeholder_2
+import coach.composeapp.generated.resources.goal_name_placeholder_3
+import coach.composeapp.generated.resources.goal_name_placeholder_4
+import coach.composeapp.generated.resources.goal_name_placeholder_5
+import coach.composeapp.generated.resources.goal_name_placeholder_6
+import coach.composeapp.generated.resources.goal_name_placeholder_7
+import coach.composeapp.generated.resources.goal_name_placeholder_8
+import coach.composeapp.generated.resources.goal_name_placeholder_9
+import coach.composeapp.generated.resources.goal_name_screen_description
+import coach.composeapp.generated.resources.goal_name_screen_title
+import org.jetbrains.compose.resources.stringResource
 import presentation.compose.component.progress.CircularProgressIndicator
 import presentation.compose.component.text.AnimatedChangeText
 import presentation.compose.component.textField.PillTextField
@@ -36,13 +50,23 @@ import presentation.compose.component.textField.PillTextField
 fun GoalNameScreenView(
     modifier: Modifier = Modifier,
     textFieldValue: String,
-    textFieldPlaceholder: String,
+    textFieldPlaceholderIndex: Int,
     onTextFieldValueChange: (String) -> Unit,
     onInputDone: () -> Unit,
     userName: String,
 ) {
-    val primaryText = "What is your goal, $userName?"
-    val secondaryText = "Name your goal"
+    val placeholderList = listOf(
+        stringResource(Res.string.goal_name_placeholder_1),
+        stringResource(Res.string.goal_name_placeholder_2),
+        stringResource(Res.string.goal_name_placeholder_3),
+        stringResource(Res.string.goal_name_placeholder_4),
+        stringResource(Res.string.goal_name_placeholder_5),
+        stringResource(Res.string.goal_name_placeholder_6),
+        stringResource(Res.string.goal_name_placeholder_7),
+        stringResource(Res.string.goal_name_placeholder_8),
+        stringResource(Res.string.goal_name_placeholder_9),
+        stringResource(Res.string.goal_name_placeholder_10),
+    )
 
     var progress by remember { mutableStateOf(0.25f) }
     val progressAnimDuration = 1_500
@@ -85,14 +109,14 @@ fun GoalNameScreenView(
 
             Text(
                 modifier = Modifier,
-                text = primaryText,
+                text = stringResource(Res.string.goal_name_screen_title, userName),
                 fontSize = 64.sp,
                 lineHeight = 72.sp,
                 fontWeight = FontWeight.Bold,
             )
             Text(
                 modifier = Modifier,
-                text = secondaryText,
+                text = stringResource(Res.string.goal_name_screen_description),
                 fontSize = 24.sp,
                 lineHeight = 36.sp,
             )
@@ -111,7 +135,7 @@ fun GoalNameScreenView(
             placeholder = {
                 AnimatedChangeText(
                     modifier = Modifier,
-                    text = textFieldPlaceholder,
+                    text = placeholderList[textFieldPlaceholderIndex],
                     fontSize = 24.sp,
                     lineHeight = TextUnit.Unspecified,
                     fontWeight = FontWeight.Normal,

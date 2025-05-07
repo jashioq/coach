@@ -31,6 +31,22 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.LocalLifecycleOwner
+import coach.composeapp.generated.resources.Res
+import coach.composeapp.generated.resources.five_days
+import coach.composeapp.generated.resources.four_days
+import coach.composeapp.generated.resources.goal_frequency_screen_description
+import coach.composeapp.generated.resources.goal_frequency_screen_sheet_button
+import coach.composeapp.generated.resources.goal_frequency_screen_sheet_text
+import coach.composeapp.generated.resources.goal_frequency_screen_sheet_title
+import coach.composeapp.generated.resources.goal_frequency_screen_title
+import coach.composeapp.generated.resources.one_day
+import coach.composeapp.generated.resources.save_button
+import coach.composeapp.generated.resources.seven_days
+import coach.composeapp.generated.resources.six_days
+import coach.composeapp.generated.resources.three_days
+import coach.composeapp.generated.resources.two_days
+import coach.composeapp.generated.resources.zero_days
+import org.jetbrains.compose.resources.stringResource
 import presentation.compose.component.button.PrimaryButton
 import presentation.compose.component.progress.CircularProgressIndicator
 import presentation.compose.component.slider.StepSlider
@@ -45,15 +61,6 @@ fun GoalFrequencyScreenView(
     onPositionChange: (Float) -> Unit,
     onGoalSave: () -> Unit,
 ) {
-    val primaryText = "How often do you want to $goalName?"
-    val secondaryText = "You can change this later"
-    val infoText = sliderPosition.getInfoText()
-    val primarySheetText = "Are you sure?"
-    val secondarySheetText =
-        "We recommend you work on your goal a maximum of 5 days per week. You need rest to " +
-            "avoid burnout!"
-    val sheetButtonText = "I'M SURE"
-
     var progress by remember { mutableStateOf(0.5f) }
     val progressAnimDuration = 1_500
 
@@ -84,7 +91,7 @@ fun GoalFrequencyScreenView(
             ) {
                 Text(
                     modifier = Modifier,
-                    text = primarySheetText,
+                    text = stringResource(Res.string.goal_frequency_screen_sheet_title),
                     fontSize = 36.sp,
                     lineHeight = 36.sp,
                     fontWeight = FontWeight.Bold,
@@ -94,7 +101,7 @@ fun GoalFrequencyScreenView(
 
                 Text(
                     modifier = Modifier,
-                    text = secondarySheetText,
+                    text = stringResource(Res.string.goal_frequency_screen_sheet_text),
                     fontSize = 24.sp,
                     lineHeight = 24.sp,
                 )
@@ -102,7 +109,7 @@ fun GoalFrequencyScreenView(
                 Spacer(modifier = Modifier.height(32.dp))
 
                 PrimaryButton(
-                    text = sheetButtonText,
+                    text = stringResource(Res.string.goal_frequency_screen_sheet_button),
                     isEnabled = sliderPosition != 0f,
                     onClick = onGoalSave,
                 )
@@ -134,14 +141,14 @@ fun GoalFrequencyScreenView(
 
         Text(
             modifier = Modifier,
-            text = primaryText,
+            text = stringResource(Res.string.goal_frequency_screen_title, goalName),
             fontSize = 64.sp,
             lineHeight = 72.sp,
             fontWeight = FontWeight.Bold,
         )
         Text(
             modifier = Modifier,
-            text = secondaryText,
+            text = stringResource(Res.string.goal_frequency_screen_description),
             fontSize = 24.sp,
             lineHeight = 36.sp,
         )
@@ -154,7 +161,7 @@ fun GoalFrequencyScreenView(
         ) {
             Text(
                 modifier = Modifier,
-                text = infoText,
+                text = sliderPosition.getInfoText(),
                 fontSize = 36.sp,
                 lineHeight = 48.sp,
                 fontWeight = FontWeight.Bold,
@@ -171,7 +178,7 @@ fun GoalFrequencyScreenView(
         PrimaryButton(
             modifier = Modifier
                 .padding(bottom = 32.dp),
-            text = "SAVE",
+            text = stringResource(Res.string.save_button),
             isEnabled = sliderPosition != 0f,
             onClick = {
                 if (sliderPosition.roundToInt() >= 6) showBottomSheet = true else onGoalSave()
@@ -180,16 +187,17 @@ fun GoalFrequencyScreenView(
     }
 }
 
+@Composable
 private fun Float.getInfoText() =
     when (this.roundToInt()) {
-        0 -> "Zero days a week"
-        1 -> "One day a week"
-        2 -> "Two days a week"
-        3 -> "Three days a week"
-        4 -> "Four days a week"
-        5 -> "Five days a week"
-        6 -> "Six days a week"
-        else -> "Seven days a week"
+        0 -> stringResource(Res.string.zero_days)
+        1 -> stringResource(Res.string.one_day)
+        2 -> stringResource(Res.string.two_days)
+        3 -> stringResource(Res.string.three_days)
+        4 -> stringResource(Res.string.four_days)
+        5 -> stringResource(Res.string.five_days)
+        6 -> stringResource(Res.string.six_days)
+        else -> stringResource(Res.string.seven_days)
     }
 
 @Composable

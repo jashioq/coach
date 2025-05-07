@@ -19,7 +19,15 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coach.composeapp.generated.resources.Res
 import coach.composeapp.generated.resources.placeholderImage
+import coach.composeapp.generated.resources.start_button
+import coach.composeapp.generated.resources.start_screen_text_1
+import coach.composeapp.generated.resources.start_screen_text_2
+import coach.composeapp.generated.resources.start_screen_text_3
+import coach.composeapp.generated.resources.start_screen_text_4
+import coach.composeapp.generated.resources.start_screen_text_5
+import coach.composeapp.generated.resources.start_screen_title
 import org.jetbrains.compose.resources.painterResource
+import org.jetbrains.compose.resources.stringResource
 import presentation.compose.component.button.PrimaryButton
 import presentation.compose.component.text.AnimatedChangeText
 
@@ -27,11 +35,17 @@ import presentation.compose.component.text.AnimatedChangeText
 fun StartScreenView(
     modifier: Modifier = Modifier,
     onPrimaryButtonClick: () -> Unit,
-    text: String,
+    textIndex: Int,
 ) {
-    val primaryText = "Your Daily\nBoost for"
-    val buttonText = "START"
     val painter = painterResource(Res.drawable.placeholderImage)
+
+    val textList = listOf(
+        stringResource(Res.string.start_screen_text_1),
+        stringResource(Res.string.start_screen_text_2),
+        stringResource(Res.string.start_screen_text_3),
+        stringResource(Res.string.start_screen_text_4),
+        stringResource(Res.string.start_screen_text_5),
+    )
 
     Column(
         modifier = modifier
@@ -59,13 +73,13 @@ fun StartScreenView(
         ) {
             Text(
                 modifier = Modifier,
-                text = primaryText,
+                text = stringResource(Res.string.start_screen_title),
                 fontSize = 64.sp,
                 lineHeight = 72.sp,
             )
             AnimatedChangeText(
                 modifier = Modifier,
-                text = text,
+                text = textList[textIndex],
                 fontSize = 64.sp,
                 lineHeight = 36.sp,
                 fontWeight = FontWeight.Bold,
@@ -74,7 +88,7 @@ fun StartScreenView(
 
         PrimaryButton(
             modifier = Modifier.padding(32.dp),
-            text = buttonText,
+            text = stringResource(Res.string.start_button),
             onClick = onPrimaryButtonClick,
         )
     }
