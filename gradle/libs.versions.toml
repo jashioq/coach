@@ -5,7 +5,7 @@ android-minSdk = "24"
 android-targetSdk = "34"
 androidx-activityCompose = "1.10.1"
 androidx-lifecycle = "2.8.4"
-compose-multiplatform = "1.7.0"
+compose-multiplatform = "1.7.3"
 kotlin = "2.1.0"
 kotlinxSerializationJson = "1.6.3"
 ktlint = "12.2.0"
@@ -19,6 +19,9 @@ sqlDelight = "2.0.2"
 coroutinesExtensions = "2.0.2"
 statelyCommon = "2.0.5"
 startupRuntime = "1.1.1"
+foundationLayoutAndroid = "1.7.8"
+uiAndroid = "1.7.8"
+material3Android = "1.3.1"
 
 [libraries]
 androidx-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "androidx-activityCompose" }
@@ -38,6 +41,9 @@ sqldelight-sqlite-driver = { module = "app.cash.sqldelight:sqlite-driver", versi
 coroutines-extensions = { module = "app.cash.sqldelight:coroutines-extensions", version.ref = "coroutinesExtensions" }
 stately-common = { module = "co.touchlab:stately-common", version.ref = "statelyCommon" }
 androidx-startup-runtime = { module = "androidx.startup:startup-runtime", version.ref = "startupRuntime" }
+androidx-foundation-layout-android = { group = "androidx.compose.foundation", name = "foundation-layout-android", version.ref = "foundationLayoutAndroid" }
+androidx-ui-android = { group = "androidx.compose.ui", name = "ui-android", version.ref = "uiAndroid" }
+androidx-material3-android = { group = "androidx.compose.material3", name = "material3-android", version.ref = "material3Android" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }

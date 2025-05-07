@@ -3,8 +3,12 @@ package org.jh.coach
 import App
 import android.os.Bundle
 import androidx.activity.ComponentActivity
+import androidx.activity.SystemBarStyle
 import androidx.activity.compose.setContent
+import androidx.activity.enableEdgeToEdge
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 
 class MainActivity : ComponentActivity() {
@@ -12,6 +16,29 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
 
         setContent {
+            val isDarkTheme = isSystemInDarkTheme()
+
+            enableEdgeToEdge(
+                statusBarStyle =
+                if (isDarkTheme) {
+                    SystemBarStyle.dark(Color.Transparent.hashCode())
+                } else {
+                    SystemBarStyle.light(
+                        Color.Transparent.hashCode(),
+                        Color.Transparent.hashCode(),
+                    )
+                },
+                navigationBarStyle =
+                if (isDarkTheme) {
+                    SystemBarStyle.dark(Color.Transparent.hashCode())
+                } else {
+                    SystemBarStyle.light(
+                        Color.Transparent.hashCode(),
+                        Color.Transparent.hashCode(),
+                    )
+                },
+            )
+
             App()
         }
     }

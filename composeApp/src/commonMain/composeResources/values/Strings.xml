@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<resources>
+    <string name="start_button">START</string>
+    <string name="save_button">SAVE</string>
+    <string name="start_screen_title">Your daily\nboost for</string>
+    <string name="start_screen_text_1">Progress</string>
+    <string name="start_screen_text_2">Victory</string>
+    <string name="start_screen_text_3">Success</string>
+    <string name="start_screen_text_4">Achieving</string>
+    <string name="start_screen_text_5">Mastery</string>
+    <string name="who_are_you_title">Who are you?</string>
+    <string name="enter_name">Enter your name</string>
+    <string name="text_field_placeholder">Aa</string>
+    <string name="goal_name_placeholder_1">exercise</string>
+    <string name="goal_name_placeholder_2">write</string>
+    <string name="goal_name_placeholder_3">meditate</string>
+    <string name="goal_name_placeholder_4">practice</string>
+    <string name="goal_name_placeholder_5">learn</string>
+    <string name="goal_name_placeholder_6">create</string>
+    <string name="goal_name_placeholder_7">focus</string>
+    <string name="goal_name_placeholder_8">paint</string>
+    <string name="goal_name_placeholder_9">code</string>
+    <string name="goal_name_placeholder_10">run</string>
+    <string name="goal_name_screen_title">What is your goal, %1$s?</string>
+    <string name="goal_name_screen_description">Name your goal</string>"
+    <string name="goal_frequency_screen_title">How often do you want to %1$s?</string>
+    <string name="goal_frequency_screen_description">You can change this later</string>
+    <string name="goal_frequency_screen_sheet_title">Are you sure?</string>"
+    <string name="goal_frequency_screen_sheet_text">We recommend you work on your goal a maximum of 5 days per week. You need rest to avoid burnout!</string>
+    <string name="goal_frequency_screen_sheet_button">I'M SURE</string>
+    <string name="zero_days">Zero days</string>
+    <string name="one_day">One day</string>
+    <string name="two_days">Two days</string>
+    <string name="three_days">Three days</string>
+    <string name="four_days">Four days</string>
+    <string name="five_days">Five days</string>
+    <string name="six_days">Six days</string>
+    <string name="seven_days">Seven days</string>
+    <string name="per_week">per week</string>
+</resources>
