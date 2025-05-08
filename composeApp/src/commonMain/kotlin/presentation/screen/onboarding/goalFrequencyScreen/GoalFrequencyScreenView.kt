@@ -13,10 +13,11 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.SliderDefaults
-import androidx.compose.material3.Text
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -50,6 +51,7 @@ import org.jetbrains.compose.resources.stringResource
 import presentation.compose.component.button.PrimaryButton
 import presentation.compose.component.progress.CircularProgressIndicator
 import presentation.compose.component.slider.StepSlider
+import presentation.compose.component.text.Text
 import kotlin.math.roundToInt
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -72,6 +74,12 @@ fun GoalFrequencyScreenView(
     val sheetState = rememberModalBottomSheetState()
     var showBottomSheet by remember { mutableStateOf(false) }
 
+    val sheetButtonColors = ButtonDefaults.buttonColors(
+        containerColor = Color.Black,
+        contentColor = Color.White,
+        disabledContentColor = Color.White,
+    )
+
     LaunchedEffect(LocalLifecycleOwner.current) {
         progress = 0.75f
     }
@@ -90,25 +98,24 @@ fun GoalFrequencyScreenView(
                 horizontalAlignment = Alignment.Start,
             ) {
                 Text(
-                    modifier = Modifier,
+                    color = Color.Black,
                     text = stringResource(Res.string.goal_frequency_screen_sheet_title),
                     fontSize = 36.sp,
-                    lineHeight = 36.sp,
                     fontWeight = FontWeight.Bold,
                 )
 
                 Spacer(modifier = Modifier.height(16.dp))
 
                 Text(
-                    modifier = Modifier,
+                    color = Color.Black,
                     text = stringResource(Res.string.goal_frequency_screen_sheet_text),
-                    fontSize = 24.sp,
                     lineHeight = 24.sp,
                 )
 
                 Spacer(modifier = Modifier.height(32.dp))
 
                 PrimaryButton(
+                    colors = sheetButtonColors,
                     text = stringResource(Res.string.goal_frequency_screen_sheet_button),
                     isEnabled = sliderPosition != 0f,
                     onClick = onGoalSave,
@@ -140,17 +147,13 @@ fun GoalFrequencyScreenView(
         Spacer(modifier = Modifier.height(32.dp))
 
         Text(
-            modifier = Modifier,
             text = stringResource(Res.string.goal_frequency_screen_title, goalName),
             fontSize = 64.sp,
             lineHeight = 72.sp,
             fontWeight = FontWeight.Bold,
         )
         Text(
-            modifier = Modifier,
             text = stringResource(Res.string.goal_frequency_screen_description),
-            fontSize = 24.sp,
-            lineHeight = 36.sp,
         )
 
         Column(
@@ -160,7 +163,6 @@ fun GoalFrequencyScreenView(
             horizontalAlignment = Alignment.Start,
         ) {
             Text(
-                modifier = Modifier,
                 text = sliderPosition.getInfoText(),
                 fontSize = 36.sp,
                 lineHeight = 48.sp,
@@ -204,41 +206,41 @@ private fun Float.getInfoText() =
 private fun Float.GetSliderColors() =
     when (this) {
         0f -> SliderDefaults.colors(
-            thumbColor = Color.Black,
-            activeTrackColor = Color.LightGray,
-            inactiveTickColor = Color.LightGray,
-            inactiveTrackColor = Color.LightGray.copy(alpha = 0.5f),
+            thumbColor = MaterialTheme.colorScheme.primary.copy(alpha = 0.5f),
+            activeTrackColor = MaterialTheme.colorScheme.inversePrimary,
+            inactiveTickColor = MaterialTheme.colorScheme.inversePrimary,
+            activeTickColor = MaterialTheme.colorScheme.primary.copy(alpha = 0.2f),
+            inactiveTrackColor = MaterialTheme.colorScheme.primary.copy(alpha = 0.1f),
         )
 
         in 0f..3f -> SliderDefaults.colors(
-            thumbColor = Color.Black,
-            activeTrackColor = Color.Black,
-            inactiveTickColor = Color.Black,
-            activeTickColor = Color.White,
-            inactiveTrackColor = Color.Gray,
+            thumbColor = MaterialTheme.colorScheme.primary,
+            activeTrackColor = MaterialTheme.colorScheme.primary,
+            inactiveTickColor = MaterialTheme.colorScheme.primary,
+            activeTickColor = MaterialTheme.colorScheme.inversePrimary,
+            inactiveTrackColor = MaterialTheme.colorScheme.primary.copy(alpha = 0.5f),
         )
 
         in 3f..5f -> SliderDefaults.colors(
-            thumbColor = Color.Black,
+            thumbColor = MaterialTheme.colorScheme.primary,
             activeTrackColor = Color(0, 110, 37),
             inactiveTickColor = Color(0, 110, 37),
-            activeTickColor = Color.White,
-            inactiveTrackColor = Color.Gray,
+            activeTickColor = MaterialTheme.colorScheme.inversePrimary,
+            inactiveTrackColor = MaterialTheme.colorScheme.primary.copy(alpha = 0.2f),
         )
 
         6f -> SliderDefaults.colors(
-            thumbColor = Color.Black,
+            thumbColor = MaterialTheme.colorScheme.primary,
             activeTrackColor = Color(143, 100, 0),
             inactiveTickColor = Color(143, 100, 0),
-            activeTickColor = Color.White,
-            inactiveTrackColor = Color.Gray,
+            activeTickColor = MaterialTheme.colorScheme.inversePrimary,
+            inactiveTrackColor = MaterialTheme.colorScheme.primary.copy(alpha = 0.2f),
         )
 
         else -> SliderDefaults.colors(
-            thumbColor = Color.Black,
+            thumbColor = MaterialTheme.colorScheme.primary,
             activeTrackColor = Color(166, 50, 50),
             inactiveTickColor = Color(166, 50, 50),
-            activeTickColor = Color.White,
-            inactiveTrackColor = Color.Gray,
+            activeTickColor = MaterialTheme.colorScheme.inversePrimary,
         )
     }

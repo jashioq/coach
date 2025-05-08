@@ -35,7 +35,6 @@ class HomeScreenViewModel(
         viewModelScope.launch {
             emitAllGoalsUseCase.call().onSuccess {
                 it.collect { goals ->
-                    println("dupa ${goals.size}")
                     _goalId.value = goals.first().id.toString()
                     _goalName.value = goals.first().name
                     _goalFrequency.value = goals.first().frequency.toString()
