@@ -1,8 +1,5 @@
 package presentation.screen.onboarding.nameScreen
 
-import androidx.compose.animation.core.FastOutSlowInEasing
-import androidx.compose.animation.core.animateFloatAsState
-import androidx.compose.animation.core.tween
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -16,11 +13,6 @@ import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.pointer.pointerInput
@@ -29,13 +21,13 @@ import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.compose.LocalLifecycleOwner
 import coach.composeapp.generated.resources.Res
 import coach.composeapp.generated.resources.enter_name
 import coach.composeapp.generated.resources.text_field_placeholder
 import coach.composeapp.generated.resources.who_are_you_title
 import org.jetbrains.compose.resources.stringResource
-import presentation.compose.component.progress.CircularProgressIndicator
+import presentation.compose.component.progress.ProgressIndicatorState
+import presentation.compose.component.progress.SharedProgressIndicator
 import presentation.compose.component.text.Text
 import presentation.compose.component.textField.PillTextField
 
@@ -45,21 +37,10 @@ fun NameScreenView(
     textFieldValue: String,
     onTextFieldValueChange: (String) -> Unit,
     onInputDone: () -> Unit,
+    progressIndicatorState: ProgressIndicatorState,
 ) {
     val keyboardController = LocalSoftwareKeyboardController.current
     val focusManager = LocalFocusManager.current
-
-    var progress by remember { mutableStateOf(0f) }
-    val progressAnimDuration = 1_500
-
-    val progressAnimation by animateFloatAsState(
-        targetValue = progress,
-        animationSpec = tween(durationMillis = progressAnimDuration, easing = FastOutSlowInEasing),
-    )
-
-    LaunchedEffect(LocalLifecycleOwner.current) {
-        progress = 0.25f
-    }
 
     Column(
         modifier = modifier
@@ -85,10 +66,9 @@ fun NameScreenView(
                     .fillMaxWidth(),
                 contentAlignment = Alignment.TopEnd,
             ) {
-                CircularProgressIndicator(
-                    modifier = Modifier
-                        .padding(16.dp),
-                    progress = progressAnimation,
+                SharedProgressIndicator(
+                    modifier = Modifier.padding(16.dp),
+                    progressIndicatorState = progressIndicatorState,
                 )
             }
 

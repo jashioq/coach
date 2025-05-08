@@ -3,14 +3,15 @@ package presentation.screen.onboarding.startScreen
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import domain.model.OnboardingState
-import domain.useCase.EmitOnboardingFinishedUseCase
+import domain.util.UseCase
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
 class StartScreenViewModel(
-    private val emitOnboardingFinishedUseCase: EmitOnboardingFinishedUseCase,
+    private val emitOnboardingFinishedUseCase: UseCase<Unit, Flow<Boolean>>,
 ) : ViewModel() {
     private val _textIndex = MutableStateFlow(4)
     val textIndex = _textIndex.asStateFlow()

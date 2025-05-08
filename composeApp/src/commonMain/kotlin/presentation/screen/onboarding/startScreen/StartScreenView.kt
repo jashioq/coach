@@ -1,7 +1,10 @@
 package presentation.screen.onboarding.startScreen
 
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.displayCutoutPadding
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -11,9 +14,13 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ColorFilter
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coach.composeapp.generated.resources.Res
+import coach.composeapp.generated.resources.blob
 import coach.composeapp.generated.resources.start_button
 import coach.composeapp.generated.resources.start_screen_text_1
 import coach.composeapp.generated.resources.start_screen_text_2
@@ -21,6 +28,7 @@ import coach.composeapp.generated.resources.start_screen_text_3
 import coach.composeapp.generated.resources.start_screen_text_4
 import coach.composeapp.generated.resources.start_screen_text_5
 import coach.composeapp.generated.resources.start_screen_title
+import org.jetbrains.compose.resources.painterResource
 import org.jetbrains.compose.resources.stringResource
 import presentation.compose.component.button.PrimaryButton
 import presentation.compose.component.text.AnimatedChangeText
@@ -32,6 +40,8 @@ fun StartScreenView(
     onPrimaryButtonClick: () -> Unit,
     textIndex: Int,
 ) {
+    val painter = painterResource(Res.drawable.blob)
+    val painterTint = if (isSystemInDarkTheme()) Color.White else Color.Black
     val textList = listOf(
         stringResource(Res.string.start_screen_text_1),
         stringResource(Res.string.start_screen_text_2),
@@ -48,11 +58,21 @@ fun StartScreenView(
         verticalArrangement = Arrangement.SpaceBetween,
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
+        Image(
+            modifier = Modifier
+                .weight(1f, fill = false)
+                .aspectRatio(painter.intrinsicSize.width / painter.intrinsicSize.height)
+                .fillMaxWidth()
+                .padding(horizontal = 32.dp),
+            painter = painter,
+            contentDescription = null,
+            contentScale = ContentScale.Fit,
+            colorFilter = ColorFilter.tint(painterTint),
+        )
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = 32.dp)
-                .padding(top = 96.dp),
+                .padding(32.dp),
         ) {
             Text(
                 text = stringResource(Res.string.start_screen_title),

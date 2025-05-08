@@ -3,12 +3,14 @@ package presentation.screen.onboarding.nameScreen
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import presentation.compose.component.progress.ProgressIndicatorState
 import presentation.koinViewModel
 
 @Composable
 fun NameScreen(
     nameScreenViewModel: NameScreenViewModel = koinViewModel(),
     onNavigateToGoalNameScreen: (String) -> Unit,
+    progressIndicatorState: ProgressIndicatorState,
 ) {
     val name by nameScreenViewModel.name.collectAsState()
 
@@ -25,5 +27,6 @@ fun NameScreen(
                 NameScreenAction.UpdateName(it),
             )
         },
+        progressIndicatorState = progressIndicatorState,
     )
 }
