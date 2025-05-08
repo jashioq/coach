@@ -19,7 +19,7 @@ class GoalFrequencyScreenViewModel(
         when (action) {
             is GoalFrequencyScreenAction.SaveGoal -> {
                 viewModelScope.launch {
-                    addGoalUseCase.call(action.name, action.frequency.toInt())
+                    addGoalUseCase.call(action.name to action.frequency.toInt())
                     setOnboardingFinishedUseCase.call(true)
                 }
             }

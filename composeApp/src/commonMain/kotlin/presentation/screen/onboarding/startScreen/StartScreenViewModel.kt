@@ -22,7 +22,7 @@ class StartScreenViewModel(
 
     init {
         viewModelScope.launch {
-            emitOnboardingFinishedUseCase.call().onSuccess {
+            emitOnboardingFinishedUseCase.call(value = Unit).onSuccess {
                 it.collect { finished ->
                     _onboardingState.value =
                         if (finished) {

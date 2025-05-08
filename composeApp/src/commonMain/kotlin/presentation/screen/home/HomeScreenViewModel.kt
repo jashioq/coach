@@ -26,14 +26,14 @@ class HomeScreenViewModel(
 
     init {
         viewModelScope.launch {
-            emitUserNamePreferenceUseCase.call().onSuccess {
+            emitUserNamePreferenceUseCase.call(value = Unit).onSuccess {
                 it.collect { name ->
                     _userName.value = name
                 }
             }
         }
         viewModelScope.launch {
-            emitAllGoalsUseCase.call().onSuccess {
+            emitAllGoalsUseCase.call(value = Unit).onSuccess {
                 it.collect { goals ->
                     _goalId.value = goals.first().id.toString()
                     _goalName.value = goals.first().name
