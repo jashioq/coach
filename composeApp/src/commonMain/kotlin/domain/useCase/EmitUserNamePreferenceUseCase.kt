@@ -7,7 +7,7 @@ import kotlinx.coroutines.flow.Flow
 
 class EmitUserNamePreferenceUseCase(
     private val dataStoreRepository: DataStoreRepository,
-):UseCase<Unit, Flow<String>> {
+) : UseCase<Unit, Flow<String>> {
     override suspend fun call(value: Unit): Result<Flow<String>> =
         dataStoreRepository.emitStringPreference(
             key = USER_NAME_KEY,

@@ -6,7 +6,7 @@ import domain.util.UseCase
 
 class SetOnboardingFinishedUseCase(
     private val dataStoreRepository: DataStoreRepository,
-): UseCase<Boolean, Unit> {
+) : UseCase<Boolean, Unit> {
     override suspend fun call(value: Boolean): Result<Unit> =
         dataStoreRepository.putBooleanPreference(
             key = ONBOARDING_FINISHED_KEY,
