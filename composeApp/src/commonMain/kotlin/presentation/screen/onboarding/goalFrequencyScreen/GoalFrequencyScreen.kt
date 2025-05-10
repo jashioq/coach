@@ -4,7 +4,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import presentation.compose.component.progress.ProgressIndicatorState
-import presentation.koinViewModel
+import presentation.screen.onboarding.goalFrequencyScreen.viewModel.GoalFrequencyScreenViewModel
+import presentation.util.koinViewModel
 
 @Composable
 fun GoalFrequencyScreen(

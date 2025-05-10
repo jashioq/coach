@@ -1,4 +1,4 @@
-name: scan diff with ktlint
+name: Scan diff with ktlint
 on: [pull_request]
 jobs:
   ktlint:
