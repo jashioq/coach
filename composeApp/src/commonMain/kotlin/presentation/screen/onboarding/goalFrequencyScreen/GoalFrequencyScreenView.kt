@@ -36,6 +36,7 @@ import coach.composeapp.generated.resources.goal_frequency_screen_sheet_text
 import coach.composeapp.generated.resources.goal_frequency_screen_sheet_title
 import coach.composeapp.generated.resources.goal_frequency_screen_title
 import coach.composeapp.generated.resources.one_day
+import coach.composeapp.generated.resources.per_week
 import coach.composeapp.generated.resources.save_button
 import coach.composeapp.generated.resources.seven_days
 import coach.composeapp.generated.resources.six_days
@@ -184,7 +185,7 @@ private fun Float.getInfoText() =
         5 -> stringResource(Res.string.five_days)
         6 -> stringResource(Res.string.six_days)
         else -> stringResource(Res.string.seven_days)
-    }
+    } + stringResource(Res.string.per_week)
 
 @Composable
 private fun Float.GetSliderColors() =

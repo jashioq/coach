@@ -36,5 +36,5 @@
     <string name="five_days">Five days</string>
     <string name="six_days">Six days</string>
     <string name="seven_days">Seven days</string>
-    <string name="per_week">per week</string>
+    <string name="per_week"> per week</string>
 </resources>
