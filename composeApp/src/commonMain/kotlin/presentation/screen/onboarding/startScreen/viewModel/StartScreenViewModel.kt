@@ -1,4 +1,4 @@
-package presentation.screen.onboarding.startScreen
+package presentation.screen.onboarding.startScreen.viewModel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

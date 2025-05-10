@@ -1,4 +1,4 @@
-package presentation.screen.onboarding.goalFrequencyScreen
+package presentation.screen.onboarding.goalFrequencyScreen.viewModel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -6,6 +6,7 @@ import domain.util.UseCase
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import presentation.screen.onboarding.goalFrequencyScreen.GoalFrequencyScreenAction
 
 class GoalFrequencyScreenViewModel(
     private val addGoalUseCase: UseCase<Pair<String, Int>, Unit>,

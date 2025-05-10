@@ -8,6 +8,25 @@ plugins {
     alias(libs.plugins.kotlinSerialization)
     alias(libs.plugins.ktlint)
     alias(libs.plugins.sqlDelight)
+    alias(libs.plugins.kover)
+}
+
+kover {
+    reports {
+        verify {
+            rule {
+                minBound(80)
+            }
+        }
+
+        filters {
+            includes {
+                packages("*data.repository*")
+                packages("*domain.useCase*")
+                packages("*presentation.screen.*.viewModel**")
+            }
+        }
+    }
 }
 
 kotlin {
@@ -60,6 +79,9 @@ kotlin {
         iosMain.dependencies {
             implementation(libs.sqldelight.native.driver)
         }
+        commonTest.dependencies {
+            implementation(kotlin("test"))
+        }
     }
 }
 
@@ -73,6 +95,7 @@ android {
         targetSdk = libs.versions.android.targetSdk.get().toInt()
         versionCode = 1
         versionName = "1.0"
+        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
     packaging {
         resources {
