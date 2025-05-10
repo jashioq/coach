@@ -1,8 +1,5 @@
 package presentation.screen.onboarding.goalFrequencyScreen
 
-import androidx.compose.animation.core.FastOutSlowInEasing
-import androidx.compose.animation.core.animateFloatAsState
-import androidx.compose.animation.core.tween
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -20,7 +17,6 @@ import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.SliderDefaults
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -31,7 +27,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.compose.LocalLifecycleOwner
 import coach.composeapp.generated.resources.Res
 import coach.composeapp.generated.resources.five_days
 import coach.composeapp.generated.resources.four_days
@@ -41,6 +36,7 @@ import coach.composeapp.generated.resources.goal_frequency_screen_sheet_text
 import coach.composeapp.generated.resources.goal_frequency_screen_sheet_title
 import coach.composeapp.generated.resources.goal_frequency_screen_title
 import coach.composeapp.generated.resources.one_day
+import coach.composeapp.generated.resources.per_week
 import coach.composeapp.generated.resources.save_button
 import coach.composeapp.generated.resources.seven_days
 import coach.composeapp.generated.resources.six_days
@@ -49,7 +45,8 @@ import coach.composeapp.generated.resources.two_days
 import coach.composeapp.generated.resources.zero_days
 import org.jetbrains.compose.resources.stringResource
 import presentation.compose.component.button.PrimaryButton
-import presentation.compose.component.progress.CircularProgressIndicator
+import presentation.compose.component.progress.ProgressIndicatorState
+import presentation.compose.component.progress.SharedProgressIndicator
 import presentation.compose.component.slider.StepSlider
 import presentation.compose.component.text.Text
 import kotlin.math.roundToInt
@@ -62,15 +59,8 @@ fun GoalFrequencyScreenView(
     sliderPosition: Float,
     onPositionChange: (Float) -> Unit,
     onGoalSave: () -> Unit,
+    progressIndicatorState: ProgressIndicatorState,
 ) {
-    var progress by remember { mutableStateOf(0.5f) }
-    val progressAnimDuration = 1_500
-
-    val progressAnimation by animateFloatAsState(
-        targetValue = progress,
-        animationSpec = tween(durationMillis = progressAnimDuration, easing = FastOutSlowInEasing),
-    )
-
     val sheetState = rememberModalBottomSheetState()
     var showBottomSheet by remember { mutableStateOf(false) }
 
@@ -79,10 +69,6 @@ fun GoalFrequencyScreenView(
         contentColor = Color.White,
         disabledContentColor = Color.White,
     )
-
-    LaunchedEffect(LocalLifecycleOwner.current) {
-        progress = 0.75f
-    }
 
     if (showBottomSheet) {
         ModalBottomSheet(
@@ -137,10 +123,9 @@ fun GoalFrequencyScreenView(
                 .fillMaxWidth(),
             contentAlignment = Alignment.TopEnd,
         ) {
-            CircularProgressIndicator(
-                modifier = Modifier
-                    .padding(16.dp),
-                progress = progressAnimation,
+            SharedProgressIndicator(
+                modifier = Modifier.padding(16.dp),
+                progressIndicatorState = progressIndicatorState,
             )
         }
 
@@ -200,7 +185,7 @@ private fun Float.getInfoText() =
         5 -> stringResource(Res.string.five_days)
         6 -> stringResource(Res.string.six_days)
         else -> stringResource(Res.string.seven_days)
-    }
+    } + stringResource(Res.string.per_week)
 
 @Composable
 private fun Float.GetSliderColors() =

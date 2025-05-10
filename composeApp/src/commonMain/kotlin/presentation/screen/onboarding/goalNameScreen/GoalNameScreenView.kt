@@ -1,8 +1,5 @@
 package presentation.screen.onboarding.goalNameScreen
 
-import androidx.compose.animation.core.FastOutSlowInEasing
-import androidx.compose.animation.core.animateFloatAsState
-import androidx.compose.animation.core.tween
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -15,18 +12,12 @@ import androidx.compose.foundation.layout.imePadding
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.compose.LocalLifecycleOwner
 import coach.composeapp.generated.resources.Res
 import coach.composeapp.generated.resources.goal_name_placeholder_1
 import coach.composeapp.generated.resources.goal_name_placeholder_10
@@ -41,7 +32,8 @@ import coach.composeapp.generated.resources.goal_name_placeholder_9
 import coach.composeapp.generated.resources.goal_name_screen_description
 import coach.composeapp.generated.resources.goal_name_screen_title
 import org.jetbrains.compose.resources.stringResource
-import presentation.compose.component.progress.CircularProgressIndicator
+import presentation.compose.component.progress.ProgressIndicatorState
+import presentation.compose.component.progress.SharedProgressIndicator
 import presentation.compose.component.text.AnimatedChangeText
 import presentation.compose.component.text.Text
 import presentation.compose.component.textField.PillTextField
@@ -54,6 +46,7 @@ fun GoalNameScreenView(
     onTextFieldValueChange: (String) -> Unit,
     onInputDone: () -> Unit,
     userName: String,
+    progressIndicatorState: ProgressIndicatorState,
 ) {
     val placeholderList = listOf(
         stringResource(Res.string.goal_name_placeholder_1),
@@ -67,18 +60,6 @@ fun GoalNameScreenView(
         stringResource(Res.string.goal_name_placeholder_9),
         stringResource(Res.string.goal_name_placeholder_10),
     )
-
-    var progress by remember { mutableStateOf(0.25f) }
-    val progressAnimDuration = 1_500
-
-    val progressAnimation by animateFloatAsState(
-        targetValue = progress,
-        animationSpec = tween(durationMillis = progressAnimDuration, easing = FastOutSlowInEasing),
-    )
-
-    LaunchedEffect(LocalLifecycleOwner.current) {
-        progress = 0.5f
-    }
 
     Column(
         modifier = modifier
@@ -98,10 +79,9 @@ fun GoalNameScreenView(
                     .fillMaxWidth(),
                 contentAlignment = Alignment.TopEnd,
             ) {
-                CircularProgressIndicator(
-                    modifier = Modifier
-                        .padding(16.dp),
-                    progress = progressAnimation,
+                SharedProgressIndicator(
+                    modifier = Modifier.padding(16.dp),
+                    progressIndicatorState = progressIndicatorState,
                 )
             }
 

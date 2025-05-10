@@ -1,10 +1,12 @@
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.koin.compose.KoinContext
+import presentation.compose.component.progress.ProgressIndicatorState
 import presentation.screen.home.HomeScreen
 import presentation.screen.home.HomeScreenDestination
 import presentation.screen.onboarding.goalFrequencyScreen.GoalFrequencyScreen
@@ -22,6 +24,7 @@ fun App() {
     Theme {
         KoinContext {
             val navController = rememberNavController()
+            val progressIndicatorState = remember { ProgressIndicatorState() }
             NavHost(
                 navController = navController,
                 startDestination = StartScreenDestination,
@@ -39,7 +42,9 @@ fun App() {
                                 HomeScreenDestination,
                             )
                         },
-                    )
+                    ).also {
+                        progressIndicatorState.updateProgress(0f)
+                    }
                 }
 
                 composable<NameScreenDestination> {
@@ -51,7 +56,10 @@ fun App() {
                                 ),
                             )
                         },
-                    )
+                        progressIndicatorState = progressIndicatorState,
+                    ).also {
+                        progressIndicatorState.updateProgress(0.25f)
+                    }
                 }
 
                 composable<GoalNameScreenDestination> {
@@ -65,7 +73,10 @@ fun App() {
                             )
                         },
                         userName = args.userName,
-                    )
+                        progressIndicatorState = progressIndicatorState,
+                    ).also {
+                        progressIndicatorState.updateProgress(0.5f)
+                    }
                 }
 
                 composable<GoalFrequencyScreenDestination> {
@@ -78,7 +89,10 @@ fun App() {
                                 HomeScreenDestination,
                             )
                         },
-                    )
+                        progressIndicatorState = progressIndicatorState,
+                    ).also {
+                        progressIndicatorState.updateProgress(0.75f)
+                    }
                 }
 
                 composable<HomeScreenDestination> {

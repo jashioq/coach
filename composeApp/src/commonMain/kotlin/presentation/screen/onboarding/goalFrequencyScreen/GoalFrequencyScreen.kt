@@ -3,6 +3,7 @@ package presentation.screen.onboarding.goalFrequencyScreen
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import presentation.compose.component.progress.ProgressIndicatorState
 import presentation.koinViewModel
 
 @Composable
@@ -10,6 +11,7 @@ fun GoalFrequencyScreen(
     goalFrequencyScreenViewModel: GoalFrequencyScreenViewModel = koinViewModel(),
     goalName: String,
     onFinishOnboarding: () -> Unit,
+    progressIndicatorState: ProgressIndicatorState,
 ) {
     val goalFrequency by goalFrequencyScreenViewModel.frequency.collectAsState()
 
@@ -30,5 +32,6 @@ fun GoalFrequencyScreen(
             )
             onFinishOnboarding()
         },
+        progressIndicatorState = progressIndicatorState,
     )
 }
