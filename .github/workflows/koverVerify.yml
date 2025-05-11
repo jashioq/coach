@@ -8,6 +8,7 @@ jobs:
       contents: write
       checks: write
       security-events: write
+      pull-requests: write
     steps:
       - uses: actions/checkout@v3
         with:
