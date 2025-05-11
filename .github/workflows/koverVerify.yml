@@ -4,6 +4,10 @@ on: [pull_request]
 jobs:
   coverage:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      checks: write
+      security-events: write
     steps:
       - uses: actions/checkout@v3
         with:
