@@ -10,6 +10,8 @@ jobs:
     uses: ./.github/workflows/ktlint.yml
 
   codeCoverage:
+    permissions:
+      pull-requests: write
     uses: ./.github/workflows/codeCoverage.yml
 
   workflow3:
