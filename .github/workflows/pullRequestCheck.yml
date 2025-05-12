@@ -1,12 +1,17 @@
 name: Run pull request checks
-on: [pull_request]
+
+on:
+  pull_request:
+    branches:
+      - main
+      -
 jobs:
   ktlint:
-    uses: ./ktlint.yml
+    uses: ./.github/workflows/ktlint.yml
 
   codeCoverage:
-    uses: ./codeCoverage.yml
+    uses: ./.github/workflows/codeCoverage.yml
 
   workflow3:
     needs: codeCoverage
-    uses: ./unitTests.yml
+    uses: ./.github/workflows/unitTests.yml
