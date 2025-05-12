@@ -7,7 +7,7 @@ import kotlinx.coroutines.flow.Flow
 
 class EmitGoalUseCase(
     private val dataBaseRepository: DataBaseRepository,
-) : UseCase<String, Flow<Goal>> {
-    override suspend fun call(value: String): Result<Flow<Goal>> =
+) : UseCase<Long, Flow<Goal>> {
+    override suspend fun call(value: Long): Result<Flow<Goal>> =
         dataBaseRepository.fetchGoalById(value)
 }

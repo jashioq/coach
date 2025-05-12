@@ -1,0 +1,19 @@
+name: Run pull request checks
+
+on:
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  ktlint:
+    uses: ./.github/workflows/ktlint.yml
+
+  codeCoverage:
+    permissions:
+      pull-requests: write
+    uses: ./.github/workflows/codeCoverage.yml
+
+  unitTests:
+    needs: codeCoverage
+    uses: ./.github/workflows/unitTests.yml
