@@ -20,7 +20,7 @@ class DeleteGoalUseCaseTest {
     @BeforeTest
     fun beforeTest() {
         cut = DeleteGoalUseCase(
-            dataBaseRepository = dataBaseRepository
+            dataBaseRepository = dataBaseRepository,
         )
     }
 

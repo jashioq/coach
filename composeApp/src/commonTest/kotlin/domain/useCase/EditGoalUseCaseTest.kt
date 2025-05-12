@@ -21,7 +21,7 @@ class EditGoalUseCaseTest {
     @BeforeTest
     fun beforeTest() {
         cut = EditGoalUseCase(
-            dataBaseRepository = dataBaseRepository
+            dataBaseRepository = dataBaseRepository,
         )
     }
 

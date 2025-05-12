@@ -22,7 +22,7 @@ class EmitUserNamePreferenceUseCaseTest {
     @BeforeTest
     fun beforeTest() {
         cut = EmitUserNamePreferenceUseCase(
-            dataStoreRepository = dataStoreRepository
+            dataStoreRepository = dataStoreRepository,
         )
     }
 
@@ -33,7 +33,7 @@ class EmitUserNamePreferenceUseCaseTest {
         everySuspend {
             dataStoreRepository.emitStringPreference(
                 key = USER_NAME_KEY,
-                default = any<String>()
+                default = any<String>(),
             )
         } returns Result.success(testFlow)
 
@@ -45,7 +45,7 @@ class EmitUserNamePreferenceUseCaseTest {
             verifySuspend {
                 dataStoreRepository.emitStringPreference(
                     key = USER_NAME_KEY,
-                    default = ""
+                    default = "",
                 )
                 assertEquals(Result.success(testFlow), result)
             }

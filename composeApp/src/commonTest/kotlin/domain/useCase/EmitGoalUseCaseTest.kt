@@ -22,7 +22,7 @@ class EmitGoalUseCaseTest {
     @BeforeTest
     fun beforeTest() {
         cut = EmitGoalUseCase(
-            dataBaseRepository = dataBaseRepository
+            dataBaseRepository = dataBaseRepository,
         )
     }
 
@@ -34,7 +34,7 @@ class EmitGoalUseCaseTest {
                 id = 1,
                 name = "testName",
                 frequency = 5,
-            )
+            ),
         )
         everySuspend {
             dataBaseRepository.fetchGoalById(any<Long>())

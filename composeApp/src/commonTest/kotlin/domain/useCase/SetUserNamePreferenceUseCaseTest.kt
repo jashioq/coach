@@ -9,8 +9,8 @@ import dev.mokkery.verifySuspend
 import domain.model.USER_NAME_KEY
 import domain.repository.DataStoreRepository
 import kotlinx.coroutines.runBlocking
-import kotlin.test.Test
 import kotlin.test.BeforeTest
+import kotlin.test.Test
 import kotlin.test.assertEquals
 
 class SetUserNamePreferenceUseCaseTest {
@@ -21,7 +21,7 @@ class SetUserNamePreferenceUseCaseTest {
     @BeforeTest
     fun beforeTest() {
         cut = SetUserNamePreferenceUseCase(
-            dataStoreRepository = dataStoreRepository
+            dataStoreRepository = dataStoreRepository,
         )
     }
 
@@ -31,7 +31,7 @@ class SetUserNamePreferenceUseCaseTest {
         everySuspend {
             dataStoreRepository.putStringPreference(
                 key = USER_NAME_KEY,
-                value = any<String>()
+                value = any<String>(),
             )
         } returns Result.success(Unit)
 
@@ -43,7 +43,7 @@ class SetUserNamePreferenceUseCaseTest {
             verifySuspend {
                 dataStoreRepository.putStringPreference(
                     key = USER_NAME_KEY,
-                    value = "test"
+                    value = "test",
                 )
             }
             assertEquals(Result.success(Unit), result)

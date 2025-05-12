@@ -22,7 +22,7 @@ class EmitOnboardingFinishedUseCaseTest {
     @BeforeTest
     fun beforeTest() {
         cut = EmitOnboardingFinishedUseCase(
-            dataStoreRepository = dataStoreRepository
+            dataStoreRepository = dataStoreRepository,
         )
     }
 
@@ -33,7 +33,7 @@ class EmitOnboardingFinishedUseCaseTest {
         everySuspend {
             dataStoreRepository.emitBooleanPreference(
                 key = ONBOARDING_FINISHED_KEY,
-                default = any<Boolean>()
+                default = any<Boolean>(),
             )
         } returns Result.success(testFlow)
 
@@ -45,7 +45,7 @@ class EmitOnboardingFinishedUseCaseTest {
             verifySuspend {
                 dataStoreRepository.emitBooleanPreference(
                     key = ONBOARDING_FINISHED_KEY,
-                    default = false
+                    default = false,
                 )
             }
             assertEquals(Result.success(testFlow), result)
@@ -60,7 +60,7 @@ class EmitOnboardingFinishedUseCaseTest {
         everySuspend {
             dataStoreRepository.emitBooleanPreference(
                 key = ONBOARDING_FINISHED_KEY,
-                default = any<Boolean>()
+                default = any<Boolean>(),
             )
         } returns Result.success(testFlow)
 
@@ -72,7 +72,7 @@ class EmitOnboardingFinishedUseCaseTest {
             verifySuspend {
                 dataStoreRepository.emitBooleanPreference(
                     key = ONBOARDING_FINISHED_KEY,
-                    default = false
+                    default = false,
                 )
             }
             assertEquals(Result.success(testFlow), result)

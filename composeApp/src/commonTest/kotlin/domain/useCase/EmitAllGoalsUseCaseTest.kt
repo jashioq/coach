@@ -21,7 +21,7 @@ class EmitAllGoalsUseCaseTest {
     @BeforeTest
     fun beforeTest() {
         cut = EmitAllGoalsUseCase(
-            dataBaseRepository = dataBaseRepository
+            dataBaseRepository = dataBaseRepository,
         )
     }
 
@@ -39,8 +39,8 @@ class EmitAllGoalsUseCaseTest {
                     id = 2,
                     name = "testName2",
                     frequency = 4,
-                )
-            )
+                ),
+            ),
         )
         everySuspend {
             dataBaseRepository.fetchAllGoals()
