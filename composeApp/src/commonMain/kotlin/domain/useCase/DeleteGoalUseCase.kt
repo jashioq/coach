@@ -5,7 +5,7 @@ import domain.util.UseCase
 
 class DeleteGoalUseCase(
     private val dataBaseRepository: DataBaseRepository,
-) : UseCase<String, Unit> {
-    override suspend fun call(value: String): Result<Unit> =
+) : UseCase<Long, Unit> {
+    override suspend fun call(value: Long): Result<Unit> =
         dataBaseRepository.deleteGoal(value)
 }

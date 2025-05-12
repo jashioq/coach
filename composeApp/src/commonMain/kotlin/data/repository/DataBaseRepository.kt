@@ -26,8 +26,8 @@ class DataBaseRepository(
             }
     }
 
-    override suspend fun fetchGoalById(id: String): Result<Flow<Goal>> = runCatching {
-        database.databaseQueries.selectGoalById(id.toLong())
+    override suspend fun fetchGoalById(id: Long): Result<Flow<Goal>> = runCatching {
+        database.databaseQueries.selectGoalById(id)
             .asFlow()
             .mapToOne(Dispatchers.IO)
             .map { goalDto ->
@@ -46,18 +46,18 @@ class DataBaseRepository(
     }
 
     override suspend fun editGoal(
-        id: String,
+        id: Long,
         name: String,
         frequency: Int,
     ): Result<Unit> = runCatching {
         database.databaseQueries.updateGoal(
-            id = id.toLong(),
+            id = id,
             name = name,
             frequency = frequency.toLong(),
         )
     }
 
-    override suspend fun deleteGoal(id: String): Result<Unit> = runCatching {
-        database.databaseQueries.deleteGoal(id.toLong())
+    override suspend fun deleteGoal(id: Long): Result<Unit> = runCatching {
+        database.databaseQueries.deleteGoal(id)
     }
 }
