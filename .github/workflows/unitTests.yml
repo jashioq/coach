@@ -13,6 +13,6 @@ jobs:
 
       - name: Change wrapper permissions
         run: chmod +x ./gradlew
-      - name: Run ktlint
+      - name: Run unit tests
         run: |
           ./gradlew test

@@ -4,7 +4,7 @@ on:
   pull_request:
     branches:
       - main
-      -
+
 jobs:
   ktlint:
     uses: ./.github/workflows/ktlint.yml
@@ -14,6 +14,6 @@ jobs:
       pull-requests: write
     uses: ./.github/workflows/codeCoverage.yml
 
-  workflow3:
+  unitTests:
     needs: codeCoverage
     uses: ./.github/workflows/unitTests.yml
