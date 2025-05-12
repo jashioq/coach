@@ -1,6 +1,5 @@
 name: Kover diff coverage
-on: [pull_request]
-
+on: workflow_call
 jobs:
   coverage:
     runs-on: ubuntu-latest

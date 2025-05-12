@@ -1,0 +1,12 @@
+name: Run pull request checks
+on: [pull_request]
+jobs:
+  ktlint:
+    uses: ./ktlint.yml
+
+  codeCoverage:
+    uses: ./codeCoverage.yml
+
+  workflow3:
+    needs: codeCoverage
+    uses: ./unitTests.yml
