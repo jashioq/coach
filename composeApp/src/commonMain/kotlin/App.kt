@@ -1,104 +1,37 @@
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
-import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
-import androidx.navigation.compose.rememberNavController
-import androidx.navigation.toRoute
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import co.touchlab.stately.ensureNeverFrozen
+
+import domain.model.OnboardingState
+import navigation.MainNavHost
+import navigation.OnboardingNavHost
+import navigation.viewModel.NavigationViewModel
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.koin.compose.KoinContext
-import presentation.compose.component.progress.ProgressIndicatorState
-import presentation.screen.home.HomeScreen
-import presentation.screen.home.HomeScreenDestination
-import presentation.screen.onboarding.goalFrequencyScreen.GoalFrequencyScreen
-import presentation.screen.onboarding.goalFrequencyScreen.GoalFrequencyScreenDestination
-import presentation.screen.onboarding.goalNameScreen.GoalNameScreen
-import presentation.screen.onboarding.goalNameScreen.GoalNameScreenDestination
-import presentation.screen.onboarding.nameScreen.NameScreen
-import presentation.screen.onboarding.nameScreen.NameScreenDestination
-import presentation.screen.onboarding.startScreen.StartScreen
-import presentation.screen.onboarding.startScreen.StartScreenDestination
+import presentation.koinViewModel
 
 @Composable
 @Preview
 fun App() {
     Theme {
         KoinContext {
-            val navController = rememberNavController()
-            val progressIndicatorState = remember { ProgressIndicatorState() }
-            NavHost(
-                navController = navController,
-                startDestination = StartScreenDestination,
-            ) {
-                composable<StartScreenDestination> {
-                    StartScreen(
-                        onNavigateToNameScreen = {
-                            navController.navigate(
-                                NameScreenDestination,
-                            )
-                        },
-                        onOnboardingFinished = {
-                            navController.popBackStack()
-                            navController.navigate(
-                                HomeScreenDestination,
-                            )
-                        },
-                    ).also {
-                        progressIndicatorState.updateProgress(0f)
-                    }
-                }
-
-                composable<NameScreenDestination> {
-                    NameScreen(
-                        onNavigateToGoalNameScreen = { userName ->
-                            navController.navigate(
-                                GoalNameScreenDestination(
-                                    userName = userName,
-                                ),
-                            )
-                        },
-                        progressIndicatorState = progressIndicatorState,
-                    ).also {
-                        progressIndicatorState.updateProgress(0.25f)
-                    }
-                }
-
-                composable<GoalNameScreenDestination> {
-                    val args = it.toRoute<GoalNameScreenDestination>()
-                    GoalNameScreen(
-                        onNavigateToGoalFrequencyScreen = { goalName ->
-                            navController.navigate(
-                                GoalFrequencyScreenDestination(
-                                    goalName = goalName,
-                                ),
-                            )
-                        },
-                        userName = args.userName,
-                        progressIndicatorState = progressIndicatorState,
-                    ).also {
-                        progressIndicatorState.updateProgress(0.5f)
-                    }
-                }
-
-                composable<GoalFrequencyScreenDestination> {
-                    val args = it.toRoute<GoalFrequencyScreenDestination>()
-                    GoalFrequencyScreen(
-                        goalName = args.goalName,
-                        onFinishOnboarding = {
-                            navController.popBackStack(StartScreenDestination, true)
-                            navController.navigate(
-                                HomeScreenDestination,
-                            )
-                        },
-                        progressIndicatorState = progressIndicatorState,
-                    ).also {
-                        progressIndicatorState.updateProgress(0.75f)
-                    }
-                }
-
-                composable<HomeScreenDestination> {
-                    HomeScreen()
-                }
-            }
+            GetNavHost()
         }
+    }
+}
+
+@Composable
+private fun GetNavHost(
+    navigationViewModel: NavigationViewModel = koinViewModel(),
+) {
+    val onboardingState by navigationViewModel.onboardingState.collectAsState()
+
+    when(onboardingState) {
+        OnboardingState.LOADING -> {
+            // Do nothing
+        }
+        OnboardingState.FINISHED -> MainNavHost()
+        OnboardingState.NOT_FINISHED -> OnboardingNavHost()
     }
 }

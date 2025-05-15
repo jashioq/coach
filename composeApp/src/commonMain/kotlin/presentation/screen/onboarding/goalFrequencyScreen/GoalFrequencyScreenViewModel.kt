@@ -17,9 +17,12 @@ class GoalFrequencyScreenViewModel(
     fun action(action: GoalFrequencyScreenAction) {
         when (action) {
             is GoalFrequencyScreenAction.SaveGoal -> {
+                println("dupa SaveGoal")
+
                 viewModelScope.launch {
                     addGoalUseCase.call(action.name to action.frequency.toInt())
                     setOnboardingFinishedUseCase.call(true)
+                    println("dupa setOnboardingFinishedUseCase")
                 }
             }
 

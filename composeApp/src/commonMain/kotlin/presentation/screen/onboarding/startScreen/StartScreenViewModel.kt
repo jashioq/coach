@@ -10,30 +10,13 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
-class StartScreenViewModel(
-    private val emitOnboardingFinishedUseCase: UseCase<Unit, Flow<Boolean>>,
-) : ViewModel() {
+class StartScreenViewModel : ViewModel() {
     private val _textIndex = MutableStateFlow(4)
     val textIndex = _textIndex.asStateFlow()
-
-    private val _onboardingState = MutableStateFlow(OnboardingState.LOADING)
-    val onboardingState = _onboardingState.asStateFlow()
 
     private var currentIndex = 0
 
     init {
-        viewModelScope.launch {
-            emitOnboardingFinishedUseCase.call(value = Unit).onSuccess {
-                it.collect { finished ->
-                    _onboardingState.value =
-                        if (finished) {
-                            OnboardingState.FINISHED
-                        } else {
-                            OnboardingState.NOT_FINISHED
-                        }
-                }
-            }
-        }
         viewModelScope.launch {
             while (true) {
                 _textIndex.value = currentIndex
