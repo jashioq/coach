@@ -3,7 +3,6 @@ package presentation.screen.onboarding.startScreen
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import domain.model.OnboardingState
 import presentation.koinViewModel
 
 @Composable

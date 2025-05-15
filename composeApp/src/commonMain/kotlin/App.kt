@@ -1,8 +1,6 @@
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import co.touchlab.stately.ensureNeverFrozen
-
 import domain.model.OnboardingState
 import navigation.MainNavHost
 import navigation.OnboardingNavHost
@@ -27,7 +25,7 @@ private fun GetNavHost(
 ) {
     val onboardingState by navigationViewModel.onboardingState.collectAsState()
 
-    when(onboardingState) {
+    when (onboardingState) {
         OnboardingState.LOADING -> {
             // Do nothing
         }
