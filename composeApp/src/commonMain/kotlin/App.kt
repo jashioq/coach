@@ -7,7 +7,7 @@ import navigation.OnboardingNavHost
 import navigation.viewModel.NavigationViewModel
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.koin.compose.KoinContext
-import presentation.koinViewModel
+import presentation.util.koinViewModel
 
 @Composable
 @Preview

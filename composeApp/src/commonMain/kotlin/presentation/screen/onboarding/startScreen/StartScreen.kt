@@ -3,7 +3,8 @@ package presentation.screen.onboarding.startScreen
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import presentation.koinViewModel
+import presentation.screen.onboarding.startScreen.viewModel.StartScreenViewModel
+import presentation.util.koinViewModel
 
 @Composable
 fun StartScreen(
