@@ -12,55 +12,55 @@ import domain.useCase.SetUserNamePreferenceUseCase
 import org.koin.dsl.module
 
 val domainModule = module {
-    single {
+    factory {
         EmitAllGoalsUseCase(
             dataBaseRepository = get(),
         )
     }
 
-    single {
+    factory {
         EmitGoalUseCase(
             dataBaseRepository = get(),
         )
     }
 
-    single {
+    factory {
         AddGoalUseCase(
             dataBaseRepository = get(),
         )
     }
 
-    single {
+    factory {
         EditGoalUseCase(
             dataBaseRepository = get(),
         )
     }
 
-    single {
+    factory {
         DeleteGoalUseCase(
             dataBaseRepository = get(),
         )
     }
 
-    single {
+    factory {
         SetUserNamePreferenceUseCase(
             dataStoreRepository = get(),
         )
     }
 
-    single {
+    factory {
         EmitUserNamePreferenceUseCase(
             dataStoreRepository = get(),
         )
     }
 
-    single {
+    factory {
         SetOnboardingFinishedUseCase(
             dataStoreRepository = get(),
         )
     }
 
-    single {
+    factory {
         EmitOnboardingFinishedUseCase(
             dataStoreRepository = get(),
         )

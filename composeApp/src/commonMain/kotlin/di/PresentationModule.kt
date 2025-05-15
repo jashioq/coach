@@ -6,6 +6,7 @@ import domain.useCase.EmitOnboardingFinishedUseCase
 import domain.useCase.EmitUserNamePreferenceUseCase
 import domain.useCase.SetOnboardingFinishedUseCase
 import domain.useCase.SetUserNamePreferenceUseCase
+import navigation.viewModel.NavigationViewModel
 import org.koin.dsl.module
 import presentation.screen.home.HomeScreenViewModel
 import presentation.screen.onboarding.goalFrequencyScreen.GoalFrequencyScreenViewModel
@@ -14,30 +15,34 @@ import presentation.screen.onboarding.nameScreen.NameScreenViewModel
 import presentation.screen.onboarding.startScreen.StartScreenViewModel
 
 val presentationModule = module {
-    single {
-        StartScreenViewModel(
-            emitOnboardingFinishedUseCase = get<EmitOnboardingFinishedUseCase>(),
-        )
+    factory {
+        StartScreenViewModel()
     }
 
-    single {
+    factory {
         NameScreenViewModel(
             setUserNamePreferenceUseCase = get<SetUserNamePreferenceUseCase>(),
         )
     }
 
-    single {
+    factory {
         GoalNameScreenViewModel()
     }
 
-    single {
+    factory {
         GoalFrequencyScreenViewModel(
             addGoalUseCase = get<AddGoalUseCase>(),
             setOnboardingFinishedUseCase = get<SetOnboardingFinishedUseCase>(),
         )
     }
 
-    single {
+    factory {
+        NavigationViewModel(
+            emitOnboardingFinishedUseCase = get<EmitOnboardingFinishedUseCase>(),
+        )
+    }
+
+    factory {
         HomeScreenViewModel(
             emitUserNamePreferenceUseCase = get<EmitUserNamePreferenceUseCase>(),
             emitAllGoalsUseCase = get<EmitAllGoalsUseCase>(),
