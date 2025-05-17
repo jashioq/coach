@@ -1,39 +1,47 @@
 package presentation.screen.onboarding.goalNameScreen.viewModel
 
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import presentation.screen.onboarding.goalNameScreen.GoalNameScreenAction
+import presentation.screen.onboarding.goalNameScreen.GoalNameScreenState
+import presentation.util.CoreViewModel
 
-class GoalNameScreenViewModel : ViewModel() {
-    private val _goalName = MutableStateFlow("")
-    val goalName = _goalName.asStateFlow()
-
-    private val _goalNamePlaceholderIndex = MutableStateFlow(9)
-    val goalNamePlaceholderIndex = _goalNamePlaceholderIndex.asStateFlow()
-
-    private var currentIndex = 0
-
+class GoalNameScreenViewModel : CoreViewModel<GoalNameScreenState, GoalNameScreenAction>(
+    initialState = GoalNameScreenState(
+        goalName = "",
+        goalNamePlaceholderIndex = 9,
+    ),
+) {
     init {
         viewModelScope.launch {
+            var currentIndex = 0
             while (true) {
-                _goalNamePlaceholderIndex.value = currentIndex
+                _state.update {
+                    it.copy(
+                        goalNamePlaceholderIndex = currentIndex,
+                    )
+                }
+
                 currentIndex = currentIndex.incrementIndex(9)
                 delay(2000)
             }
         }
     }
 
-    fun action(action: GoalNameScreenAction) {
-        when (action) {
-            is GoalNameScreenAction.UpdateGoalName -> {
-                _goalName.value = action.newValue
+    fun dispatch(action: GoalNameScreenAction) =
+        action.process {
+            when (it) {
+                is GoalNameScreenAction.UpdateGoalName -> {
+                    _state.update { state ->
+                        state.copy(
+                            goalName = it.newValue,
+                        )
+                    }
+                }
             }
         }
-    }
 
     private fun Int.incrementIndex(maxIndex: Int): Int =
         if (this >= maxIndex) {

@@ -13,21 +13,21 @@ fun GoalFrequencyScreen(
     goalName: String,
     progressIndicatorState: ProgressIndicatorState,
 ) {
-    val goalFrequency by goalFrequencyScreenViewModel.frequency.collectAsState()
+    val state by goalFrequencyScreenViewModel.state.collectAsState()
 
     GoalFrequencyScreenView(
         goalName = goalName,
-        sliderPosition = goalFrequency,
+        sliderPosition = state.frequency,
         onPositionChange = {
-            goalFrequencyScreenViewModel.action(
+            goalFrequencyScreenViewModel.dispatch(
                 GoalFrequencyScreenAction.UpdateFrequency(it),
             )
         },
         onGoalSave = {
-            goalFrequencyScreenViewModel.action(
+            goalFrequencyScreenViewModel.dispatch(
                 GoalFrequencyScreenAction.SaveGoal(
                     name = goalName,
-                    frequency = goalFrequency,
+                    frequency = state.frequency,
                 ),
             )
         },

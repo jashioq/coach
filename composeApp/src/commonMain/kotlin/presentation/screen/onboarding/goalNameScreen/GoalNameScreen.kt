@@ -14,16 +14,15 @@ fun GoalNameScreen(
     userName: String,
     progressIndicatorState: ProgressIndicatorState,
 ) {
-    val goalName by goalNameScreenViewModel.goalName.collectAsState()
-    val goalNamePlaceholderIndex by goalNameScreenViewModel.goalNamePlaceholderIndex.collectAsState()
+    val state by goalNameScreenViewModel.state.collectAsState()
 
     GoalNameScreenView(
-        textFieldValue = goalName,
-        textFieldPlaceholderIndex = goalNamePlaceholderIndex,
+        textFieldValue = state.goalName,
+        textFieldPlaceholderIndex = state.goalNamePlaceholderIndex,
         userName = userName,
-        onInputDone = { onNavigateToGoalFrequencyScreen(goalName.trim()) },
+        onInputDone = { onNavigateToGoalFrequencyScreen(state.goalName.trim()) },
         onTextFieldValueChange = {
-            goalNameScreenViewModel.action(
+            goalNameScreenViewModel.dispatch(
                 GoalNameScreenAction.UpdateGoalName(it),
             )
         },
