@@ -12,18 +12,18 @@ fun NameScreen(
     onNavigateToGoalNameScreen: (String) -> Unit,
     progressIndicatorState: ProgressIndicatorState,
 ) {
-    val name by nameScreenViewModel.name.collectAsState()
+    val state by nameScreenViewModel.state.collectAsState()
 
     NameScreenView(
-        textFieldValue = name,
+        textFieldValue = state.name,
         onInputDone = {
-            nameScreenViewModel.action(
+            nameScreenViewModel.dispatch(
                 NameScreenAction.SaveName,
             )
-            onNavigateToGoalNameScreen(name.trim())
+            onNavigateToGoalNameScreen(state.name.trim())
         },
         onTextFieldValueChange = {
-            nameScreenViewModel.action(
+            nameScreenViewModel.dispatch(
                 NameScreenAction.UpdateName(it),
             )
         },

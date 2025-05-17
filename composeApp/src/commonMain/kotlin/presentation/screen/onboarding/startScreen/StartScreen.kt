@@ -10,10 +10,10 @@ fun StartScreen(
     startScreenViewModel: StartScreenViewModel = koinViewModel(),
     onNavigateToNameScreen: () -> Unit,
 ) {
-    val textIndex by startScreenViewModel.textIndex.collectAsState()
+    val state by startScreenViewModel.state.collectAsState()
 
     StartScreenView(
-        textIndex = textIndex,
+        textIndex = state.textIndex,
         onPrimaryButtonClick = {
             onNavigateToNameScreen()
         },

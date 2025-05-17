@@ -9,15 +9,12 @@ import presentation.koinViewModel
 fun HomeScreen(
     homeScreenViewModel: HomeScreenViewModel = koinViewModel(),
 ) {
-    val userName by homeScreenViewModel.userName.collectAsState()
-    val goalId by homeScreenViewModel.goalId.collectAsState()
-    val goalName by homeScreenViewModel.goalName.collectAsState()
-    val goalFrequency by homeScreenViewModel.goalFrequency.collectAsState()
+    val state by homeScreenViewModel.state.collectAsState()
 
     HomeScreenView(
-        userName = userName,
-        goalId = goalId,
-        goalName = goalName,
-        goalFrequency = goalFrequency,
+        userName = state.userName,
+        goalId = state.goalId,
+        goalName = state.goalName,
+        goalFrequency = state.goalFrequency,
     )
 }
