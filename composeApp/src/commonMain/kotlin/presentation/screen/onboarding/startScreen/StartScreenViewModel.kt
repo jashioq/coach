@@ -1,22 +1,25 @@
 package presentation.screen.onboarding.startScreen
 
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import presentation.util.CoreViewModel
 
-class StartScreenViewModel : ViewModel() {
-    private val _textIndex = MutableStateFlow(4)
-    val textIndex = _textIndex.asStateFlow()
-
-    private var currentIndex = 0
-
+class StartScreenViewModel : CoreViewModel<StartScreenState, Unit>(
+    initialState = StartScreenState(
+        textIndex = 4,
+    ),
+) {
     init {
         viewModelScope.launch {
+            var currentIndex = 0
             while (true) {
-                _textIndex.value = currentIndex
+                _state.update {
+                    it.copy(
+                        textIndex = currentIndex,
+                    )
+                }
                 currentIndex = currentIndex.incrementIndex(4)
                 delay(2000)
             }
