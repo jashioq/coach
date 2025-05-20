@@ -8,7 +8,7 @@ import dev.mokkery.verifyNoMoreCalls
 import dev.mokkery.verifySuspend
 import domain.model.USER_NAME_KEY
 import domain.repository.DataStoreRepository
-import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.test.runTest
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -36,7 +36,7 @@ class SetUserNamePreferenceUseCaseTest {
         } returns Result.success(Unit)
 
         // WHEN use case is called
-        runBlocking {
+        runTest {
             val result = useCase.call("test")
 
             // THEN calls datastore once with correct parameters and returns correct result
