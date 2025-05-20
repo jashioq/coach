@@ -1,7 +1,7 @@
 package presentation.screen.onboarding.nameScreen.viewModel
 
-import androidx.lifecycle.viewModelScope
 import domain.util.UseCase
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import presentation.screen.onboarding.nameScreen.NameScreenAction
@@ -10,10 +10,12 @@ import presentation.util.CoreViewModel
 
 class NameScreenViewModel(
     private val setUserNamePreferenceUseCase: UseCase<String, Unit>,
+    scope: CoroutineScope? = null,
 ) : CoreViewModel<NameScreenState, NameScreenAction>(
     initialState = NameScreenState(
         name = "",
     ),
+    scope = scope,
 ) {
     fun dispatch(action: NameScreenAction) =
         action.process {
@@ -27,7 +29,7 @@ class NameScreenViewModel(
                 }
 
                 NameScreenAction.SaveName -> {
-                    viewModelScope.launch {
+                    vmScope.launch {
                         setUserNamePreferenceUseCase.call(state.value.name.trim())
                     }
                 }

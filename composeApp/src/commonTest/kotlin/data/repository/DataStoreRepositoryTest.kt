@@ -15,7 +15,7 @@ import dev.mokkery.verifyNoMoreCalls
 import domain.repository.DataStoreRepository
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.flowOf
-import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.test.runTest
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -23,10 +23,10 @@ import kotlin.test.assertNotNull
 
 class DataStoreRepositoryTest {
     private val dataStore = mock<DataStore<Preferences>>()
-    private lateinit var cut: DataStoreRepository
+
+    private lateinit var repository: DataStoreRepository
 
     private val testKey = "testKey"
-
     private val testIntValue = 5
     private val testStringValue = "testStringValue"
     private val testBooleanValue = true
@@ -34,84 +34,81 @@ class DataStoreRepositoryTest {
 
     @BeforeTest
     fun setUp() {
-        cut = DataStoreRepository(dataStore)
+        repository = DataStoreRepository(dataStore)
     }
 
     @Test
-    fun `calls datastore and emits correct flow of Int`() {
-        runBlocking {
-            // GIVEN preference is in datastore
-            every {
-                dataStore.data
-            } returns flowOf(
-                mutablePreferencesOf(intPreferencesKey(testKey) to testIntValue)
-            )
+    fun `calls datastore and emits correct flow of Int`() = runTest {
+        // GIVEN preference is in datastore
+        every {
+            dataStore.data
+        } returns flowOf(
+            mutablePreferencesOf(intPreferencesKey(testKey) to testIntValue)
+        )
 
-            // WHEN use case is called
-            val resultFlow = cut.emitIntPreference(testKey, 0).getOrNull()
+        // WHEN use case is called
+        val resultFlow = repository.emitIntPreference(testKey, 0).getOrNull()
 
-            // THEN datastore is called once and emitted flow is correct
-            verify {
-                dataStore.data
-            }
-            assertNotNull(resultFlow, "Emitted flow should not be null")
-            val emittedValue = resultFlow.firstOrNull()
-            assertEquals(Result.success(testIntValue).getOrNull(), emittedValue)
-            verifyNoMoreCalls(dataStore)
+        // THEN datastore is called once and emitted flow is correct
+        verify {
+            dataStore.data
         }
+        assertNotNull(resultFlow, "Emitted flow should not be null")
+        val emittedValue = resultFlow.firstOrNull()
+        assertEquals(Result.success(testIntValue).getOrNull(), emittedValue)
+        verifyNoMoreCalls(dataStore)
     }
 
+
     @Test
-    fun `calls datastore and emits correct flow of String`() {
-        runBlocking {
-            // GIVEN preference is in datastore
-            every {
-                dataStore.data
-            } returns flowOf(
-                mutablePreferencesOf(stringPreferencesKey(testKey) to testStringValue)
-            )
+    fun `calls datastore and emits correct flow of String`() = runTest {
+        // GIVEN preference is in datastore
+        every {
+            dataStore.data
+        } returns flowOf(
+            mutablePreferencesOf(stringPreferencesKey(testKey) to testStringValue)
+        )
 
-            // WHEN use case is called
-            val resultFlow = cut.emitStringPreference(testKey, "").getOrNull()
+        // WHEN use case is called
+        val resultFlow = repository.emitStringPreference(testKey, "").getOrNull()
 
-            // THEN datastore is called once and emitted flow is correct
-            verify {
-                dataStore.data
-            }
-            assertNotNull(resultFlow, "Emitted flow should not be null")
-            val emittedValue = resultFlow.firstOrNull()
-            assertEquals(Result.success(testStringValue).getOrNull(), emittedValue)
-            verifyNoMoreCalls(dataStore)
+        // THEN datastore is called once and emitted flow is correct
+        verify {
+            dataStore.data
         }
+        assertNotNull(resultFlow, "Emitted flow should not be null")
+        val emittedValue = resultFlow.firstOrNull()
+        assertEquals(Result.success(testStringValue).getOrNull(), emittedValue)
+        verifyNoMoreCalls(dataStore)
     }
 
+
     @Test
-    fun `calls datastore and emits correct flow of Boolean`() {
-        runBlocking {
-            // GIVEN preference is in datastore
-            every {
-                dataStore.data
-            } returns flowOf(
-                mutablePreferencesOf(booleanPreferencesKey(testKey) to testBooleanValue)
-            )
+    fun `calls datastore and emits correct flow of Boolean`() = runTest {
+        // GIVEN preference is in datastore
+        every {
+            dataStore.data
+        } returns flowOf(
+            mutablePreferencesOf(booleanPreferencesKey(testKey) to testBooleanValue)
+        )
 
-            // WHEN use case is called
-            val resultFlow = cut.emitBooleanPreference(testKey, false).getOrNull()
+        // WHEN use case is called
+        val resultFlow = repository.emitBooleanPreference(testKey, false).getOrNull()
 
-            // THEN datastore is called once and emitted flow is correct
-            verify {
-                dataStore.data
-            }
-            assertNotNull(resultFlow, "Emitted flow should not be null")
-            val emittedValue = resultFlow.firstOrNull()
-            assertEquals(Result.success(testBooleanValue).getOrNull(), emittedValue)
-            verifyNoMoreCalls(dataStore)
+        // THEN datastore is called once and emitted flow is correct
+        verify {
+            dataStore.data
         }
+        assertNotNull(resultFlow, "Emitted flow should not be null")
+        val emittedValue = resultFlow.firstOrNull()
+        assertEquals(Result.success(testBooleanValue).getOrNull(), emittedValue)
+        verifyNoMoreCalls(dataStore)
     }
 
+
     @Test
-    fun `calls datastore and emits correct flow of Float`() {
-        runBlocking {
+    fun `calls datastore and emits correct flow of Float`() =
+        runTest {
             // GIVEN preference is in datastore
             every {
                 dataStore.data
@@ -120,7 +117,7 @@ class DataStoreRepositoryTest {
             )
 
             // WHEN use case is called
-            val resultFlow = cut.emitFloatPreference(testKey, 0.0f).getOrNull()
+            val resultFlow = repository.emitFloatPreference(testKey, 0.0f).getOrNull()
 
             // THEN datastore is called once and emitted flow is correct
             verify {
@@ -131,5 +128,4 @@ class DataStoreRepositoryTest {
             assertEquals(Result.success(testFloatValue).getOrNull(), emittedValue)
             verifyNoMoreCalls(dataStore)
         }
-    }
 }

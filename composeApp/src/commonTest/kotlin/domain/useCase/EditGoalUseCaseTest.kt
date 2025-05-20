@@ -8,7 +8,7 @@ import dev.mokkery.verifyNoMoreCalls
 import dev.mokkery.verifySuspend
 import domain.model.Goal
 import domain.repository.DataBaseRepository
-import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.test.runTest
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -16,11 +16,11 @@ import kotlin.test.assertEquals
 class EditGoalUseCaseTest {
     private val dataBaseRepository = mock<DataBaseRepository>()
 
-    private lateinit var cut: EditGoalUseCase
+    private lateinit var useCase: EditGoalUseCase
 
     @BeforeTest
     fun beforeTest() {
-        cut = EditGoalUseCase(
+        useCase = EditGoalUseCase(
             dataBaseRepository = dataBaseRepository,
         )
     }
@@ -37,9 +37,9 @@ class EditGoalUseCaseTest {
             dataBaseRepository.editGoal(any<Long>(), any<String>(), any<Int>())
         } returns Result.success(Unit)
 
-        runBlocking {
+        runTest {
             // WHEN use case is called
-            val result = cut.call(testGoal)
+            val result = useCase.call(testGoal)
 
             // THEN calls database once with correct parameters
             verifySuspend {

@@ -8,7 +8,7 @@ import dev.mokkery.verifyNoMoreCalls
 import dev.mokkery.verifySuspend
 import domain.model.ONBOARDING_FINISHED_KEY
 import domain.repository.DataStoreRepository
-import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.test.runTest
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -16,11 +16,11 @@ import kotlin.test.assertEquals
 class SetOnboardingFinishedUseCaseTest {
     private val dataStoreRepository = mock<DataStoreRepository>()
 
-    private lateinit var cut: SetOnboardingFinishedUseCase
+    private lateinit var useCase: SetOnboardingFinishedUseCase
 
     @BeforeTest
     fun beforeTest() {
-        cut = SetOnboardingFinishedUseCase(
+        useCase = SetOnboardingFinishedUseCase(
             dataStoreRepository = dataStoreRepository,
         )
     }
@@ -36,8 +36,8 @@ class SetOnboardingFinishedUseCaseTest {
         } returns Result.success(Unit)
 
         // WHEN use case is called with true
-        runBlocking {
-            val result = cut.call(true)
+        runTest {
+            val result = useCase.call(true)
 
             // THEN calls datastore once with true
             verifySuspend {
@@ -50,8 +50,8 @@ class SetOnboardingFinishedUseCaseTest {
         }
 
         // WHEN use case is called with false
-        runBlocking {
-            val result = cut.call(false)
+        runTest {
+            val result = useCase.call(false)
 
             // THEN calls datastore once with false
             verifySuspend {

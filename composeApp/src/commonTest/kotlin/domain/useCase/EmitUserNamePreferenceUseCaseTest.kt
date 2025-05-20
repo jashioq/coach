@@ -9,7 +9,7 @@ import dev.mokkery.verifySuspend
 import domain.model.USER_NAME_KEY
 import domain.repository.DataStoreRepository
 import kotlinx.coroutines.flow.flowOf
-import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.test.runTest
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -17,11 +17,11 @@ import kotlin.test.assertEquals
 class EmitUserNamePreferenceUseCaseTest {
     private val dataStoreRepository = mock<DataStoreRepository>()
 
-    private lateinit var cut: EmitUserNamePreferenceUseCase
+    private lateinit var useCase: EmitUserNamePreferenceUseCase
 
     @BeforeTest
     fun beforeTest() {
-        cut = EmitUserNamePreferenceUseCase(
+        useCase = EmitUserNamePreferenceUseCase(
             dataStoreRepository = dataStoreRepository,
         )
     }
@@ -37,9 +37,9 @@ class EmitUserNamePreferenceUseCaseTest {
             )
         } returns Result.success(testFlow)
 
-        runBlocking {
+        runTest {
             // WHEN use case is called
-            val result = cut.call(Unit)
+            val result = useCase.call(Unit)
 
             // THEN calls the datastore once with correct parameters and returns correct result
             verifySuspend {

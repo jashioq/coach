@@ -1,6 +1,6 @@
 package presentation.screen.onboarding.goalNameScreen.viewModel
 
-import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
@@ -8,14 +8,17 @@ import presentation.screen.onboarding.goalNameScreen.GoalNameScreenAction
 import presentation.screen.onboarding.goalNameScreen.GoalNameScreenState
 import presentation.util.CoreViewModel
 
-class GoalNameScreenViewModel : CoreViewModel<GoalNameScreenState, GoalNameScreenAction>(
+class GoalNameScreenViewModel(
+    scope: CoroutineScope? = null,
+) : CoreViewModel<GoalNameScreenState, GoalNameScreenAction>(
     initialState = GoalNameScreenState(
         goalName = "",
         goalNamePlaceholderIndex = 9,
     ),
+    scope = scope,
 ) {
     init {
-        viewModelScope.launch {
+        vmScope.launch {
             var currentIndex = 0
             while (true) {
                 _state.update {

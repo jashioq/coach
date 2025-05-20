@@ -16,11 +16,11 @@ import kotlin.test.assertEquals
 class SetUserNamePreferenceUseCaseTest {
     private val dataStoreRepository = mock<DataStoreRepository>()
 
-    private lateinit var cut: SetUserNamePreferenceUseCase
+    private lateinit var useCase: SetUserNamePreferenceUseCase
 
     @BeforeTest
     fun beforeTest() {
-        cut = SetUserNamePreferenceUseCase(
+        useCase = SetUserNamePreferenceUseCase(
             dataStoreRepository = dataStoreRepository,
         )
     }
@@ -37,7 +37,7 @@ class SetUserNamePreferenceUseCaseTest {
 
         // WHEN use case is called
         runBlocking {
-            val result = cut.call("test")
+            val result = useCase.call("test")
 
             // THEN calls datastore once with correct parameters and returns correct result
             verifySuspend {

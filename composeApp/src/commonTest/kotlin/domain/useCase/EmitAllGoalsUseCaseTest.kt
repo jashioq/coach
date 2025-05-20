@@ -8,7 +8,7 @@ import dev.mokkery.verifySuspend
 import domain.model.Goal
 import domain.repository.DataBaseRepository
 import kotlinx.coroutines.flow.flowOf
-import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.test.runTest
 import kotlin.test.BeforeTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -16,11 +16,11 @@ import kotlin.test.assertEquals
 class EmitAllGoalsUseCaseTest {
     private val dataBaseRepository = mock<DataBaseRepository>()
 
-    private lateinit var cut: EmitAllGoalsUseCase
+    private lateinit var useCase: EmitAllGoalsUseCase
 
     @BeforeTest
     fun beforeTest() {
-        cut = EmitAllGoalsUseCase(
+        useCase = EmitAllGoalsUseCase(
             dataBaseRepository = dataBaseRepository,
         )
     }
@@ -46,9 +46,9 @@ class EmitAllGoalsUseCaseTest {
             dataBaseRepository.fetchAllGoals()
         } returns Result.success(testResult)
 
-        runBlocking {
+        runTest {
             // WHEN use case is called
-            val result = cut.call(Unit)
+            val result = useCase.call(Unit)
 
             // THEN calls database once and returns correct result
             verifySuspend {
@@ -67,9 +67,9 @@ class EmitAllGoalsUseCaseTest {
             dataBaseRepository.fetchAllGoals()
         } returns Result.failure(testExpectation)
 
-        runBlocking {
+        runTest {
             // WHEN use case is called
-            val result = cut.call(Unit)
+            val result = useCase.call(Unit)
 
             // THEN calls database once and returns failure
             verifySuspend {

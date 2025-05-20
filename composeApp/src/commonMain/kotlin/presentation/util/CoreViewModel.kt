@@ -1,16 +1,21 @@
 package presentation.util
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import util.Logger
 
 open class CoreViewModel<S, A>(
     initialState: S,
+    scope: CoroutineScope?,
 ) : ViewModel() {
     @Suppress("PropertyName")
     val _state = MutableStateFlow(initialState)
     val state = _state.asStateFlow()
+
+    val vmScope = scope ?: viewModelScope
 
     private val tag = this::class.simpleName.toString()
 
