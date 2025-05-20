@@ -43,7 +43,7 @@ class DataStoreRepositoryTest {
         every {
             dataStore.data
         } returns flowOf(
-            mutablePreferencesOf(intPreferencesKey(testKey) to testIntValue)
+            mutablePreferencesOf(intPreferencesKey(testKey) to testIntValue),
         )
 
         // WHEN use case is called
@@ -59,14 +59,13 @@ class DataStoreRepositoryTest {
         verifyNoMoreCalls(dataStore)
     }
 
-
     @Test
     fun `calls datastore and emits correct flow of String`() = runTest {
         // GIVEN preference is in datastore
         every {
             dataStore.data
         } returns flowOf(
-            mutablePreferencesOf(stringPreferencesKey(testKey) to testStringValue)
+            mutablePreferencesOf(stringPreferencesKey(testKey) to testStringValue),
         )
 
         // WHEN use case is called
@@ -82,14 +81,13 @@ class DataStoreRepositoryTest {
         verifyNoMoreCalls(dataStore)
     }
 
-
     @Test
     fun `calls datastore and emits correct flow of Boolean`() = runTest {
         // GIVEN preference is in datastore
         every {
             dataStore.data
         } returns flowOf(
-            mutablePreferencesOf(booleanPreferencesKey(testKey) to testBooleanValue)
+            mutablePreferencesOf(booleanPreferencesKey(testKey) to testBooleanValue),
         )
 
         // WHEN use case is called
@@ -105,7 +103,6 @@ class DataStoreRepositoryTest {
         verifyNoMoreCalls(dataStore)
     }
 
-
     @Test
     fun `calls datastore and emits correct flow of Float`() =
         runTest {
@@ -113,7 +110,7 @@ class DataStoreRepositoryTest {
             every {
                 dataStore.data
             } returns flowOf(
-                mutablePreferencesOf(floatPreferencesKey(testKey) to testFloatValue)
+                mutablePreferencesOf(floatPreferencesKey(testKey) to testFloatValue),
             )
 
             // WHEN use case is called

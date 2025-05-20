@@ -37,7 +37,6 @@ class StartScreenViewModelTest {
 
             assertEquals(0, viewModel.state.value.textIndex)
 
-
 //            for (i in 0 until 4) {
 //                assertEquals(i, viewModel.state.value.textIndex)
 //                testScheduler.advanceTimeBy(2000)
