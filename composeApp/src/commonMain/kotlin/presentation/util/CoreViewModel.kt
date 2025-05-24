@@ -28,6 +28,4 @@ open class CoreViewModel<S, A>(
         logger.d(tag, "Processing action: $this")
         processor.invoke(this)
     }
-
-    fun foo() {}
 }
