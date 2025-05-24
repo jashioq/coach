@@ -1,0 +1,41 @@
+name: Kover diff coverage
+
+on: workflow_call
+
+jobs:
+  coverage:
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Set up Gradle
+        uses: gradle/actions/setup-gradle@v3
+
+      - name: Change wrapper permissions
+        run: chmod +x ./gradlew
+
+      - name: Generate Kover Report
+        run: |
+          ./gradlew koverXmlReport
+          git diff origin/${{ github.base_ref }}...origin/${{ github.head_ref }} > pr.diff
+
+      - name: Compute Diff Coverage
+        id: coverageCheck
+        uses: mi-kas/kover-report@v1
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          path: ${{ github.workspace }}/composeApp/build/reports/kover/report.xml
+          title: Code Coverage
+          update-comment: false
+          min-coverage-changed-files: 75
+          coverage-counter-type: LINE
+
+      - name: Fail if coverage below threshold
+        if: ${{ steps.coverageCheck.outputs['coverage-changed-files'] < 75 }}
+        run: |
+          echo "Coverage below minimum threshold of 75%"
+          exit 1

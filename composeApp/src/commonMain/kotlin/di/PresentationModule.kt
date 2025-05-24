@@ -8,11 +8,11 @@ import domain.useCase.SetOnboardingFinishedUseCase
 import domain.useCase.SetUserNamePreferenceUseCase
 import navigation.viewModel.NavigationViewModel
 import org.koin.dsl.module
-import presentation.screen.home.HomeScreenViewModel
-import presentation.screen.onboarding.goalFrequencyScreen.GoalFrequencyScreenViewModel
-import presentation.screen.onboarding.goalNameScreen.GoalNameScreenViewModel
-import presentation.screen.onboarding.nameScreen.NameScreenViewModel
-import presentation.screen.onboarding.startScreen.StartScreenViewModel
+import presentation.screen.home.viewModel.HomeScreenViewModel
+import presentation.screen.onboarding.goalFrequencyScreen.viewModel.GoalFrequencyScreenViewModel
+import presentation.screen.onboarding.goalNameScreen.viewModel.GoalNameScreenViewModel
+import presentation.screen.onboarding.nameScreen.viewModel.NameScreenViewModel
+import presentation.screen.onboarding.startScreen.viewModel.StartScreenViewModel
 
 val presentationModule = module {
     factory {

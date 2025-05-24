@@ -1,19 +1,28 @@
-package presentation.screen.onboarding.goalNameScreen
+package presentation.screen.onboarding.goalNameScreen.viewModel
 
-import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import presentation.screen.onboarding.goalNameScreen.GoalNameScreenAction
+import presentation.screen.onboarding.goalNameScreen.GoalNameScreenState
 import presentation.util.CoreViewModel
+import util.Logger
+import util.extension.incrementIndex
 
-class GoalNameScreenViewModel : CoreViewModel<GoalNameScreenState, GoalNameScreenAction>(
+class GoalNameScreenViewModel(
+    scope: CoroutineScope? = null,
+    logger: Logger? = null,
+) : CoreViewModel<GoalNameScreenState, GoalNameScreenAction>(
     initialState = GoalNameScreenState(
         goalName = "",
         goalNamePlaceholderIndex = 9,
     ),
+    scope = scope,
+    logger = logger,
 ) {
     init {
-        viewModelScope.launch {
+        vmScope.launch {
             var currentIndex = 0
             while (true) {
                 _state.update {
@@ -39,12 +48,5 @@ class GoalNameScreenViewModel : CoreViewModel<GoalNameScreenState, GoalNameScree
                     }
                 }
             }
-        }
-
-    private fun Int.incrementIndex(maxIndex: Int): Int =
-        if (this >= maxIndex) {
-            0
-        } else {
-            this + 1
         }
 }

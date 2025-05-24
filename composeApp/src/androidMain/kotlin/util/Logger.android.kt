@@ -2,8 +2,8 @@ package util
 
 import android.util.Log
 
-actual object Logger {
-    actual fun e(tag: String, message: String, throwable: Throwable?) {
+actual open class Logger {
+    actual open fun e(tag: String, message: String, throwable: Throwable?) {
         if (throwable != null) {
             Log.e(tag, message, throwable)
         } else {
@@ -11,11 +11,11 @@ actual object Logger {
         }
     }
 
-    actual fun d(tag: String, message: String) {
+    actual open fun d(tag: String, message: String) {
         Log.d(tag, message)
     }
 
-    actual fun i(tag: String, message: String) {
+    actual open fun i(tag: String, message: String) {
         Log.i(tag, message)
     }
 }

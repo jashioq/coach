@@ -1,5 +1,7 @@
-name: scan diff with ktlint
-on: [pull_request]
+name: Scan diff with ktlint
+
+on: workflow_call
+
 jobs:
   ktlint:
     name: Check Code Quality

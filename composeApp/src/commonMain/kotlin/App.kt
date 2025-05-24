@@ -7,7 +7,7 @@ import navigation.OnboardingNavHost
 import navigation.viewModel.NavigationViewModel
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import org.koin.compose.KoinContext
-import presentation.koinViewModel
+import presentation.util.koinViewModel
 
 @Composable
 @Preview
@@ -23,7 +23,7 @@ fun App() {
 private fun GetNavHost(
     navigationViewModel: NavigationViewModel = koinViewModel(),
 ) {
-    val onboardingState by navigationViewModel.onboardingState.collectAsState()
+    val onboardingState by navigationViewModel.state.collectAsState()
 
     when (onboardingState) {
         OnboardingState.LOADING -> {

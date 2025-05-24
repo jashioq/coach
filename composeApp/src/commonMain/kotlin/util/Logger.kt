@@ -1,7 +1,7 @@
 package util
 
-expect object Logger {
-    fun e(tag: String, message: String, throwable: Throwable? = null)
-    fun d(tag: String, message: String)
-    fun i(tag: String, message: String)
+expect open class Logger() {
+    open fun e(tag: String, message: String, throwable: Throwable?)
+    open fun d(tag: String, message: String)
+    open fun i(tag: String, message: String)
 }

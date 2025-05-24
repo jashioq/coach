@@ -1,15 +1,20 @@
-package presentation.screen.home
+package presentation.screen.home.viewModel
 
-import androidx.lifecycle.viewModelScope
-import domain.useCase.EmitAllGoalsUseCase
-import domain.useCase.EmitUserNamePreferenceUseCase
+import domain.model.Goal
+import domain.util.UseCase
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import presentation.screen.home.HomeScreenState
 import presentation.util.CoreViewModel
+import util.Logger
 
 class HomeScreenViewModel(
-    private val emitUserNamePreferenceUseCase: EmitUserNamePreferenceUseCase,
-    private val emitAllGoalsUseCase: EmitAllGoalsUseCase,
+    private val emitUserNamePreferenceUseCase: UseCase<Unit, Flow<String>>,
+    private val emitAllGoalsUseCase: UseCase<Unit, Flow<List<Goal>>>,
+    scope: CoroutineScope? = null,
+    logger: Logger? = null,
 ) : CoreViewModel<HomeScreenState, Unit>(
     initialState = HomeScreenState(
         userName = "",
@@ -17,9 +22,11 @@ class HomeScreenViewModel(
         goalName = "",
         goalFrequency = "",
     ),
+    scope = scope,
+    logger = logger,
 ) {
     init {
-        viewModelScope.launch {
+        vmScope.launch {
             emitUserNamePreferenceUseCase.call(value = Unit).onSuccess {
                 it.collect { name ->
                     _state.update { state ->
@@ -30,7 +37,7 @@ class HomeScreenViewModel(
                 }
             }
         }
-        viewModelScope.launch {
+        vmScope.launch {
             emitAllGoalsUseCase.call(value = Unit).onSuccess {
                 it.collect { goals ->
                     _state.update { state ->
