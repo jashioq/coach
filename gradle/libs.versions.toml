@@ -22,6 +22,7 @@ startupRuntime = "1.1.1"
 uiAndroid = "1.7.8"
 material3Android = "1.3.1"
 kvoer = "0.8.0"
+mokkery = "2.7.2"
 
 [libraries]
 androidx-activity-compose = { module = "androidx.activity:activity-compose", version.ref = "androidx-activityCompose" }
@@ -53,3 +54,4 @@ kotlinSerialization = { id = "org.jetbrains.kotlin.plugin.serialization", versio
 ktlint = { id = "org.jlleitschuh.gradle.ktlint", version.ref = "ktlint" }
 sqlDelight = { id = "app.cash.sqldelight", version.ref = "sqlDelight" }
 kover = {id = "org.jetbrains.kotlinx.kover", version.ref = "kvoer"}
+mokkery = { id = "dev.mokkery", version.ref = "mokkery"}

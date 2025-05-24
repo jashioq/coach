@@ -9,8 +9,7 @@ plugins {
     alias(libs.plugins.ktlint)
     alias(libs.plugins.sqlDelight)
     alias(libs.plugins.kover)
-
-    id("dev.mokkery") version "2.7.2"
+    alias(libs.plugins.mokkery)
 }
 
 kover {
