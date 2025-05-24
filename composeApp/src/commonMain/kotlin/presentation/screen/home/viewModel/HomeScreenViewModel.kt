@@ -8,11 +8,13 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import presentation.screen.home.HomeScreenState
 import presentation.util.CoreViewModel
+import util.Logger
 
 class HomeScreenViewModel(
     private val emitUserNamePreferenceUseCase: UseCase<Unit, Flow<String>>,
     private val emitAllGoalsUseCase: UseCase<Unit, Flow<List<Goal>>>,
     scope: CoroutineScope? = null,
+    logger: Logger? = null,
 ) : CoreViewModel<HomeScreenState, Unit>(
     initialState = HomeScreenState(
         userName = "",
@@ -21,6 +23,7 @@ class HomeScreenViewModel(
         goalFrequency = "",
     ),
     scope = scope,
+    logger = logger,
 ) {
     init {
         vmScope.launch {

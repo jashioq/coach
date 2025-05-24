@@ -1,37 +1,23 @@
 package presentation.screen.onboarding.startScreen.viewModel
 
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.advanceTimeBy
-import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.runTest
-import kotlinx.coroutines.test.setMain
-import kotlin.test.AfterTest
-import kotlin.test.BeforeTest
+import util.ViewModelTest
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-@OptIn(ExperimentalCoroutinesApi::class)
-class StartScreenViewModelTest {
-    private val testDispatcher = UnconfinedTestDispatcher()
-
+class StartScreenViewModelTest : ViewModelTest() {
     private lateinit var viewModel: StartScreenViewModel
 
-    @BeforeTest
-    fun beforeTest() {
-        Dispatchers.setMain(testDispatcher)
-    }
-
-    @AfterTest
-    fun afterTest() {
-        Dispatchers.resetMain()
-    }
-
+    @OptIn(ExperimentalCoroutinesApi::class)
     @Test
     fun `updates textIndex in state every 2 seconds`() =
         runTest {
+            // GIVEN initial state
             viewModel = StartScreenViewModel(scope = backgroundScope)
+
+            // THEN updates textIndex in state every 2 seconds
             assertEquals(4, viewModel.state.value.textIndex)
             advanceTimeBy(2000)
 
@@ -42,5 +28,4 @@ class StartScreenViewModelTest {
 
             assertEquals(0, viewModel.state.value.textIndex)
         }
-
 }

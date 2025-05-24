@@ -25,7 +25,8 @@ kover {
             includes {
                 packages("*data.repository*")
                 packages("*domain.useCase*")
-                packages("*presentation.screen.*.viewModel**")
+                packages("*presentation.screen.*.viewModel*")
+                packages("*navigation.viewModel*")
             }
         }
     }

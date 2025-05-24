@@ -10,19 +10,24 @@ import util.Logger
 open class CoreViewModel<S, A>(
     initialState: S,
     scope: CoroutineScope?,
+    logger: Logger?,
 ) : ViewModel() {
     @Suppress("PropertyName")
-    val _state = MutableStateFlow(initialState)
+    protected val _state = MutableStateFlow(initialState)
     val state = _state.asStateFlow()
 
     val vmScope = scope ?: viewModelScope
 
+    private val logger = logger ?: Logger()
+
     private val tag = this::class.simpleName.toString()
 
-    protected open fun A.process(
+    protected fun A.process(
         processor: (A) -> Unit,
     ) {
-        Logger.d(tag, "Processing action: $this")
+        logger.d(tag, "Processing action: $this")
         processor.invoke(this)
     }
+
+    fun foo() {}
 }

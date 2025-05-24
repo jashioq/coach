@@ -7,15 +7,19 @@ import kotlinx.coroutines.launch
 import presentation.screen.onboarding.goalNameScreen.GoalNameScreenAction
 import presentation.screen.onboarding.goalNameScreen.GoalNameScreenState
 import presentation.util.CoreViewModel
+import util.Logger
+import util.extension.incrementIndex
 
 class GoalNameScreenViewModel(
     scope: CoroutineScope? = null,
+    logger: Logger? = null,
 ) : CoreViewModel<GoalNameScreenState, GoalNameScreenAction>(
     initialState = GoalNameScreenState(
         goalName = "",
         goalNamePlaceholderIndex = 9,
     ),
     scope = scope,
+    logger = logger,
 ) {
     init {
         vmScope.launch {
@@ -44,12 +48,5 @@ class GoalNameScreenViewModel(
                     }
                 }
             }
-        }
-
-    private fun Int.incrementIndex(maxIndex: Int): Int =
-        if (this >= maxIndex) {
-            0
-        } else {
-            this + 1
         }
 }

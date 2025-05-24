@@ -27,7 +27,6 @@ fun GoalFrequencyScreen(
             goalFrequencyScreenViewModel.dispatch(
                 GoalFrequencyScreenAction.SaveGoal(
                     name = goalName,
-                    frequency = state.frequency,
                 ),
             )
         },

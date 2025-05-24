@@ -6,14 +6,18 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import presentation.screen.onboarding.startScreen.StartScreenState
 import presentation.util.CoreViewModel
+import util.Logger
+import util.extension.incrementIndex
 
 class StartScreenViewModel(
     scope: CoroutineScope? = null,
+    logger: Logger? = null,
 ) : CoreViewModel<StartScreenState, Unit>(
     initialState = StartScreenState(
         textIndex = 4,
     ),
     scope = scope,
+    logger = logger,
 ) {
     init {
         vmScope.launch {
@@ -29,11 +33,4 @@ class StartScreenViewModel(
             }
         }
     }
-
-    private fun Int.incrementIndex(maxIndex: Int): Int =
-        if (this >= maxIndex) {
-            0
-        } else {
-            this + 1
-        }
 }

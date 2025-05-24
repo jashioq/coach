@@ -23,7 +23,7 @@ fun App() {
 private fun GetNavHost(
     navigationViewModel: NavigationViewModel = koinViewModel(),
 ) {
-    val onboardingState by navigationViewModel.onboardingState.collectAsState()
+    val onboardingState by navigationViewModel.state.collectAsState()
 
     when (onboardingState) {
         OnboardingState.LOADING -> {

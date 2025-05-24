@@ -3,7 +3,6 @@ package presentation.screen.onboarding.goalFrequencyScreen
 open class GoalFrequencyScreenAction {
     data class SaveGoal(
         val name: String,
-        val frequency: Float,
     ) : GoalFrequencyScreenAction()
 
     data class UpdateFrequency(
