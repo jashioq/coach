@@ -12,6 +12,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.runTest
 import kotlinx.coroutines.test.setMain
@@ -22,6 +23,8 @@ import kotlin.test.assertEquals
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class HomeScreenViewModelTest {
+    private val testDispatcher = UnconfinedTestDispatcher()
+
     private val emitUserNamePreferenceUseCase = mock<EmitUserNamePreferenceUseCase>()
     private val emitAllGoalsUseCase = mock<EmitAllGoalsUseCase>()
 
@@ -29,7 +32,7 @@ class HomeScreenViewModelTest {
 
     @BeforeTest
     fun beforeTest() {
-        Dispatchers.setMain(Dispatchers.Unconfined)
+        Dispatchers.setMain(testDispatcher)
     }
 
     @AfterTest
