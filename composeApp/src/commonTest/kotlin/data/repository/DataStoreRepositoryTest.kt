@@ -33,7 +33,7 @@ class DataStoreRepositoryTest {
     private val testFloatValue = 3.14f
 
     @BeforeTest
-    fun setUp() {
+    fun beforeTest() {
         repository = DataStoreRepository(dataStore)
     }
 

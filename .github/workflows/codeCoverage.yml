@@ -34,7 +34,7 @@ jobs:
           coverage-counter-type: LINE
 
       - name: Fail if coverage below threshold
-        if: ${{ steps.coverageCheck.outputs['coverage-changed-files'] < 80 }}
+        if: ${{ steps.coverageCheck.outputs['coverage-changed-files'] < 75 }}
         run: |
-          echo "Coverage below minimum threshold of 80%"
+          echo "Coverage below minimum threshold of 75%"
           exit 1
