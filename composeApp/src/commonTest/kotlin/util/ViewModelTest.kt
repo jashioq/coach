@@ -14,8 +14,8 @@ import kotlin.test.BeforeTest
 
 @OptIn(ExperimentalCoroutinesApi::class)
 open class ViewModelTest {
-    internal open val testDispatcher = UnconfinedTestDispatcher()
-    internal open val logger = mock<Logger>()
+    protected open val testDispatcher = UnconfinedTestDispatcher()
+    protected open val logger = mock<Logger>()
 
     @BeforeTest
     fun beforeTest() {
@@ -32,6 +32,6 @@ open class ViewModelTest {
         dismantle()
     }
 
-    internal open fun prepare() {}
-    internal open fun dismantle() {}
+    protected open fun prepare() {}
+    protected open fun dismantle() {}
 }
