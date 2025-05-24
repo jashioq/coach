@@ -24,6 +24,7 @@ jobs:
           git diff origin/${{ github.base_ref }}...origin/${{ github.head_ref }} > pr.diff
 
       - name: Compute Diff Coverage
+        id: coverageCheck
         uses: mi-kas/kover-report@v1
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
