@@ -14,18 +14,18 @@ open class CoreViewModel<S, A>(
 ) : ViewModel() {
     @Suppress("PropertyName")
     protected val _state = MutableStateFlow(initialState)
-    val state = _state.asStateFlow()
+    internal val state = _state.asStateFlow()
 
-    val vmScope = scope ?: viewModelScope
+    protected val vmScope = scope ?: viewModelScope
 
-    private val logger = logger ?: Logger()
+    protected val vmLogger = logger ?: Logger()
 
     private val tag = this::class.simpleName.toString()
 
     protected fun A.process(
         processor: (A) -> Unit,
     ) {
-        logger.d(tag, "Processing action: $this")
+        vmLogger.d(tag, "Processing action: $this")
         processor.invoke(this)
     }
 }
