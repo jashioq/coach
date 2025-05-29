@@ -9,6 +9,10 @@ import presentation.util.CoreViewModel
 import util.Logger
 import util.extension.incrementIndex
 
+/**
+ * View model used for handling start screen state. It circulates through text indexes
+ * indefinitely to display different titles.
+ */
 class StartScreenViewModel(
     scope: CoroutineScope? = null,
     logger: Logger? = null,

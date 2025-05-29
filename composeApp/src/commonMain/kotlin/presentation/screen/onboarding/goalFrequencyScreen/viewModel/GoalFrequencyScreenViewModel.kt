@@ -9,6 +9,11 @@ import presentation.screen.onboarding.goalFrequencyScreen.GoalFrequencyScreenSta
 import presentation.util.CoreViewModel
 import util.Logger
 
+/**
+ * View model used for handling goal frequency screen state and actions.
+ * @param addGoalUseCase a [UseCase] used for adding a goal.
+ * @param setOnboardingFinishedUseCase a [UseCase] used for setting onboarding finished status.
+ */
 class GoalFrequencyScreenViewModel(
     private val addGoalUseCase: UseCase<Pair<String, Int>, Unit>,
     private val setOnboardingFinishedUseCase: UseCase<Boolean, Unit>,

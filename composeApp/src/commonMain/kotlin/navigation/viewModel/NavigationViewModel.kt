@@ -9,6 +9,12 @@ import kotlinx.coroutines.launch
 import presentation.util.CoreViewModel
 import util.Logger
 
+/**
+ * View model used for handling onboarding state. It controls which NavHost should be used.
+ * @param emitOnboardingFinishedUseCase a [UseCase] used for emitting onboarding finished status.
+ * @see MainNavHost
+ * @see OnboardingNavHost
+ */
 class NavigationViewModel(
     private val emitOnboardingFinishedUseCase: UseCase<Unit, Flow<Boolean>>,
     scope: CoroutineScope? = null,

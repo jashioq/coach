@@ -9,6 +9,10 @@ import presentation.screen.onboarding.nameScreen.NameScreenState
 import presentation.util.CoreViewModel
 import util.Logger
 
+/**
+ * View model used for handling name screen state and actions.
+ * @param setUserNamePreferenceUseCase a [UseCase] used for setting user name preference.
+ */
 class NameScreenViewModel(
     private val setUserNamePreferenceUseCase: UseCase<String, Unit>,
     scope: CoroutineScope? = null,
