@@ -22,6 +22,9 @@ private val LightColorPalette = lightColorScheme(
     background = Color.White,
 )
 
+/**
+ * Custom material theme to be used in the app. Handles light and dark themes.
+ */
 @Composable
 fun Theme(
     darkTheme: Boolean = isSystemInDarkTheme(),

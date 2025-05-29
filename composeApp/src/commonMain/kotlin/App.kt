@@ -19,6 +19,10 @@ fun App() {
     }
 }
 
+/**
+ * Uses [NavigationViewModel] to determine which [NavHost] should be displayed.
+ * @param navigationViewModel the [NavigationViewModel] to be used.
+ */
 @Composable
 private fun GetNavHost(
     navigationViewModel: NavigationViewModel = koinViewModel(),

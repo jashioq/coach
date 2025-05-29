@@ -10,6 +10,10 @@ import presentation.util.CoreViewModel
 import util.Logger
 import util.extension.incrementIndex
 
+/**
+ * View model used for handling goal name screen state and actions. It circulates through
+ * placeholder text indexes indefinitely to display different placeholders in the text field.
+ */
 class GoalNameScreenViewModel(
     scope: CoroutineScope? = null,
     logger: Logger? = null,
