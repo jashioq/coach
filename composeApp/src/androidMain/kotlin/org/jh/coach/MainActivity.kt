@@ -1,6 +1,8 @@
 package org.jh.coach
 
 import App
+import android.annotation.SuppressLint
+import android.content.pm.ActivityInfo
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.SystemBarStyle
@@ -38,6 +40,9 @@ class MainActivity : ComponentActivity() {
                     )
                 },
             )
+
+            @SuppressLint("SourceLockedOrientationActivity")
+            requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
 
             App()
         }

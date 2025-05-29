@@ -1,5 +1,6 @@
 package presentation.screen.onboarding.goalFrequencyScreen
 
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -133,8 +134,8 @@ fun GoalFrequencyScreenView(
 
         Text(
             text = stringResource(Res.string.goal_frequency_screen_title, goalName),
-            fontSize = 64.sp,
-            lineHeight = 72.sp,
+            fontSize = 48.sp,
+            lineHeight = 64.sp,
             fontWeight = FontWeight.Bold,
         )
         Text(
@@ -147,10 +148,11 @@ fun GoalFrequencyScreenView(
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.Start,
         ) {
+
             Text(
                 text = sliderPosition.getInfoText(),
-                fontSize = 36.sp,
-                lineHeight = 48.sp,
+                fontSize = 32.sp,
+                lineHeight = 44.sp,
                 fontWeight = FontWeight.Bold,
             )
 
@@ -189,8 +191,8 @@ private fun Float.getInfoText() =
 
 @Composable
 private fun Float.GetSliderColors() =
-    when (this) {
-        0f -> SliderDefaults.colors(
+    when (this.roundToInt()) {
+        0 -> SliderDefaults.colors(
             thumbColor = MaterialTheme.colorScheme.primary.copy(alpha = 0.5f),
             activeTrackColor = MaterialTheme.colorScheme.inversePrimary,
             inactiveTickColor = MaterialTheme.colorScheme.inversePrimary,
@@ -198,7 +200,7 @@ private fun Float.GetSliderColors() =
             inactiveTrackColor = MaterialTheme.colorScheme.primary.copy(alpha = 0.1f),
         )
 
-        in 0f..3f -> SliderDefaults.colors(
+        in 0..3 -> SliderDefaults.colors(
             thumbColor = MaterialTheme.colorScheme.primary,
             activeTrackColor = MaterialTheme.colorScheme.primary,
             inactiveTickColor = MaterialTheme.colorScheme.primary,
@@ -206,7 +208,7 @@ private fun Float.GetSliderColors() =
             inactiveTrackColor = MaterialTheme.colorScheme.primary.copy(alpha = 0.5f),
         )
 
-        in 3f..5f -> SliderDefaults.colors(
+        in 3..5 -> SliderDefaults.colors(
             thumbColor = MaterialTheme.colorScheme.primary,
             activeTrackColor = Color(0, 110, 37),
             inactiveTickColor = Color(0, 110, 37),
@@ -214,7 +216,7 @@ private fun Float.GetSliderColors() =
             inactiveTrackColor = MaterialTheme.colorScheme.primary.copy(alpha = 0.2f),
         )
 
-        6f -> SliderDefaults.colors(
+        6 -> SliderDefaults.colors(
             thumbColor = MaterialTheme.colorScheme.primary,
             activeTrackColor = Color(143, 100, 0),
             inactiveTickColor = Color(143, 100, 0),
