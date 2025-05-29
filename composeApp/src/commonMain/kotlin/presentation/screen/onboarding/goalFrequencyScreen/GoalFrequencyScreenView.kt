@@ -1,6 +1,5 @@
 package presentation.screen.onboarding.goalFrequencyScreen
 
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -148,7 +147,6 @@ fun GoalFrequencyScreenView(
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.Start,
         ) {
-
             Text(
                 text = sliderPosition.getInfoText(),
                 fontSize = 32.sp,
