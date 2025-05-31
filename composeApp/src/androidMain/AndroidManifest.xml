@@ -3,6 +3,8 @@
     package="org.jh.coach"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <uses-permission android:name="android.permission.VIBRATE" />
+
     <application
         android:name=".CoachApp"
         android:allowBackup="true"
