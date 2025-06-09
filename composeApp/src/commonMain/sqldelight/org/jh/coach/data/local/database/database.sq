@@ -6,6 +6,7 @@ CREATE TABLE GoalDto (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     name TEXT NOT NULL,
     frequency INTEGER NOT NULL,
+    state INTEGER NOT NULL,
     creationDate TEXT DEFAULT (datetime('now')) NOT NULL,
     modificationDate TEXT DEFAULT (datetime('now')) NOT NULL
 );
@@ -21,10 +22,10 @@ selectGoalById:
 SELECT * FROM GoalDto WHERE id == :id;
 
 insertGoal:
-INSERT INTO GoalDto (name, frequency) VALUES (:name, :frequency);
+INSERT INTO GoalDto (name, frequency, state) VALUES (:name, :frequency, :state);
 
 updateGoal:
-UPDATE GoalDto SET name = :name, frequency = :frequency, modificationDate = datetime('now') WHERE id = :id;
+UPDATE GoalDto SET name = :name, frequency = :frequency, state = :state, modificationDate = datetime('now') WHERE id = :id;
 
 deleteGoal:
 DELETE FROM GoalDto WHERE id = :id;

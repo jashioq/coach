@@ -72,12 +72,12 @@ fun NameScreenView(
                 )
             }
 
-            Spacer(modifier = Modifier.height(32.dp))
+            Spacer(modifier = Modifier.height(16.dp))
 
             Text(
                 text = stringResource(Res.string.who_are_you_title),
-                fontSize = 64.sp,
-                lineHeight = 72.sp,
+                fontSize = 62.sp,
+                lineHeight = 64.sp,
                 fontWeight = FontWeight.Bold,
             )
             Text(
@@ -87,7 +87,6 @@ fun NameScreenView(
 
         PillTextField(
             modifier = Modifier
-                .padding(32.dp)
                 .imePadding(),
             value = textFieldValue,
             capitalizeKeyboard = true,

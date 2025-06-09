@@ -6,49 +6,49 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import presentation.screen.home.HomeScreenAction
 import presentation.screen.home.HomeScreenState
 import presentation.util.CoreViewModel
 import util.Logger
 
 class HomeScreenViewModel(
-    private val emitUserNamePreferenceUseCase: UseCase<Unit, Flow<String>>,
     private val emitAllGoalsUseCase: UseCase<Unit, Flow<List<Goal>>>,
+    private val editGoalUseCase: UseCase<Goal, Unit>,
     scope: CoroutineScope? = null,
     logger: Logger? = null,
-) : CoreViewModel<HomeScreenState, Unit>(
+) : CoreViewModel<HomeScreenState, HomeScreenAction>(
     initialState = HomeScreenState(
-        userName = "",
-        goalId = "",
-        goalName = "",
-        goalFrequency = "",
+        goals = emptyList(),
     ),
     scope = scope,
     logger = logger,
 ) {
     init {
         vmScope.launch {
-            emitUserNamePreferenceUseCase.call(value = Unit).onSuccess {
-                it.collect { name ->
-                    _state.update { state ->
-                        state.copy(
-                            userName = name,
-                        )
-                    }
-                }
-            }
-        }
-        vmScope.launch {
             emitAllGoalsUseCase.call(value = Unit).onSuccess {
                 it.collect { goals ->
                     _state.update { state ->
                         state.copy(
-                            goalId = goals.first().id.toString(),
-                            goalName = goals.first().name,
-                            goalFrequency = goals.first().frequency.toString(),
+                            goals = goals,
                         )
                     }
                 }
             }
         }
     }
+
+    fun dispatch(action: HomeScreenAction) =
+        action.process {
+            when (it) {
+                is HomeScreenAction.UpdateGoalState -> {
+                    vmScope.launch {
+                        val goal = state.value.goals.first { goal -> goal.id == it.id }
+                        Logger().d("dupa", "new goal is ${goal.copy(state = it.newState)}")
+                        editGoalUseCase.call(
+                            value = goal.copy(state = it.newState),
+                        )
+                    }
+                }
+            }
+        }
 }

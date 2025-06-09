@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.displayCutoutPadding
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
@@ -53,6 +54,7 @@ fun StartScreenView(
     Column(
         modifier = modifier
             .fillMaxSize()
+            .padding(32.dp)
             .displayCutoutPadding()
             .navigationBarsPadding(),
         verticalArrangement = Arrangement.SpaceBetween,
@@ -60,10 +62,8 @@ fun StartScreenView(
     ) {
         Image(
             modifier = Modifier
-                .weight(1f, fill = false)
                 .aspectRatio(painter.intrinsicSize.width / painter.intrinsicSize.height)
-                .fillMaxWidth()
-                .padding(horizontal = 32.dp),
+                .fillMaxWidth(),
             painter = painter,
             contentDescription = null,
             contentScale = ContentScale.Fit,
@@ -71,8 +71,9 @@ fun StartScreenView(
         )
         Column(
             modifier = Modifier
+                .padding(top = 32.dp)
                 .fillMaxWidth()
-                .padding(32.dp),
+                .weight(1f),
         ) {
             Text(
                 text = stringResource(Res.string.start_screen_title),
@@ -80,16 +81,15 @@ fun StartScreenView(
                 lineHeight = 72.sp,
             )
             AnimatedChangeText(
-                modifier = Modifier,
+                modifier = Modifier.padding(bottom = 16.dp),
                 color = MaterialTheme.colorScheme.primary,
                 text = textList[textIndex],
                 fontSize = 64.sp,
-                lineHeight = 36.sp,
+                lineHeight = 72.sp,
             )
         }
 
         PrimaryButton(
-            modifier = Modifier.padding(32.dp),
             text = stringResource(Res.string.start_button),
             onClick = onPrimaryButtonClick,
         )

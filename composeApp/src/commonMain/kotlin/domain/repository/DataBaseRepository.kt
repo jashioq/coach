@@ -1,6 +1,7 @@
 package domain.repository
 
 import domain.model.Goal
+import domain.model.GoalState
 import kotlinx.coroutines.flow.Flow
 
 interface DataBaseRepository {
@@ -28,7 +29,7 @@ interface DataBaseRepository {
      * @param name a [String] representing new goal name.
      * @param frequency an [Int] representing new goal frequency.
      */
-    suspend fun editGoal(id: Long, name: String, frequency: Int): Result<Unit>
+    suspend fun editGoal(id: Long, name: String, frequency: Int, state: GoalState): Result<Unit>
 
     /**
      * Delete goal from the database.

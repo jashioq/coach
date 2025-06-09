@@ -1,8 +1,5 @@
 package presentation.compose.component.interaction
 
-import androidx.compose.animation.core.Animatable
-import androidx.compose.animation.core.animateFloatAsState
-import androidx.compose.animation.core.tween
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.combinedClickable
@@ -21,7 +18,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
@@ -32,41 +28,39 @@ import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import util.rememberHapticFeedback
 import kotlin.math.roundToInt
-
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun SwipeInteraction(
     sheetOffset: Float,
     onSheetOffsetChanged: (Float) -> Unit,
+    onSheetDragStopped: () -> Unit,
     onDragDone: () -> Unit = {},
     onActiveLongClick: () -> Unit = {},
     onActiveDoubleClick: () -> Unit = {},
     onDoneLongClick: () -> Unit = {},
-    snapThreshold: Float = 0.4f,
+    snapThreshold: Float = -0.4f,
+    sheetVisibility: Float = 1f,
     enableHapticFeedback: Boolean = true,
+    scope: CoroutineScope,
     content: @Composable () -> Unit,
     sheetContent: @Composable () -> Unit = { getDefaultSheetContent() },
 ) {
-    val scope = rememberCoroutineScope()
     val density = LocalDensity.current
     val hapticFeedback = rememberHapticFeedback()
 
     var contentWidth by remember { mutableStateOf(0f) }
     var contentHeight by remember { mutableStateOf(0.dp) }
 
-    val currentSheetOffset = remember { Animatable(0f) }
-    val isSheetFullyDragged = -currentSheetOffset.value == contentWidth && contentWidth != 0f
+    val currentSheetOffset = sheetOffset * contentWidth
+    val isSheetFullyDragged = currentSheetOffset == contentWidth && contentWidth != 0f
     var dragEnabled by remember { mutableStateOf(true) }
 
     var hapticFeedbackThresholdReached by remember { mutableStateOf(false) }
-    val sheetVisibility by animateFloatAsState(
-        targetValue = if (isSheetFullyDragged) 0f else 1f,
-        animationSpec = tween(1000)
-    )
 
     // Snap the sheet when drag is released beyond this threshold
     val swipeThreshold = contentWidth * snapThreshold
@@ -77,18 +71,24 @@ fun SwipeInteraction(
         onDragDone()
     }
 
-    // Control the haptic feedback on snap threshold crossed
-    if (enableHapticFeedback) {
-        if (!hapticFeedbackThresholdReached) {
-            if (-currentSheetOffset.value.roundToInt() > swipeThreshold.roundToInt()) {
-                hapticFeedback.performHeavyImpact()
-                hapticFeedbackThresholdReached = true
-            }
+    // Perform haptic feedback only if it is enabled
+    fun vibrate() =
+        if (enableHapticFeedback) {
+            hapticFeedback.performMediumImpact()
         } else {
-            if (-currentSheetOffset.value.roundToInt() <= swipeThreshold.roundToInt()) {
-                hapticFeedback.performHeavyImpact()
-                hapticFeedbackThresholdReached = false
-            }
+            // Do nothing
+        }
+
+    // Control the haptic feedback on snap threshold crossed
+    if (!hapticFeedbackThresholdReached) {
+        if (currentSheetOffset < swipeThreshold) {
+            vibrate()
+            hapticFeedbackThresholdReached = true
+        }
+    } else {
+        if (currentSheetOffset >= swipeThreshold) {
+            vibrate()
+            hapticFeedbackThresholdReached = false
         }
     }
 
@@ -101,7 +101,7 @@ fun SwipeInteraction(
                 .clip(RoundedCornerShape(16.dp))
                 .onSizeChanged { size ->
                     contentWidth = size.width.toFloat()
-                }
+                },
         ) {
             Box(
                 modifier = Modifier
@@ -109,66 +109,45 @@ fun SwipeInteraction(
                         scope.launch {
                             contentHeight = with(density) { coordinates.size.height.toDp() }
                         }
-                    }
+                    },
             ) {
                 content()
             }
-            val offset = currentSheetOffset.value + contentWidth
-
+            val offset = currentSheetOffset + contentWidth
 
             Box(
                 modifier = Modifier
                     .height(contentHeight.value.dp)
-                    .offset { IntOffset(currentSheetOffset.value.roundToInt(), 0) }
+                    .offset { IntOffset(currentSheetOffset.roundToInt(), 0) }
                     .combinedClickable(
                         onClick = {},
                         onLongClick = {
                             onActiveLongClick()
-                            if (enableHapticFeedback) hapticFeedback.performHeavyImpact()
+                            if (enableHapticFeedback) vibrate()
                         },
                         onDoubleClick = {
                             scope.launch {
                                 onActiveDoubleClick()
-                                currentSheetOffset.animateTo(
-                                    targetValue = -contentWidth,
-                                    animationSpec = tween(durationMillis = 300)
-                                )
                             }
                         },
                         indication = null,
-                        interactionSource = remember { MutableInteractionSource() }
+                        interactionSource = remember { MutableInteractionSource() },
                     )
                     .draggable(
                         enabled = dragEnabled,
                         orientation = Orientation.Horizontal,
                         state = rememberDraggableState { delta ->
-                            scope.launch {
-                                currentSheetOffset.snapTo(
-                                    (currentSheetOffset.value + delta).coerceIn(
-                                        -maxWidthPx,
-                                        0f
-                                    )
-                                )
-                            }
+                            onSheetOffsetChanged(
+                                currentSheetOffset.calculateNewOffset(delta, contentWidth),
+                            )
                         },
                         onDragStopped = {
-                            val currentOffset = currentSheetOffset.value
-                            if (currentOffset.coerceAtLeast(-swipeThreshold) == currentOffset) {
-                                currentSheetOffset.animateTo(
-                                    targetValue = 0f,
-                                    animationSpec = tween(durationMillis = 300)
-                                )
-                            } else {
-                                currentSheetOffset.animateTo(
-                                    targetValue = -maxWidthPx,
-                                    animationSpec = tween(durationMillis = 300)
-                                )
-                            }
-                        }
-                    )
+                            onSheetDragStopped()
+                        },
+                    ),
             ) {
                 Box(
-                    modifier = Modifier.fillMaxSize().background(Color.Transparent)
+                    modifier = Modifier.fillMaxSize().background(Color.Transparent),
                 )
             }
             Box(
@@ -179,43 +158,26 @@ fun SwipeInteraction(
                         onClick = {},
                         onLongClick = {
                             onDoneLongClick()
-                            if (enableHapticFeedback) hapticFeedback.performHeavyImpact()
+                            if (enableHapticFeedback) vibrate()
                         },
                         indication = null,
-                        interactionSource = remember { MutableInteractionSource() }
+                        interactionSource = remember { MutableInteractionSource() },
                     )
                     .draggable(
                         enabled = dragEnabled,
                         orientation = Orientation.Horizontal,
                         state = rememberDraggableState { delta ->
-                            scope.launch {
-                                currentSheetOffset.snapTo(
-                                    (currentSheetOffset.value + delta).coerceIn(
-                                        -maxWidthPx,
-                                        0f
-                                    )
-                                )
-                            }
+                            onSheetOffsetChanged(
+                                currentSheetOffset.calculateNewOffset(delta, contentWidth),
+                            )
                         },
                         onDragStopped = {
-                            val currentOffset = currentSheetOffset.value
-
-                            if (currentOffset.coerceAtLeast(-swipeThreshold) == currentOffset) {
-                                currentSheetOffset.animateTo(
-                                    targetValue = 0f,
-                                    animationSpec = tween(durationMillis = 300)
-                                )
-                            } else {
-                                currentSheetOffset.animateTo(
-                                    targetValue = -maxWidthPx,
-                                    animationSpec = tween(durationMillis = 300)
-                                )
-                            }
-                        }
-                    )
+                            onSheetDragStopped()
+                        },
+                    ),
             ) {
                 Box(
-                    modifier = Modifier.fillMaxSize().alpha(sheetVisibility)
+                    modifier = Modifier.fillMaxSize().alpha(sheetVisibility),
                 ) {
                     sheetContent()
                 }
@@ -228,5 +190,15 @@ fun SwipeInteraction(
 fun getDefaultSheetContent() =
     Box(
         modifier = Modifier.fillMaxSize()
-            .background(Color.Green)
+            .background(Color.Green),
     )
+
+private fun Float.calculateNewOffset(delta: Float, contentWidth: Float): Float {
+    val newOffset = this + delta
+    val newOffsetClamp = newOffset.coerceIn(
+        -contentWidth,
+        0f,
+    ) / contentWidth
+
+    return newOffsetClamp
+}

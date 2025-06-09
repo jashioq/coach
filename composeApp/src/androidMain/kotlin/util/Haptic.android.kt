@@ -1,6 +1,5 @@
 package util
 
-
 import android.content.Context
 import android.os.Build
 import android.os.VibrationEffect
@@ -22,15 +21,15 @@ actual class Haptic(private val context: Context) {
     }
 
     actual fun performLightImpact() {
-        vibrateOneShot(50, 100)
+        vibrateOneShot(20, 100)
     }
 
     actual fun performMediumImpact() {
-        vibrateOneShot(50, 175)
+        vibrateOneShot(20, 175)
     }
 
     actual fun performHeavyImpact() {
-        vibrateOneShot(50, 255)
+        vibrateOneShot(20, 255)
     }
 }
 

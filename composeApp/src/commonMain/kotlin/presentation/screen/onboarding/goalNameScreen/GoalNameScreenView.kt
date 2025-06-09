@@ -85,12 +85,12 @@ fun GoalNameScreenView(
                 )
             }
 
-            Spacer(modifier = Modifier.height(32.dp))
+            Spacer(modifier = Modifier.height(16.dp))
 
             Text(
                 text = stringResource(Res.string.goal_name_screen_title, userName),
-                fontSize = 64.sp,
-                lineHeight = 72.sp,
+                fontSize = 52.sp,
+                lineHeight = 64.sp,
                 fontWeight = FontWeight.Bold,
             )
             Text(
@@ -100,7 +100,8 @@ fun GoalNameScreenView(
 
         PillTextField(
             modifier = Modifier
-                .padding(32.dp)
+                .padding(horizontal = 32.dp)
+                .padding(bottom = 32.dp)
                 .imePadding(),
             value = textFieldValue,
             onValueChange = onTextFieldValueChange,

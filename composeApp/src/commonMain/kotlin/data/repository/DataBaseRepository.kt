@@ -4,6 +4,7 @@ import app.cash.sqldelight.coroutines.asFlow
 import app.cash.sqldelight.coroutines.mapToList
 import app.cash.sqldelight.coroutines.mapToOne
 import domain.model.Goal
+import domain.model.GoalState
 import domain.repository.DataBaseRepository
 import domain.util.toGoal
 import kotlinx.coroutines.Dispatchers
@@ -42,6 +43,7 @@ class DataBaseRepository(
         database.databaseQueries.insertGoal(
             name = name,
             frequency = frequency.toLong(),
+            state = GoalState.ACTIVE.ordinal.toLong(),
         )
     }
 
@@ -49,11 +51,13 @@ class DataBaseRepository(
         id: Long,
         name: String,
         frequency: Int,
+        state: GoalState,
     ): Result<Unit> = runCatching {
         database.databaseQueries.updateGoal(
             id = id,
             name = name,
             frequency = frequency.toLong(),
+            state = state.ordinal.toLong(),
         )
     }
 

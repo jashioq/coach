@@ -5,6 +5,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import presentation.screen.home.viewModel.HomeScreenViewModel
 import presentation.util.koinViewModel
+import util.Logger
 
 @Composable
 fun HomeScreen(
@@ -13,9 +14,15 @@ fun HomeScreen(
     val state by homeScreenViewModel.state.collectAsState()
 
     HomeScreenView(
-        userName = state.userName,
-        goalId = state.goalId,
-        goalName = state.goalName,
-        goalFrequency = state.goalFrequency,
+        goals = state.goals,
+        onGoalStateChange = { id, newState ->
+            Logger().d("dupa", "goal with id: $id state changed: $newState")
+            homeScreenViewModel.dispatch(
+                HomeScreenAction.UpdateGoalState(
+                    id = id,
+                    newState = newState,
+                ),
+            )
+        },
     )
 }
