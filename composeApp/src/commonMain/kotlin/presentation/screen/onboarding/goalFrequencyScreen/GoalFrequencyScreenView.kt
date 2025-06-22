@@ -113,9 +113,9 @@ fun GoalFrequencyScreenView(
     Column(
         modifier = modifier
             .fillMaxSize()
+            .padding(32.dp)
             .displayCutoutPadding()
-            .navigationBarsPadding()
-            .padding(horizontal = 32.dp),
+            .navigationBarsPadding(),
         horizontalAlignment = Alignment.Start,
     ) {
         Box(
@@ -161,8 +161,6 @@ fun GoalFrequencyScreenView(
             )
         }
         PrimaryButton(
-            modifier = Modifier
-                .padding(bottom = 32.dp),
             text = stringResource(Res.string.save_button),
             isEnabled = sliderPosition != 0f,
             onClick = {

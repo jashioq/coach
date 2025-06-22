@@ -16,8 +16,7 @@ fun HomeScreen(
     HomeScreenView(
         goals = state.goals,
         onGoalStateChange = { id, newState ->
-            Logger().d("dupa", "goal with id: $id state changed: $newState")
-            homeScreenViewModel.dispatch(
+            homeScreenViewModel.sendAction(
                 HomeScreenAction.UpdateGoalState(
                     id = id,
                     newState = newState,

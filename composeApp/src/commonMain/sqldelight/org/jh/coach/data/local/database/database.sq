@@ -1,12 +1,11 @@
--- Schema Definitions
 PRAGMA user_version = 1;
 
--- Create Goal Table
 CREATE TABLE GoalDto (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     name TEXT NOT NULL,
     frequency INTEGER NOT NULL,
     state INTEGER NOT NULL,
+    completions TEXT NOT NULL,
     creationDate TEXT DEFAULT (datetime('now')) NOT NULL,
     modificationDate TEXT DEFAULT (datetime('now')) NOT NULL
 );
@@ -22,10 +21,10 @@ selectGoalById:
 SELECT * FROM GoalDto WHERE id == :id;
 
 insertGoal:
-INSERT INTO GoalDto (name, frequency, state) VALUES (:name, :frequency, :state);
+INSERT INTO GoalDto (name, frequency, state, completions) VALUES (:name, :frequency, :state, :completions);
 
 updateGoal:
-UPDATE GoalDto SET name = :name, frequency = :frequency, state = :state, modificationDate = datetime('now') WHERE id = :id;
+UPDATE GoalDto SET name = :name, frequency = :frequency, state = :state, completions = :completions, modificationDate = datetime('now') WHERE id = :id;
 
 deleteGoal:
 DELETE FROM GoalDto WHERE id = :id;

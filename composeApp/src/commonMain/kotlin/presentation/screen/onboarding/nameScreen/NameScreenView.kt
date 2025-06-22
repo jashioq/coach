@@ -45,6 +45,7 @@ fun NameScreenView(
     Column(
         modifier = modifier
             .fillMaxSize()
+            .padding(32.dp)
             .displayCutoutPadding()
             .navigationBarsPadding()
             .pointerInput(Unit) {
@@ -59,7 +60,6 @@ fun NameScreenView(
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = 32.dp),
         ) {
             Box(
                 modifier = Modifier
@@ -76,8 +76,8 @@ fun NameScreenView(
 
             Text(
                 text = stringResource(Res.string.who_are_you_title),
-                fontSize = 62.sp,
-                lineHeight = 64.sp,
+                fontSize = 32.sp,
+                lineHeight = 48.sp,
                 fontWeight = FontWeight.Bold,
             )
             Text(

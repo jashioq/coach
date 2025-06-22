@@ -30,6 +30,7 @@ import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
+import util.Logger
 import util.rememberHapticFeedback
 import kotlin.math.roundToInt
 
@@ -120,7 +121,9 @@ fun SwipeInteraction(
                     .height(contentHeight.value.dp)
                     .offset { IntOffset(currentSheetOffset.roundToInt(), 0) }
                     .combinedClickable(
-                        onClick = {},
+                        onClick = {
+                            Logger().d("dupa", "clicked")
+                        },
                         onLongClick = {
                             onActiveLongClick()
                             if (enableHapticFeedback) vibrate()

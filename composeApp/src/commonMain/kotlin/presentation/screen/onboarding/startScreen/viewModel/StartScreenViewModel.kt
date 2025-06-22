@@ -37,4 +37,8 @@ class StartScreenViewModel(
             }
         }
     }
+
+    override fun Unit.process() {
+        TODO("Not yet implemented")
+    }
 }

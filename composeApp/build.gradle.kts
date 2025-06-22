@@ -73,6 +73,7 @@ kotlin {
             implementation((libs.kotlinx.serialization.json))
             implementation(libs.coroutines.extensions)
             implementation(libs.stately.common)
+            implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.6.0")
             api(libs.koin.core)
             api(libs.datastore.preferences)
             api(libs.datastore)

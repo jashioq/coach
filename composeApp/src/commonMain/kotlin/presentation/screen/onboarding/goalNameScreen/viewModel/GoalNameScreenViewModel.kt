@@ -41,16 +41,15 @@ class GoalNameScreenViewModel(
         }
     }
 
-    fun dispatch(action: GoalNameScreenAction) =
-        action.process {
-            when (it) {
-                is GoalNameScreenAction.UpdateGoalName -> {
-                    _state.update { state ->
-                        state.copy(
-                            goalName = it.newValue,
-                        )
-                    }
+    override fun GoalNameScreenAction.process() {
+        when (val action = this@process) {
+            is GoalNameScreenAction.UpdateGoalName -> {
+                _state.update { state ->
+                    state.copy(
+                        goalName = action.newValue,
+                    )
                 }
             }
         }
+    }
 }

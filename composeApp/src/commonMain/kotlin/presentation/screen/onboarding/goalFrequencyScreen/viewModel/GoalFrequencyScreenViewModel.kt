@@ -26,23 +26,22 @@ class GoalFrequencyScreenViewModel(
     scope = scope,
     logger = logger,
 ) {
-    fun dispatch(action: GoalFrequencyScreenAction) =
-        action.process {
-            when (it) {
-                is GoalFrequencyScreenAction.SaveGoal -> {
-                    vmScope.launch {
-                        addGoalUseCase.call(it.name to state.value.frequency.toInt())
-                        setOnboardingFinishedUseCase.call(true)
-                    }
+    override fun GoalFrequencyScreenAction.process() {
+        when (val action = this@process) {
+            is GoalFrequencyScreenAction.SaveGoal -> {
+                vmScope.launch {
+                    addGoalUseCase.call(action.name to state.value.frequency.toInt())
+                    setOnboardingFinishedUseCase.call(true)
                 }
+            }
 
-                is GoalFrequencyScreenAction.UpdateFrequency -> {
-                    _state.update { state ->
-                        state.copy(
-                            frequency = it.newValue,
-                        )
-                    }
+            is GoalFrequencyScreenAction.UpdateFrequency -> {
+                _state.update { state ->
+                    state.copy(
+                        frequency = action.newValue,
+                    )
                 }
             }
         }
+    }
 }

@@ -87,6 +87,7 @@ fun HomeScreenView(
             GoalPreview(
                 goalName = goal.name,
                 goalState = goal.state,
+                goalCompletions = goal.completions,
                 onGoalStateChange = { onGoalStateChange(goal.id, it) },
                 onOptionsOpen = {
                     selectedGoal = goal

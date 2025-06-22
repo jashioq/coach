@@ -4,6 +4,7 @@ import domain.useCase.AddGoalUseCase
 import domain.useCase.EditGoalUseCase
 import domain.useCase.EmitAllGoalsUseCase
 import domain.useCase.EmitOnboardingFinishedUseCase
+import domain.useCase.MonitorGoalStateUseCase
 import domain.useCase.SetOnboardingFinishedUseCase
 import domain.useCase.SetUserNamePreferenceUseCase
 import navigation.viewModel.NavigationViewModel
@@ -46,6 +47,7 @@ val presentationModule = module {
         HomeScreenViewModel(
             emitAllGoalsUseCase = get<EmitAllGoalsUseCase>(),
             editGoalUseCase = get<EditGoalUseCase>(),
+            monitorGoalStateUseCase = get<MonitorGoalStateUseCase>(),
         )
     }
 }

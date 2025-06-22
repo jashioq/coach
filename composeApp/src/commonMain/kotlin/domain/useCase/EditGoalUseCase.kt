@@ -20,5 +20,6 @@ open class EditGoalUseCase(
             name = value.name,
             frequency = value.frequency,
             state = value.state,
+            completions = value.completions,
         )
 }

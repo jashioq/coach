@@ -19,12 +19,12 @@ fun GoalFrequencyScreen(
         goalName = goalName,
         sliderPosition = state.frequency,
         onPositionChange = {
-            goalFrequencyScreenViewModel.dispatch(
+            goalFrequencyScreenViewModel.sendAction(
                 GoalFrequencyScreenAction.UpdateFrequency(it),
             )
         },
         onGoalSave = {
-            goalFrequencyScreenViewModel.dispatch(
+            goalFrequencyScreenViewModel.sendAction(
                 GoalFrequencyScreenAction.SaveGoal(
                     name = goalName,
                 ),

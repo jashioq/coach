@@ -39,4 +39,6 @@ class NavigationViewModel(
             }
         }
     }
+
+    override fun Unit.process() {}
 }

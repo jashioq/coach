@@ -36,21 +36,33 @@ import coach.composeapp.generated.resources.dot_hollow_crossed
 import domain.model.GoalState
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import kotlinx.datetime.LocalDateTime
+import kotlinx.datetime.minus
 import org.jetbrains.compose.resources.painterResource
 import presentation.compose.component.interaction.SwipeInteraction
 import presentation.compose.component.text.Text
+import presentation.util.getLocalDateTime
+import presentation.util.getWeekBounds
 
 @Composable
 fun GoalPreview(
     modifier: Modifier = Modifier,
     goalState: GoalState = GoalState.ACTIVE,
     goalName: String,
+    goalCompletions: List<LocalDateTime>,
     onGoalStateChange: (GoalState) -> Unit = {},
     onOptionsOpen: () -> Unit = {},
 ) {
-    // TODO implement this in database
-    val currentDay = 5
-    val daysDone = listOf(1, 2, 4)
+    val today = getLocalDateTime().date
+    val weekBounds = getWeekBounds()
+    val completionsThisWeek = goalCompletions.filter { it.date in weekBounds.first..weekBounds.second }
+
+    val monday = weekBounds.first
+    val transformedCompletions = completionsThisWeek.map {
+        it.date.minus(monday).days
+    }
+
+    val currentDay = today.minus(monday).days
 
     val animationScope = rememberCoroutineScope()
 
@@ -161,8 +173,8 @@ fun GoalPreview(
                             .padding(16.dp),
                         horizontalArrangement = Arrangement.SpaceBetween,
                     ) {
-                        (1..7).map {
-                            val done = daysDone.contains(it)
+                        (0..6).map {
+                            val done = transformedCompletions.contains(it)
                             val upcoming = it > currentDay
                             val isToday = it == currentDay
 

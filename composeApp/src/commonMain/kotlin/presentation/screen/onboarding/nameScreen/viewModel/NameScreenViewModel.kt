@@ -24,22 +24,21 @@ class NameScreenViewModel(
     scope = scope,
     logger = logger,
 ) {
-    fun dispatch(action: NameScreenAction) =
-        action.process {
-            when (it) {
-                is NameScreenAction.UpdateName -> {
-                    _state.update { state ->
-                        state.copy(
-                            name = it.newValue,
-                        )
-                    }
+    override fun NameScreenAction.process() {
+        when (val action = this@process) {
+            is NameScreenAction.UpdateName -> {
+                _state.update { state ->
+                    state.copy(
+                        name = action.newValue,
+                    )
                 }
+            }
 
-                NameScreenAction.SaveName -> {
-                    vmScope.launch {
-                        setUserNamePreferenceUseCase.call(state.value.name.trim())
-                    }
+            NameScreenAction.SaveName -> {
+                vmScope.launch {
+                    setUserNamePreferenceUseCase.call(state.value.name.trim())
                 }
             }
         }
+    }
 }
