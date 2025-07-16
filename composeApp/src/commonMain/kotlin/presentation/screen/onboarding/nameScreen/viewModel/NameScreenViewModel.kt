@@ -27,7 +27,7 @@ class NameScreenViewModel(
     override fun NameScreenAction.process() {
         when (val action = this@process) {
             is NameScreenAction.UpdateName -> {
-                _state.update { state ->
+                stateFlow.update { state ->
                     state.copy(
                         name = action.newValue,
                     )

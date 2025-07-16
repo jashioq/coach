@@ -28,7 +28,7 @@ class NavigationViewModel(
         vmScope.launch {
             emitOnboardingFinishedUseCase.call(value = Unit).onSuccess {
                 it.collect { finished ->
-                    _state.update {
+                    stateFlow.update {
                         if (finished) {
                             OnboardingState.FINISHED
                         } else {

@@ -48,7 +48,7 @@ class HomeScreenViewModel(
                         }
                     }
 
-                    _state.update { state ->
+                    stateFlow.update { state ->
                         state.copy(goals = goals)
                     }
                 }

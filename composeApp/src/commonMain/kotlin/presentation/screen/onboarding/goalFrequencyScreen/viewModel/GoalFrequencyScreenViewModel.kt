@@ -36,7 +36,7 @@ class GoalFrequencyScreenViewModel(
             }
 
             is GoalFrequencyScreenAction.UpdateFrequency -> {
-                _state.update { state ->
+                stateFlow.update { state ->
                     state.copy(
                         frequency = action.newValue,
                     )

@@ -29,7 +29,7 @@ class GoalNameScreenViewModel(
         vmScope.launch {
             var currentIndex = 0
             while (true) {
-                _state.update {
+                stateFlow.update {
                     it.copy(
                         goalNamePlaceholderIndex = currentIndex,
                     )
@@ -44,7 +44,7 @@ class GoalNameScreenViewModel(
     override fun GoalNameScreenAction.process() {
         when (val action = this@process) {
             is GoalNameScreenAction.UpdateGoalName -> {
-                _state.update { state ->
+                stateFlow.update { state ->
                     state.copy(
                         goalName = action.newValue,
                     )
