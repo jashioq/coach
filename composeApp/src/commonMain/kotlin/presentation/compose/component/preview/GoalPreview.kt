@@ -16,6 +16,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -55,7 +56,8 @@ fun GoalPreview(
 ) {
     val today = getLocalDateTime().date
     val weekBounds = getWeekBounds()
-    val completionsThisWeek = goalCompletions.filter { it.date in weekBounds.first..weekBounds.second }
+    val completionsThisWeek =
+        goalCompletions.filter { it.date in weekBounds.first..weekBounds.second }
 
     val monday = weekBounds.first
     val transformedCompletions = completionsThisWeek.map {
@@ -79,7 +81,11 @@ fun GoalPreview(
     )
 
     val mainColor by animateColorAsState(
-        if (goalState == GoalState.ACTIVE) Color.Black else Color.LightGray,
+        if (goalState == GoalState.ACTIVE) {
+            MaterialTheme.colorScheme.primary
+        } else {
+            MaterialTheme.colorScheme.primary.copy(alpha = 0.2f)
+        },
         animationSpec = tween(colorAnimationTime),
     )
 
@@ -227,7 +233,7 @@ private fun DotIcon(
     }
 
     val tint = if (upcoming || goalState == GoalState.DONE) {
-        Color.LightGray
+        mainColor.copy(alpha = 0.2f)
     } else {
         mainColor
     }
