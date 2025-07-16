@@ -2,17 +2,13 @@ package presentation.screen.home.viewModel
 
 import domain.model.Goal
 import domain.model.GoalState
-import domain.useCase.MonitorGoalStateUseCase
 import domain.util.UseCase
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import kotlinx.datetime.Clock
 import kotlinx.datetime.LocalDate
 import kotlinx.datetime.LocalDateTime
-import kotlinx.datetime.TimeZone
-import kotlinx.datetime.toLocalDateTime
 import presentation.screen.home.HomeScreenAction
 import presentation.screen.home.HomeScreenState
 import presentation.util.CoreViewModel
@@ -41,12 +37,12 @@ class HomeScreenViewModel(
                     if (state.value.goals.isEmpty() && goals.isNotEmpty()) {
                         goals.forEach { goal ->
                             monitorGoalStateUseCase.call(
-                                goal to getLocalDateTime().date
+                                goal to getLocalDateTime().date,
                             ).onSuccess { state ->
                                 editGoalUseCase.call(
                                     goal.copy(
                                         state = state,
-                                    )
+                                    ),
                                 )
                             }
                         }
@@ -75,7 +71,7 @@ class HomeScreenViewModel(
                     editGoalUseCase.call(
                         value = goal.copy(
                             state = action.newState,
-                            completions = newCompletions
+                            completions = newCompletions,
                         ),
                     )
                 }

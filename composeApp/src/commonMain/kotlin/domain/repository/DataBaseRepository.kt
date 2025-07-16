@@ -37,7 +37,7 @@ interface DataBaseRepository {
         name: String,
         frequency: Int,
         state: GoalState,
-        completions: List<LocalDateTime>
+        completions: List<LocalDateTime>,
     ): Result<Unit>
 
     /**

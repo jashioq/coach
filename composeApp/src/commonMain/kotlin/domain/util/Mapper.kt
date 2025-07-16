@@ -13,7 +13,7 @@ fun GoalDto.toGoal(): Goal =
         name = this.name,
         frequency = this.frequency.toInt(),
         state = this.state.toGoalState(),
-        completions = parseDateTimeString(this.completions)
+        completions = parseDateTimeString(this.completions),
     )
 
 fun Long.toGoalState(): GoalState =
@@ -23,7 +23,7 @@ fun Long.toGoalState(): GoalState =
     }
 
 fun parseDateTimeString(input: String): List<LocalDateTime> {
-    if(input.isEmpty()) return emptyList()
+    if (input.isEmpty()) return emptyList()
     val dateTimeStrings = input.split(',')
     return dateTimeStrings.map { dateTimeString ->
         val parts = dateTimeString.split(':')
@@ -37,7 +37,6 @@ fun parseDateTimeString(input: String): List<LocalDateTime> {
     }
 }
 
-
 fun formatLocalDateTimeList(dateTimes: List<LocalDateTime>): String {
     return dateTimes.joinToString(",") { dateTime ->
         val day = dateTime.dayOfMonth.toString().padStart(2, '0')
@@ -49,4 +48,3 @@ fun formatLocalDateTimeList(dateTimes: List<LocalDateTime>): String {
         "$day.$month.$year:$hour-$minute"
     }
 }
-

@@ -3,7 +3,6 @@ package presentation.util
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Job
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.channels.onFailure
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -38,8 +37,8 @@ abstract class CoreViewModel<S, A>(
     protected val vmLogger = logger ?: Logger()
 
     @Suppress("PropertyName")
-    protected val _state = MutableStateFlow(initialState)
-    val state = _state.asStateFlow()
+    protected val stateFlow = MutableStateFlow(initialState)
+    val state = stateFlow.asStateFlow()
 
     private val tag = this::class.simpleName ?: "CoreViewModel"
     private val actions = Channel<A>(Channel.BUFFERED)
@@ -69,5 +68,10 @@ abstract class CoreViewModel<S, A>(
             .onFailure { throwable ->
                 vmLogger.e(tag, "Failed to send action: $action. The action channel may be full or closed.", throwable)
             }
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        actions.close()
     }
 }

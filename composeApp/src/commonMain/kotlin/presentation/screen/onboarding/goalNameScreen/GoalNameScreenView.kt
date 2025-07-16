@@ -72,7 +72,7 @@ fun GoalNameScreenView(
     ) {
         Column(
             modifier = Modifier
-                .fillMaxWidth()
+                .fillMaxWidth(),
         ) {
             Box(
                 modifier = Modifier

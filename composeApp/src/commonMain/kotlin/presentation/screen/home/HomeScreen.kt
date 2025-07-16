@@ -5,7 +5,6 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import presentation.screen.home.viewModel.HomeScreenViewModel
 import presentation.util.koinViewModel
-import util.Logger
 
 @Composable
 fun HomeScreen(

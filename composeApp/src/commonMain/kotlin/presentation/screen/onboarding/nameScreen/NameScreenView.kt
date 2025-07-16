@@ -59,7 +59,7 @@ fun NameScreenView(
     ) {
         Column(
             modifier = Modifier
-                .fillMaxWidth()
+                .fillMaxWidth(),
         ) {
             Box(
                 modifier = Modifier

@@ -39,7 +39,7 @@ class GoalFrequencyScreenViewModelTest : ViewModelTest() {
     fun `calls addGoalUseCase with name and frequency from state`() =
         runTest {
             // WHEN action SaveGoal is called with testGoalName
-            viewModel.dispatch(GoalFrequencyScreenAction.SaveGoal(testGoalName))
+            viewModel.sendAction(GoalFrequencyScreenAction.SaveGoal(testGoalName))
 
             // THEN addGoalUseCase is called once with testGoalName and testFrequency
             verifySuspend {
@@ -52,7 +52,7 @@ class GoalFrequencyScreenViewModelTest : ViewModelTest() {
     fun `calls setOnboardingFinishedUseCase with true`() =
         runTest {
             // WHEN action SaveGoal is called with testGoalName
-            viewModel.dispatch(GoalFrequencyScreenAction.SaveGoal(testGoalName))
+            viewModel.sendAction(GoalFrequencyScreenAction.SaveGoal(testGoalName))
 
             // THEN setOnboardingFinishedUseCase is called once with true
             verifySuspend {
@@ -65,7 +65,7 @@ class GoalFrequencyScreenViewModelTest : ViewModelTest() {
     fun `updates frequency in state`() =
         runTest {
             // WHEN action UpdateFrequency is called with testFrequency
-            viewModel.dispatch(GoalFrequencyScreenAction.UpdateFrequency(testFrequency))
+            viewModel.sendAction(GoalFrequencyScreenAction.UpdateFrequency(testFrequency))
 
             // THEN frequency in state is updated
             assertEquals(testFrequency, viewModel.state.value.frequency)

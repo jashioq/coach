@@ -2,6 +2,7 @@ package presentation.screen.onboarding.goalNameScreen.viewModel
 
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.advanceTimeBy
+import kotlinx.coroutines.test.runCurrent
 import kotlinx.coroutines.test.runTest
 import presentation.screen.onboarding.goalNameScreen.GoalNameScreenAction
 import util.ViewModelTest
@@ -31,6 +32,7 @@ class GoalNameScreenViewModelTest : ViewModelTest() {
             assertEquals(0, viewModel.state.value.goalNamePlaceholderIndex)
         }
 
+    @OptIn(ExperimentalCoroutinesApi::class)
     @Test
     fun `updates goalName in state`() =
         runTest {
@@ -38,7 +40,9 @@ class GoalNameScreenViewModelTest : ViewModelTest() {
             viewModel = GoalNameScreenViewModel(scope = backgroundScope, logger = logger)
 
             // WHEN action UpdateGoalName is called with testGoalName
-            viewModel.dispatch(GoalNameScreenAction.UpdateGoalName(testGoalName))
+            viewModel.sendAction(GoalNameScreenAction.UpdateGoalName(testGoalName))
+
+            runCurrent()
 
             // THEN goalName in state is updated
             assertEquals(testGoalName, viewModel.state.value.goalName)
