@@ -113,9 +113,9 @@ fun GoalFrequencyScreenView(
     Column(
         modifier = modifier
             .fillMaxSize()
+            .padding(32.dp)
             .displayCutoutPadding()
-            .navigationBarsPadding()
-            .padding(horizontal = 32.dp),
+            .navigationBarsPadding(),
         horizontalAlignment = Alignment.Start,
     ) {
         Box(
@@ -129,12 +129,12 @@ fun GoalFrequencyScreenView(
             )
         }
 
-        Spacer(modifier = Modifier.height(32.dp))
+        Spacer(modifier = Modifier.height(16.dp))
 
         Text(
             text = stringResource(Res.string.goal_frequency_screen_title, goalName),
-            fontSize = 48.sp,
-            lineHeight = 64.sp,
+            fontSize = 32.sp,
+            lineHeight = 48.sp,
             fontWeight = FontWeight.Bold,
         )
         Text(
@@ -149,8 +149,6 @@ fun GoalFrequencyScreenView(
         ) {
             Text(
                 text = sliderPosition.getInfoText(),
-                fontSize = 32.sp,
-                lineHeight = 44.sp,
                 fontWeight = FontWeight.Bold,
             )
 
@@ -163,8 +161,6 @@ fun GoalFrequencyScreenView(
             )
         }
         PrimaryButton(
-            modifier = Modifier
-                .padding(bottom = 32.dp),
             text = stringResource(Res.string.save_button),
             isEnabled = sliderPosition != 0f,
             onClick = {

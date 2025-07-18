@@ -13,9 +13,14 @@ fun HomeScreen(
     val state by homeScreenViewModel.state.collectAsState()
 
     HomeScreenView(
-        userName = state.userName,
-        goalId = state.goalId,
-        goalName = state.goalName,
-        goalFrequency = state.goalFrequency,
+        goals = state.goals,
+        onGoalStateChange = { id, newState ->
+            homeScreenViewModel.sendAction(
+                HomeScreenAction.UpdateGoalState(
+                    id = id,
+                    newState = newState,
+                ),
+            )
+        },
     )
 }

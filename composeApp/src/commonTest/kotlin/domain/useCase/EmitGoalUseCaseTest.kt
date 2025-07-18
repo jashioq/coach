@@ -7,6 +7,7 @@ import dev.mokkery.mock
 import dev.mokkery.verifyNoMoreCalls
 import dev.mokkery.verifySuspend
 import domain.model.Goal
+import domain.model.GoalState
 import domain.repository.DataBaseRepository
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runTest
@@ -34,6 +35,8 @@ class EmitGoalUseCaseTest {
                 id = 1,
                 name = "testName",
                 frequency = 5,
+                state = GoalState.ACTIVE,
+                completions = emptyList(),
             ),
         )
         everySuspend {

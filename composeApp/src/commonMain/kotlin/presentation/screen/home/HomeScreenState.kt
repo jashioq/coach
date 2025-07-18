@@ -1,8 +1,7 @@
 package presentation.screen.home
 
+import domain.model.Goal
+
 data class HomeScreenState(
-    val userName: String,
-    val goalId: String,
-    val goalName: String,
-    val goalFrequency: String,
+    val goals: List<Goal>,
 )

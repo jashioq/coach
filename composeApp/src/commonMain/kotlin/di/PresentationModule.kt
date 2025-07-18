@@ -1,9 +1,10 @@
 package di
 
 import domain.useCase.AddGoalUseCase
+import domain.useCase.EditGoalUseCase
 import domain.useCase.EmitAllGoalsUseCase
 import domain.useCase.EmitOnboardingFinishedUseCase
-import domain.useCase.EmitUserNamePreferenceUseCase
+import domain.useCase.MonitorGoalStateUseCase
 import domain.useCase.SetOnboardingFinishedUseCase
 import domain.useCase.SetUserNamePreferenceUseCase
 import navigation.viewModel.NavigationViewModel
@@ -44,8 +45,9 @@ val presentationModule = module {
 
     factory {
         HomeScreenViewModel(
-            emitUserNamePreferenceUseCase = get<EmitUserNamePreferenceUseCase>(),
             emitAllGoalsUseCase = get<EmitAllGoalsUseCase>(),
+            editGoalUseCase = get<EditGoalUseCase>(),
+            monitorGoalStateUseCase = get<MonitorGoalStateUseCase>(),
         )
     }
 }

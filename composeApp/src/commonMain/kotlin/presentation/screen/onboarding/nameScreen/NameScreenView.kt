@@ -45,6 +45,7 @@ fun NameScreenView(
     Column(
         modifier = modifier
             .fillMaxSize()
+            .padding(32.dp)
             .displayCutoutPadding()
             .navigationBarsPadding()
             .pointerInput(Unit) {
@@ -58,8 +59,7 @@ fun NameScreenView(
     ) {
         Column(
             modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 32.dp),
+                .fillMaxWidth(),
         ) {
             Box(
                 modifier = Modifier
@@ -72,12 +72,12 @@ fun NameScreenView(
                 )
             }
 
-            Spacer(modifier = Modifier.height(32.dp))
+            Spacer(modifier = Modifier.height(16.dp))
 
             Text(
                 text = stringResource(Res.string.who_are_you_title),
-                fontSize = 64.sp,
-                lineHeight = 72.sp,
+                fontSize = 32.sp,
+                lineHeight = 48.sp,
                 fontWeight = FontWeight.Bold,
             )
             Text(
@@ -87,7 +87,6 @@ fun NameScreenView(
 
         PillTextField(
             modifier = Modifier
-                .padding(32.dp)
                 .imePadding(),
             value = textFieldValue,
             capitalizeKeyboard = true,

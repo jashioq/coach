@@ -6,6 +6,7 @@ import dev.mokkery.mock
 import domain.model.OnboardingState
 import domain.useCase.EmitOnboardingFinishedUseCase
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runCurrent
 import kotlinx.coroutines.test.runTest
@@ -22,38 +23,44 @@ class NavigationViewModelTest : ViewModelTest() {
     @Test
     fun `updates state to FINISHED when emitOnboardingFinishedUseCase emits true`() =
         runTest {
-            // GIVEN initial state and emitOnboardingFinishedUseCase returns true
-            viewModel = NavigationViewModel(
-                emitOnboardingFinishedUseCase = emitOnboardingFinishedUseCase,
-                scope = this,
-            )
             everySuspend {
                 emitOnboardingFinishedUseCase.call(Unit)
-            } returns Result.success(flowOf(true))
+            } returns Result.success(
+                flow {
+                    emit(true)
+                    // Flow completes here automatically
+                },
+            )
 
-            // WHEN emitOnboardingFinishedUseCase is collected
+            viewModel = NavigationViewModel(
+                emitOnboardingFinishedUseCase = emitOnboardingFinishedUseCase,
+                scope = backgroundScope,
+            )
+
             runCurrent()
 
-            // THEN state is updated to FINISHED
+            // Add this to see what state you actually have
+            println("Current state: ${viewModel.state.value}")
             assertEquals(OnboardingState.FINISHED, viewModel.state.value)
         }
 
     @Test
     fun `updates state to NOT_FINISHED when emitOnboardingFinishedUseCase emits false`() =
         runTest {
-            // GIVEN initial state and emitOnboardingFinishedUseCase returns false
-            viewModel = NavigationViewModel(
-                emitOnboardingFinishedUseCase = emitOnboardingFinishedUseCase,
-                scope = this,
-            )
+            // GIVEN emitOnboardingFinishedUseCase returns false
             everySuspend {
                 emitOnboardingFinishedUseCase.call(Unit)
             } returns Result.success(flowOf(false))
 
-            // WHEN emitOnboardingFinishedUseCase is collected
+            // WHEN ViewModel is created
+            viewModel = NavigationViewModel(
+                emitOnboardingFinishedUseCase = emitOnboardingFinishedUseCase,
+                scope = backgroundScope,
+            )
+
             runCurrent()
 
-            // THEN state is updated to FINISHED
+            // THEN state is updated to NOT_FINISHED
             assertEquals(OnboardingState.NOT_FINISHED, viewModel.state.value)
         }
 }

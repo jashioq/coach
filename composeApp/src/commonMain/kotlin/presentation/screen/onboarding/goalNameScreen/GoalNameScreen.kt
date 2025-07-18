@@ -22,7 +22,7 @@ fun GoalNameScreen(
         userName = userName,
         onInputDone = { onNavigateToGoalFrequencyScreen(state.goalName.trim()) },
         onTextFieldValueChange = {
-            goalNameScreenViewModel.dispatch(
+            goalNameScreenViewModel.sendAction(
                 GoalNameScreenAction.UpdateGoalName(it),
             )
         },

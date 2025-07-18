@@ -29,7 +29,7 @@ class NameScreenViewModelTest : ViewModelTest() {
     fun `updates userName in state`() =
         runTest {
             // WHEN action UpdateName is called with testName
-            viewModel.dispatch(NameScreenAction.UpdateName(testName))
+            viewModel.sendAction(NameScreenAction.UpdateName(testName))
 
             // THEN name in state is updated
             assertEquals(testName, viewModel.state.value.name)
@@ -42,10 +42,10 @@ class NameScreenViewModelTest : ViewModelTest() {
             everySuspend {
                 setUserNamePreferenceUseCase.call(testName)
             } returns Result.success(Unit)
-            viewModel.dispatch(NameScreenAction.UpdateName(testName))
+            viewModel.sendAction(NameScreenAction.UpdateName(testName))
 
             // WHEN action SaveName called
-            viewModel.dispatch(NameScreenAction.SaveName)
+            viewModel.sendAction(NameScreenAction.SaveName)
 
             // THEN setUserNamePreferenceUseCase is called once with testName
             verifySuspend {

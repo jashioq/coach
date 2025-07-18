@@ -7,6 +7,7 @@ import domain.useCase.EmitAllGoalsUseCase
 import domain.useCase.EmitGoalUseCase
 import domain.useCase.EmitOnboardingFinishedUseCase
 import domain.useCase.EmitUserNamePreferenceUseCase
+import domain.useCase.MonitorGoalStateUseCase
 import domain.useCase.SetOnboardingFinishedUseCase
 import domain.useCase.SetUserNamePreferenceUseCase
 import org.koin.dsl.module
@@ -64,5 +65,9 @@ val domainModule = module {
         EmitOnboardingFinishedUseCase(
             dataStoreRepository = get(),
         )
+    }
+
+    factory {
+        MonitorGoalStateUseCase()
     }
 }

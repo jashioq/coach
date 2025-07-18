@@ -18,13 +18,13 @@ fun NameScreen(
     NameScreenView(
         textFieldValue = state.name,
         onInputDone = {
-            nameScreenViewModel.dispatch(
+            nameScreenViewModel.sendAction(
                 NameScreenAction.SaveName,
             )
             onNavigateToGoalNameScreen(state.name.trim())
         },
         onTextFieldValueChange = {
-            nameScreenViewModel.dispatch(
+            nameScreenViewModel.sendAction(
                 NameScreenAction.UpdateName(it),
             )
         },

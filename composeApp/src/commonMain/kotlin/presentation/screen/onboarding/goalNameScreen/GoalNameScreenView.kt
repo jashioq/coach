@@ -64,6 +64,7 @@ fun GoalNameScreenView(
     Column(
         modifier = modifier
             .fillMaxSize()
+            .padding(32.dp)
             .displayCutoutPadding()
             .navigationBarsPadding(),
         verticalArrangement = Arrangement.SpaceBetween,
@@ -71,8 +72,7 @@ fun GoalNameScreenView(
     ) {
         Column(
             modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 32.dp),
+                .fillMaxWidth(),
         ) {
             Box(
                 modifier = Modifier
@@ -85,12 +85,12 @@ fun GoalNameScreenView(
                 )
             }
 
-            Spacer(modifier = Modifier.height(32.dp))
+            Spacer(modifier = Modifier.height(16.dp))
 
             Text(
                 text = stringResource(Res.string.goal_name_screen_title, userName),
-                fontSize = 64.sp,
-                lineHeight = 72.sp,
+                fontSize = 32.sp,
+                lineHeight = 48.sp,
                 fontWeight = FontWeight.Bold,
             )
             Text(
@@ -99,9 +99,7 @@ fun GoalNameScreenView(
         }
 
         PillTextField(
-            modifier = Modifier
-                .padding(32.dp)
-                .imePadding(),
+            modifier = Modifier.imePadding(),
             value = textFieldValue,
             onValueChange = onTextFieldValueChange,
             displayDoneButton = textFieldValue.isNotEmpty(),

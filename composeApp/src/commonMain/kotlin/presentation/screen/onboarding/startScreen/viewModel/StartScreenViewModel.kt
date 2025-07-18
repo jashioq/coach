@@ -27,7 +27,7 @@ class StartScreenViewModel(
         vmScope.launch {
             var currentIndex = 0
             while (true) {
-                _state.update {
+                stateFlow.update {
                     it.copy(
                         textIndex = currentIndex,
                     )
@@ -36,5 +36,9 @@ class StartScreenViewModel(
                 delay(2000)
             }
         }
+    }
+
+    override fun Unit.process() {
+        TODO("Not yet implemented")
     }
 }

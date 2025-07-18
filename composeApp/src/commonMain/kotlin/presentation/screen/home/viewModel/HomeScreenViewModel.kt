@@ -1,54 +1,90 @@
 package presentation.screen.home.viewModel
 
 import domain.model.Goal
+import domain.model.GoalState
 import domain.util.UseCase
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import kotlinx.datetime.LocalDate
+import kotlinx.datetime.LocalDateTime
+import presentation.screen.home.HomeScreenAction
 import presentation.screen.home.HomeScreenState
 import presentation.util.CoreViewModel
+import presentation.util.getLocalDateTime
 import util.Logger
 
 class HomeScreenViewModel(
-    private val emitUserNamePreferenceUseCase: UseCase<Unit, Flow<String>>,
     private val emitAllGoalsUseCase: UseCase<Unit, Flow<List<Goal>>>,
+    private val editGoalUseCase: UseCase<Goal, Unit>,
+    private val monitorGoalStateUseCase: UseCase<Pair<Goal, LocalDate>, GoalState>,
     scope: CoroutineScope? = null,
     logger: Logger? = null,
-) : CoreViewModel<HomeScreenState, Unit>(
+) : CoreViewModel<HomeScreenState, HomeScreenAction>(
     initialState = HomeScreenState(
-        userName = "",
-        goalId = "",
-        goalName = "",
-        goalFrequency = "",
+        goals = emptyList(),
     ),
     scope = scope,
     logger = logger,
 ) {
     init {
         vmScope.launch {
-            emitUserNamePreferenceUseCase.call(value = Unit).onSuccess {
-                it.collect { name ->
-                    _state.update { state ->
-                        state.copy(
-                            userName = name,
-                        )
+            emitAllGoalsUseCase.call(value = Unit).onSuccess { goalsFlow ->
+                goalsFlow.collect { goals ->
+
+                    // Only refresh states when goals are first loaded
+                    if (state.value.goals.isEmpty() && goals.isNotEmpty()) {
+                        goals.forEach { goal ->
+                            monitorGoalStateUseCase.call(
+                                goal to getLocalDateTime().date,
+                            ).onSuccess { state ->
+                                editGoalUseCase.call(
+                                    goal.copy(
+                                        state = state,
+                                    ),
+                                )
+                            }
+                        }
+                    }
+
+                    stateFlow.update { state ->
+                        state.copy(goals = goals)
                     }
                 }
             }
         }
-        vmScope.launch {
-            emitAllGoalsUseCase.call(value = Unit).onSuccess {
-                it.collect { goals ->
-                    _state.update { state ->
-                        state.copy(
-                            goalId = goals.first().id.toString(),
-                            goalName = goals.first().name,
-                            goalFrequency = goals.first().frequency.toString(),
-                        )
+    }
+
+    override fun HomeScreenAction.process() {
+        when (val action = this@process) {
+            is HomeScreenAction.UpdateGoalState -> {
+                vmScope.launch {
+                    val goal = state.value.getGoalWithId(action.id)
+
+                    val newCompletions = if (action.newState == GoalState.DONE) {
+                        goal.completions.filterOutToday() + getLocalDateTime()
+                    } else {
+                        goal.completions.filterOutToday()
                     }
+
+                    editGoalUseCase.call(
+                        value = goal.copy(
+                            state = action.newState,
+                            completions = newCompletions,
+                        ),
+                    )
                 }
             }
         }
+    }
+
+    private fun HomeScreenState.getGoalWithId(id: Long): Goal {
+        return this.goals.first { it.id == id }
+    }
+
+    private fun List<LocalDateTime>.filterOutToday(): List<LocalDateTime> {
+        val today = getLocalDateTime().date
+        return this.filter { it.date != today }
     }
 }
