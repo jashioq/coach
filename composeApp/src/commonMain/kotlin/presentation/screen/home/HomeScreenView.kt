@@ -22,6 +22,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import domain.model.Goal
 import domain.model.GoalState
+import presentation.compose.component.blob.Blob
+import presentation.compose.component.blob.BlobMode
+import presentation.compose.component.blob.BlobState
 import presentation.compose.component.button.PrimaryButton
 import presentation.compose.component.preview.GoalPreview
 import presentation.compose.component.text.Text
@@ -32,6 +35,8 @@ fun HomeScreenView(
     modifier: Modifier = Modifier,
     onGoalStateChange: (Long, GoalState) -> Unit,
     goals: List<Goal>,
+    blobState: BlobState,
+    onSetBlobMode: (BlobMode) -> Unit,
 ) {
     val sheetState = rememberModalBottomSheetState()
     var showBottomSheet by remember { mutableStateOf(false) }
@@ -93,6 +98,32 @@ fun HomeScreenView(
                     selectedGoal = goal
                     showBottomSheet = true
                 },
+            )
+        }
+
+        Column(
+            modifier.padding(16.dp)
+        ) {
+            PrimaryButton(
+                text = "Set blob navigation",
+                onClick = {
+                    onSetBlobMode(BlobMode.NAVIGATION)
+                }
+            )
+
+            Spacer(modifier.height(16.dp))
+
+            PrimaryButton(
+                text = "Set blob button bar",
+                onClick = {
+                    onSetBlobMode(BlobMode.BUTTON_BAR)
+                }
+            )
+
+            Spacer(modifier.height(16.dp))
+
+            Blob(
+                state = blobState
             )
         }
     }
