@@ -3,6 +3,7 @@ package presentation.screen.home
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import presentation.compose.component.blob.BlobAnimationController
 import presentation.compose.component.blob.BlobMode
 import presentation.compose.component.blob.BlobState
 import presentation.screen.home.viewModel.HomeScreenViewModel
@@ -13,6 +14,7 @@ fun HomeScreen(
     homeScreenViewModel: HomeScreenViewModel = koinViewModel(),
     blobState: BlobState,
     onSetBlobMode: (BlobMode) -> Unit,
+    blobAnimationController: BlobAnimationController,
 ) {
     val state by homeScreenViewModel.state.collectAsState()
 
@@ -28,5 +30,6 @@ fun HomeScreen(
         },
         blobState = blobState,
         onSetBlobMode = onSetBlobMode,
+        blobAnimationController = blobAnimationController,
     )
 }

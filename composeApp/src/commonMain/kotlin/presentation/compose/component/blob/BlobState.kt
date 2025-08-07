@@ -19,5 +19,6 @@ enum class BlobMode{
     NAVIGATION,
     BUTTON_BAR,
     DIALOG,
+    DIALOG_WITH_BUTTON,
     DIALOG_WITH_BUTTON_BAR,
 }
