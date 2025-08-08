@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.displayCutoutPadding
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.navigationBarsPadding
@@ -22,6 +23,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import domain.model.Goal
 import domain.model.GoalState
+import presentation.compose.component.blob.Blob
+import presentation.compose.component.blob.BlobAnimationController
+import presentation.compose.component.blob.BlobMode
+import presentation.compose.component.blob.BlobState
 import presentation.compose.component.button.PrimaryButton
 import presentation.compose.component.preview.GoalPreview
 import presentation.compose.component.text.Text
@@ -32,6 +37,9 @@ fun HomeScreenView(
     modifier: Modifier = Modifier,
     onGoalStateChange: (Long, GoalState) -> Unit,
     goals: List<Goal>,
+    blobState: BlobState,
+    onSetBlobMode: (BlobMode) -> Unit,
+    blobAnimationController: BlobAnimationController,
 ) {
     val sheetState = rememberModalBottomSheetState()
     var showBottomSheet by remember { mutableStateOf(false) }
@@ -83,16 +91,70 @@ fun HomeScreenView(
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
-        goals.map { goal ->
-            GoalPreview(
-                goalName = goal.name,
-                goalState = goal.state,
-                goalCompletions = goal.completions,
-                onGoalStateChange = { onGoalStateChange(goal.id, it) },
-                onOptionsOpen = {
-                    selectedGoal = goal
-                    showBottomSheet = true
-                },
+//        goals.map { goal ->
+//            GoalPreview(
+//                goalName = goal.name,
+//                goalState = goal.state,
+//                goalCompletions = goal.completions,
+//                onGoalStateChange = { onGoalStateChange(goal.id, it) },
+//                onOptionsOpen = {
+//                    selectedGoal = goal
+//                    showBottomSheet = true
+//                },
+//            )
+//        }
+
+        Column(
+            modifier.padding(16.dp).fillMaxHeight(),
+            verticalArrangement = Arrangement.SpaceBetween
+        ) {
+            Column {
+                PrimaryButton(
+                    text = "Set blob navigation",
+                    onClick = {
+                        onSetBlobMode(BlobMode.NAVIGATION)
+                    }
+                )
+
+                Spacer(modifier.height(16.dp))
+
+                PrimaryButton(
+                    text = "Set blob button bar",
+                    onClick = {
+                        onSetBlobMode(BlobMode.BUTTON_BAR)
+                    }
+                )
+
+                Spacer(modifier.height(16.dp))
+
+                PrimaryButton(
+                    text = "Set blob dialog",
+                    onClick = {
+                        onSetBlobMode(BlobMode.DIALOG)
+                    }
+                )
+
+                Spacer(modifier.height(16.dp))
+
+                PrimaryButton(
+                    text = "Set blob dialog with button bar",
+                    onClick = {
+                        onSetBlobMode(BlobMode.DIALOG_WITH_BUTTON_BAR)
+                    }
+                )
+
+                Spacer(modifier.height(16.dp))
+
+                PrimaryButton(
+                    text = "Set blob dialog with button",
+                    onClick = {
+                        onSetBlobMode(BlobMode.DIALOG_WITH_BUTTON)
+                    }
+                )
+            }
+            Blob(
+                state = blobState,
+                animationController = blobAnimationController,
             )
         }
     }
