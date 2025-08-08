@@ -2,7 +2,9 @@ package presentation.compose.component.blob
 
 import androidx.compose.animation.core.Animatable
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.cancelChildren
+import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.channels.onFailure
+import kotlinx.coroutines.channels.onSuccess
 import kotlinx.coroutines.launch
 import util.Logger
 
@@ -10,6 +12,8 @@ class BlobAnimationController(
     private val coroutineScope: CoroutineScope,
 ) {
     private var lastMode = BlobMode.NAVIGATION
+    private val requestsChannel = Channel<BlobMode>(capacity = Channel.BUFFERED)
+
     val blobHeight = Animatable(64F)
 
     val topHorizontalSpacing = Animatable(0F)
@@ -20,339 +24,382 @@ class BlobAnimationController(
     val verticalCornerRadius = Animatable(0F)
 
     fun requestMode(newMode: BlobMode) {
-        coroutineScope.coroutineContext.cancelChildren()
-        if (lastMode == newMode) {
-            Logger().d(this::class.simpleName.toString(), "Blob mode is already $newMode")
-            return
-        }
-        Logger().d(this::class.simpleName.toString(), "Setting blob mode to $newMode")
-        when (lastMode) {
-            BlobMode.NAVIGATION -> handleFromNavigation(newMode)
-            BlobMode.BUTTON_BAR -> handleFromButtonBar(newMode)
-            BlobMode.DIALOG -> handleFromDialog(newMode)
-            BlobMode.DIALOG_WITH_BUTTON -> handleFromDialogWithButton(newMode)
-            BlobMode.DIALOG_WITH_BUTTON_BAR -> handleFromDialogWithButtonBar(newMode)
-        }
-
-        lastMode = newMode
+        requestsChannel
+            .trySend(newMode)
+            .onFailure {
+                Logger().e(
+                    this::class.simpleName.toString(),
+                    "Failed to send blob mode request: $newMode",
+                    null,
+                )
+            }.onSuccess {
+                Logger().d(
+                    this::class.simpleName.toString(),
+                    "Sent blob mode request: $newMode",
+                )
+            }
     }
 
-    private fun handleFromNavigation(newMode: BlobMode) {
-        when (newMode) {
-            BlobMode.NAVIGATION -> {
-                // Do nothing
-            }
+    init {
+        coroutineScope.launch {
+            for (request in requestsChannel) {
+                Logger().d(
+                    this@BlobAnimationController::class.simpleName.toString(),
+                    "Channel is: $requestsChannel"
+                )
+                Logger().d(
+                    this@BlobAnimationController::class.simpleName.toString(),
+                    "Setting blob mode to $request"
+                )
+                when (lastMode) {
+                    BlobMode.NAVIGATION -> handleFromNavigation(request)
+                    BlobMode.BUTTON_BAR -> handleFromButtonBar(request)
+                    BlobMode.DIALOG -> handleFromDialog(request)
+                    BlobMode.DIALOG_WITH_BUTTON -> handleFromDialogWithButton(request)
+                    BlobMode.DIALOG_WITH_BUTTON_BAR -> handleFromDialogWithButtonBar(request)
+                }
 
-            BlobMode.BUTTON_BAR -> {
-                coroutineScope.launch {
-                    topHorizontalSpacing.animateTo(16f)
-                }
-                coroutineScope.launch {
-                    horizontalCornerRadius.animateTo(32f)
-                }
-            }
-
-            BlobMode.DIALOG -> {
-                coroutineScope.launch {
-                    blobHeight.animateTo(256f)
-                }
-            }
-
-            BlobMode.DIALOG_WITH_BUTTON -> {
-                coroutineScope.launch {
-                    blobHeight.animateTo(256f)
-                }.invokeOnCompletion {
-                    coroutineScope.launch {
-                        verticalSpacing.animateTo(16f)
-                    }
-                    coroutineScope.launch {
-                        verticalCornerRadius.animateTo(32f)
-                    }
-                }
-            }
-
-            BlobMode.DIALOG_WITH_BUTTON_BAR -> {
-                coroutineScope.launch {
-                    blobHeight.animateTo(256f)
-                }.invokeOnCompletion {
-                    coroutineScope.launch {
-                        verticalSpacing.animateTo(16f)
-                    }
-                    coroutineScope.launch {
-                        verticalCornerRadius.animateTo(32f)
-                    }
-                    coroutineScope.launch {
-                        bottomHorizontalSpacing.animateTo(16f)
-                    }
-                    coroutineScope.launch {
-                        horizontalCornerRadius.animateTo(32f)
-                    }
-                }
+                lastMode = request
             }
         }
     }
 
-    private fun handleFromButtonBar(newMode: BlobMode) {
-        when (newMode) {
-            BlobMode.NAVIGATION -> {
-                coroutineScope.launch {
-                    topHorizontalSpacing.animateTo(0f)
-                }
-                coroutineScope.launch {
-                    horizontalCornerRadius.animateTo(0f)
-                }
-            }
-
-            BlobMode.BUTTON_BAR -> {
-                // Do nothing
-            }
-
-            BlobMode.DIALOG -> {
-                coroutineScope.launch {
-                    topHorizontalSpacing.animateTo(0f)
-                }
-                coroutineScope.launch {
-                    horizontalCornerRadius.animateTo(0f)
-                }.invokeOnCompletion {
-                    coroutineScope.launch {
-                        blobHeight.animateTo(256f)
-                    }
-                }
-            }
-
-            BlobMode.DIALOG_WITH_BUTTON -> {
-                coroutineScope.launch {
-                    topHorizontalSpacing.animateTo(0f)
-                }
-                coroutineScope.launch {
-                    horizontalCornerRadius.animateTo(0f)
-                }.invokeOnCompletion {
-                    coroutineScope.launch {
-                        blobHeight.animateTo(256f)
-                    }.invokeOnCompletion {
-                        coroutineScope.launch {
-                            verticalSpacing.animateTo(16f)
-                        }
-                        coroutineScope.launch {
-                            verticalCornerRadius.animateTo(32f)
-                        }
+    private suspend fun handleFromNavigation(newMode: BlobMode) {
+        coroutineScope.launch {
+            when (newMode) {
+                BlobMode.NAVIGATION -> {
+                    launch {
+                        //Do nothing
                     }
                 }
 
-            }
-
-            BlobMode.DIALOG_WITH_BUTTON_BAR -> {
-                coroutineScope.launch {
-                    topHorizontalSpacing.animateTo(0f)
-                }
-                coroutineScope.launch {
-                    horizontalCornerRadius.animateTo(0f)
-                }.invokeOnCompletion {
-                    coroutineScope.launch {
-                        blobHeight.animateTo(256f)
-                    }.invokeOnCompletion {
-                        coroutineScope.launch {
-                            verticalSpacing.animateTo(16f)
-                        }
-                        coroutineScope.launch {
-                            verticalCornerRadius.animateTo(32f)
-                        }
-                        coroutineScope.launch {
-                            bottomHorizontalSpacing.animateTo(16f)
-                        }
-                        coroutineScope.launch {
-                            horizontalCornerRadius.animateTo(32f)
-                        }
-                    }
-                }
-            }
-        }
-    }
-
-    private fun handleFromDialog(newMode: BlobMode) {
-        when (newMode) {
-            BlobMode.NAVIGATION -> {
-                coroutineScope.launch {
-                    blobHeight.animateTo(64f)
-                }
-            }
-
-            BlobMode.BUTTON_BAR -> {
-                coroutineScope.launch {
-                    blobHeight.animateTo(64f)
-                }.invokeOnCompletion {
-                    coroutineScope.launch {
+                BlobMode.BUTTON_BAR -> {
+                    launch {
                         topHorizontalSpacing.animateTo(16f)
                     }
-                    coroutineScope.launch {
+                    launch {
+                        horizontalCornerRadius.animateTo(32f)
+                    }
+                }
+
+                BlobMode.DIALOG -> {
+                    launch {
+                        blobHeight.animateTo(256f)
+                    }
+                }
+
+                BlobMode.DIALOG_WITH_BUTTON -> {
+                    launch {
+                        blobHeight.animateTo(256f)
+                    }.invokeOnCompletion {
+                        launch {
+                            verticalSpacing.animateTo(16f)
+                        }
+                        launch {
+                            verticalCornerRadius.animateTo(32f)
+                        }
+                    }
+                }
+
+                BlobMode.DIALOG_WITH_BUTTON_BAR -> {
+                    launch {
+                        blobHeight.animateTo(256f)
+                    }.invokeOnCompletion {
+                        launch {
+                            verticalSpacing.animateTo(16f)
+                        }
+                        launch {
+                            verticalCornerRadius.animateTo(32f)
+                        }
+                        launch {
+                            bottomHorizontalSpacing.animateTo(16f)
+                        }
+                        launch {
+                            horizontalCornerRadius.animateTo(32f)
+                        }
+                    }
+                }
+            }
+        }.join()
+    }
+
+    private suspend fun handleFromButtonBar(newMode: BlobMode) {
+        coroutineScope.launch {
+            when (newMode) {
+                BlobMode.NAVIGATION -> {
+                    launch {
+                        topHorizontalSpacing.animateTo(0f)
+                    }
+                    launch {
+                        horizontalCornerRadius.animateTo(0f)
+                    }
+                }
+
+                BlobMode.BUTTON_BAR -> {
+                    launch {
+                        //Do nothing
+                    }
+                }
+
+                BlobMode.DIALOG -> {
+                    launch {
+                        topHorizontalSpacing.animateTo(0f)
+                    }
+                    launch {
+                        horizontalCornerRadius.animateTo(0f)
+                    }.invokeOnCompletion {
+                        launch {
+                            blobHeight.animateTo(256f)
+                        }
+                    }
+                }
+
+                BlobMode.DIALOG_WITH_BUTTON -> {
+                    launch {
+                        topHorizontalSpacing.animateTo(0f)
+                    }
+                    launch {
+                        horizontalCornerRadius.animateTo(0f)
+                    }.invokeOnCompletion {
+                        launch {
+                            blobHeight.animateTo(256f)
+                        }.invokeOnCompletion {
+                            launch {
+                                verticalSpacing.animateTo(16f)
+                            }
+                            launch {
+                                verticalCornerRadius.animateTo(32f)
+                            }
+                        }
+                    }
+
+                }
+
+                BlobMode.DIALOG_WITH_BUTTON_BAR -> {
+                    launch {
+                        topHorizontalSpacing.animateTo(0f)
+                    }
+                    launch {
+                        horizontalCornerRadius.animateTo(0f)
+                    }.invokeOnCompletion {
+                        launch {
+                            blobHeight.animateTo(256f)
+                        }.invokeOnCompletion {
+                            launch {
+                                verticalSpacing.animateTo(16f)
+                            }
+                            launch {
+                                verticalCornerRadius.animateTo(32f)
+                            }
+                            launch {
+                                bottomHorizontalSpacing.animateTo(16f)
+                            }
+                            launch {
+                                horizontalCornerRadius.animateTo(32f)
+                            }
+                        }
+                    }
+                }
+            }
+        }.join()
+    }
+
+    private suspend fun handleFromDialog(newMode: BlobMode) {
+        coroutineScope.launch {
+            when (newMode) {
+                BlobMode.NAVIGATION -> {
+                    launch {
+                        blobHeight.animateTo(64f)
+                    }
+                }
+
+                BlobMode.BUTTON_BAR -> {
+                    launch {
+                        blobHeight.animateTo(64f)
+                    }.invokeOnCompletion {
+                        launch {
+                            topHorizontalSpacing.animateTo(16f)
+                        }
+                        launch {
+                            horizontalCornerRadius.animateTo(32f)
+                        }
+                    }
+                }
+
+                BlobMode.DIALOG -> {
+                    launch {
+                        //Do nothing
+                    }
+                }
+
+                BlobMode.DIALOG_WITH_BUTTON -> {
+                    launch {
+                        verticalSpacing.animateTo(16f)
+                    }
+                    launch {
+                        verticalCornerRadius.animateTo(32f)
+                    }
+                }
+
+                BlobMode.DIALOG_WITH_BUTTON_BAR -> {
+                    launch {
+                        verticalSpacing.animateTo(16f)
+                    }
+                    launch {
+                        verticalCornerRadius.animateTo(32f)
+                    }
+                    launch {
+                        bottomHorizontalSpacing.animateTo(16f)
+                    }
+                    launch {
                         horizontalCornerRadius.animateTo(32f)
                     }
                 }
             }
-
-            BlobMode.DIALOG -> {
-                //Do nothing
-            }
-
-            BlobMode.DIALOG_WITH_BUTTON -> {
-                coroutineScope.launch {
-                    verticalSpacing.animateTo(16f)
-                }
-                coroutineScope.launch {
-                    verticalCornerRadius.animateTo(32f)
-                }
-            }
-
-            BlobMode.DIALOG_WITH_BUTTON_BAR -> {
-                coroutineScope.launch {
-                    verticalSpacing.animateTo(16f)
-                }
-                coroutineScope.launch {
-                    verticalCornerRadius.animateTo(32f)
-                }
-                coroutineScope.launch {
-                    bottomHorizontalSpacing.animateTo(16f)
-                }
-                coroutineScope.launch {
-                    horizontalCornerRadius.animateTo(32f)
-                }
-            }
-        }
+        }.join()
     }
 
-    private fun handleFromDialogWithButton(newMode: BlobMode) {
-        when (newMode) {
-            BlobMode.NAVIGATION -> {
-                coroutineScope.launch {
-                    verticalSpacing.animateTo(0f)
-                }
-                coroutineScope.launch {
-                    verticalCornerRadius.animateTo(0f)
-                }.invokeOnCompletion {
-                    coroutineScope.launch {
-                        blobHeight.animateTo(64f)
+    private suspend fun handleFromDialogWithButton(newMode: BlobMode) {
+        coroutineScope.launch {
+            when (newMode) {
+                BlobMode.NAVIGATION -> {
+                    launch {
+                        verticalSpacing.animateTo(0f)
                     }
-                }
-            }
-
-            BlobMode.BUTTON_BAR -> {
-                coroutineScope.launch {
-                    verticalSpacing.animateTo(0f)
-                }
-                coroutineScope.launch {
-                    verticalCornerRadius.animateTo(0f)
-                }.invokeOnCompletion {
-                    coroutineScope.launch {
-                        blobHeight.animateTo(64f)
+                    launch {
+                        verticalCornerRadius.animateTo(0f)
                     }.invokeOnCompletion {
-                        coroutineScope.launch {
-                            topHorizontalSpacing.animateTo(16f)
-                        }
-                        coroutineScope.launch {
-                            horizontalCornerRadius.animateTo(32f)
+                        launch {
+                            blobHeight.animateTo(64f)
                         }
                     }
                 }
-            }
 
-            BlobMode.DIALOG -> {
-                coroutineScope.launch {
-                    verticalSpacing.animateTo(0f)
+                BlobMode.BUTTON_BAR -> {
+                    launch {
+                        verticalSpacing.animateTo(0f)
+                    }
+                    launch {
+                        verticalCornerRadius.animateTo(0f)
+                    }.invokeOnCompletion {
+                        launch {
+                            blobHeight.animateTo(64f)
+                        }.invokeOnCompletion {
+                            launch {
+                                topHorizontalSpacing.animateTo(16f)
+                            }
+                            launch {
+                                horizontalCornerRadius.animateTo(32f)
+                            }
+                        }
+                    }
                 }
-                coroutineScope.launch {
-                    verticalCornerRadius.animateTo(0f)
-                }
-            }
 
-            BlobMode.DIALOG_WITH_BUTTON -> {
-                // Do nothing
-            }
+                BlobMode.DIALOG -> {
+                    launch {
+                        verticalSpacing.animateTo(0f)
+                    }
+                    launch {
+                        verticalCornerRadius.animateTo(0f)
+                    }
+                }
 
-            BlobMode.DIALOG_WITH_BUTTON_BAR -> {
-                coroutineScope.launch {
-                    bottomHorizontalSpacing.animateTo(16f)
+                BlobMode.DIALOG_WITH_BUTTON -> {
+                    launch {
+                        //Do nothing
+                    }
                 }
-                coroutineScope.launch {
-                    horizontalCornerRadius.animateTo(32f)
+
+                BlobMode.DIALOG_WITH_BUTTON_BAR -> {
+                    launch {
+                        bottomHorizontalSpacing.animateTo(16f)
+                    }
+                    launch {
+                        horizontalCornerRadius.animateTo(32f)
+                    }
                 }
             }
-        }
+        }.join()
     }
 
-    private fun handleFromDialogWithButtonBar(newMode: BlobMode) {
-        when (newMode) {
-            BlobMode.NAVIGATION -> {
-                coroutineScope.launch {
-                    verticalSpacing.animateTo(0f)
-                }
-                coroutineScope.launch {
-                    verticalCornerRadius.animateTo(0f)
-                }
-                coroutineScope.launch {
-                    bottomHorizontalSpacing.animateTo(0f)
-                }
-                coroutineScope.launch {
-                    horizontalCornerRadius.animateTo(0f)
-                }.invokeOnCompletion {
-                    coroutineScope.launch {
-                        blobHeight.animateTo(64f)
+    private suspend fun handleFromDialogWithButtonBar(newMode: BlobMode) {
+        coroutineScope.launch {
+            when (newMode) {
+                BlobMode.NAVIGATION -> {
+                    launch {
+                        verticalSpacing.animateTo(0f)
                     }
-                }
-            }
-
-            BlobMode.BUTTON_BAR -> {
-                coroutineScope.launch {
-                    verticalSpacing.animateTo(0f)
-                }
-                coroutineScope.launch {
-                    verticalCornerRadius.animateTo(0f)
-                }
-                coroutineScope.launch {
-                    bottomHorizontalSpacing.animateTo(0f)
-                }
-                coroutineScope.launch {
-                    horizontalCornerRadius.animateTo(0f)
-                }.invokeOnCompletion {
-                    coroutineScope.launch {
-                        blobHeight.animateTo(64f)
+                    launch {
+                        verticalCornerRadius.animateTo(0f)
+                    }
+                    launch {
+                        bottomHorizontalSpacing.animateTo(0f)
+                    }
+                    launch {
+                        horizontalCornerRadius.animateTo(0f)
                     }.invokeOnCompletion {
-                        coroutineScope.launch {
-                            topHorizontalSpacing.animateTo(16f)
-                        }
-                        coroutineScope.launch {
-                            horizontalCornerRadius.animateTo(32f)
+                        launch {
+                            blobHeight.animateTo(64f)
                         }
                     }
                 }
-            }
 
-            BlobMode.DIALOG -> {
-                coroutineScope.launch {
-                    verticalSpacing.animateTo(0f)
+                BlobMode.BUTTON_BAR -> {
+                    launch {
+                        verticalSpacing.animateTo(0f)
+                    }
+                    launch {
+                        verticalCornerRadius.animateTo(0f)
+                    }
+                    launch {
+                        bottomHorizontalSpacing.animateTo(0f)
+                    }
+                    launch {
+                        horizontalCornerRadius.animateTo(0f)
+                    }.invokeOnCompletion {
+                        launch {
+                            blobHeight.animateTo(64f)
+                        }.invokeOnCompletion {
+                            launch {
+                                topHorizontalSpacing.animateTo(16f)
+                            }
+                            launch {
+                                horizontalCornerRadius.animateTo(32f)
+                            }
+                        }
+                    }
                 }
-                coroutineScope.launch {
-                    verticalCornerRadius.animateTo(0f)
-                }
-                coroutineScope.launch {
-                    bottomHorizontalSpacing.animateTo(0f)
-                }
-                coroutineScope.launch {
-                    horizontalCornerRadius.animateTo(0f)
-                }
-            }
 
-            BlobMode.DIALOG_WITH_BUTTON -> {
-                coroutineScope.launch {
-                    bottomHorizontalSpacing.animateTo(0f)
+                BlobMode.DIALOG -> {
+                    launch {
+                        verticalSpacing.animateTo(0f)
+                    }
+                    launch {
+                        verticalCornerRadius.animateTo(0f)
+                    }
+                    launch {
+                        bottomHorizontalSpacing.animateTo(0f)
+                    }
+                    launch {
+                        horizontalCornerRadius.animateTo(0f)
+                    }
                 }
-                coroutineScope.launch {
-                    horizontalCornerRadius.animateTo(0f)
-                }
-            }
 
-            BlobMode.DIALOG_WITH_BUTTON_BAR -> {
-                // Do nothing
+                BlobMode.DIALOG_WITH_BUTTON -> {
+                    launch {
+                        bottomHorizontalSpacing.animateTo(0f)
+                    }
+                    launch {
+                        horizontalCornerRadius.animateTo(0f)
+                    }
+                }
+
+                BlobMode.DIALOG_WITH_BUTTON_BAR -> {
+                    launch {
+                        //Do nothing
+                    }
+                }
             }
-        }
+        }.join()
     }
 }

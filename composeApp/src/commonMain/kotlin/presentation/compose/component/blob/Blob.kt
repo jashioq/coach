@@ -1,6 +1,5 @@
 package presentation.compose.component.blob
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -53,8 +52,7 @@ fun Blob(
     Column(
         modifier = Modifier
             .fillMaxWidth()
-            .wrapContentHeight()
-            .background(Color.LightGray),
+            .wrapContentHeight(),
     ) {
         // Top part
         if (topHorizontalSpacing == 0f) {
